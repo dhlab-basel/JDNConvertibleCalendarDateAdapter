@@ -1,0 +1,2 @@
+# JDNConvertibleCalenderDateAdapter
+Implementation of Angular Material 2 DateAdapter for JDNConvertibleCalendar
