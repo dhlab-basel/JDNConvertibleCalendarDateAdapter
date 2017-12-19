@@ -162,6 +162,10 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
         return this.today();
     }
 
+    fromIso8601(iso8601String: string): JDNConvertibleCalendarModule.JDNConvertibleCalendar | null {
+        // deprecated
 
+        return null;
+    }
 
 }
