@@ -37,7 +37,7 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
     getDateNames(): string[] {
         // TODO: implement this properly, taking calendar format and locale into account
         let dateNames: string[] = [];
-        for (let i = 1; i++; i <= 31) {
+        for (let i = 1; i <= 31; i++) {
             dateNames.push(String(i));
         }
 
