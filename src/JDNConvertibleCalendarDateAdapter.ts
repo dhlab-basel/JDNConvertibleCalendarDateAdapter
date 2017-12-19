@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {DateAdapter} from "@angular/material";
-import {JDNConvertibleCalendarModule} from '../node_modules/jdnconvertiblecalendar/src/JDNConvertibleCalendar'
-import {JDNConvertibleConversionModule} from '../node_modules/jdnconvertiblecalendar/src/JDNCalendarConversion'
+import {JDNConvertibleCalendarModule} from 'jdnconvertiblecalendar/src/JDNConvertibleCalendar'
+import {JDNConvertibleConversionModule} from 'jdnconvertiblecalendar/src/JDNCalendarConversion'
 
 
 @Injectable()
