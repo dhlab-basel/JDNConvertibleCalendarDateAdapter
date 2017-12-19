@@ -15,7 +15,8 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
     }
 
     getMonth(date: JDNConvertibleCalendar.JDNConvertibleCalendar): number {
-        return date.toCalendarPeriod().periodStart.month;
+        // return 0 index based month
+        return date.toCalendarPeriod().periodStart.month -1;
     }
 
     getDate(date: JDNConvertibleCalendar.JDNConvertibleCalendar): number {
@@ -110,7 +111,7 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
         return '';
     }
 
-    
+
 
 
 
