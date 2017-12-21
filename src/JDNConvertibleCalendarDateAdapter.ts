@@ -32,6 +32,18 @@ import {JDNConvertibleConversionModule} from 'jdnconvertiblecalendar/src/JDNCale
  */
 export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibleCalendarModule.JDNConvertibleCalendar> {
 
+    private static readonly DD_MM_YYYY = 'DD-MM-YYYY';
+
+    private static readonly MM_YYYY = 'MM-YYYY';
+
+    private static readonly displayDateFormats = [JDNConvertibleCalendarDateAdapter.DD_MM_YYYY, JDNConvertibleCalendarDateAdapter.MM_YYYY];
+
+    private static readonly parsableDateFormats = [JDNConvertibleCalendarDateAdapter.DD_MM_YYYY];
+
+    private static readonly dateFormatRegexes = {
+        'DD-MM-YYYY': /^(\d?\d)-(\d?\d)-(\d{4})/
+    };
+
     getYear(date: JDNConvertibleCalendarModule.JDNConvertibleCalendar): number {
         return date.toCalendarPeriod().periodStart.year;
     }
@@ -51,7 +63,7 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
 
     getMonthNames(style: 'long' | 'short' | 'narrow'): string[] {
         // TODO: implement this properly, taking calendar format and locale into account
-        return ['January', 'February',  'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        return ['Jan', 'Feb',  'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
     }
 
     getDateNames(): string[] {
@@ -66,7 +78,7 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
 
     getDayOfWeekNames(style: 'long' | 'short' | 'narrow') {
         // TODO: implement this properly, taking calendar format and locale into account
-        return ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+        return ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat']
     }
 
     getYearName(date: JDNConvertibleCalendarModule.JDNConvertibleCalendar): string {
@@ -122,15 +134,76 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
     }
 
     parse(value: any, parseFormat: any): JDNConvertibleCalendarModule.JDNConvertibleCalendar | null {
-        // TODO: implement this properly
 
-        return null;
+        let date;
+        if (parseFormat !== undefined && typeof parseFormat == 'string' && JDNConvertibleCalendarDateAdapter.parsableDateFormats.indexOf(parseFormat) !== -1) {
+
+            switch (parseFormat) {
+                case JDNConvertibleCalendarDateAdapter.DD_MM_YYYY: {
+
+                    let dateStringRegex = JDNConvertibleCalendarDateAdapter.dateFormatRegexes[parseFormat];
+
+                    const parsed: Array<any> | null = dateStringRegex.exec(value);
+
+                    if (parsed !== null) {
+
+                        // index 0 is the whole match
+
+                        // month index must be 0 based
+                        date = this.createDate(parseInt(parsed[3]), parseInt(parsed[2])-1, parseInt(parsed[1]));
+                        break;
+
+                    } else {
+                        console.log(`Error: parsing of date string failed: ${value}`);
+                        return null;
+                    }
+                }
+                default: {
+                    console.log(`Error: supported parsable format was not handled correctly: ${parseFormat}`);
+                    return null;
+                }
+            }
+
+
+        } else {
+            console.log(`Error: unknown parseFormat ${parseFormat}`);
+            return null;
+        }
+
+        return date;
     }
 
     format(date: JDNConvertibleCalendarModule.JDNConvertibleCalendar, displayFormat: any): string {
-        // TODO: implement this properly
+        let dateString = '';
+        if (displayFormat !== undefined && typeof displayFormat == 'string' && JDNConvertibleCalendarDateAdapter.displayDateFormats.lastIndexOf(displayFormat) !== -1) {
 
-        return '';
+            const calendarPeriod = date.toCalendarPeriod();
+
+            switch (displayFormat) {
+
+                case JDNConvertibleCalendarDateAdapter.DD_MM_YYYY: {
+
+                    dateString = `${calendarPeriod.periodStart.day}-${calendarPeriod.periodStart.month}-${calendarPeriod.periodStart.year}`;
+                    break;
+
+                }
+
+                case JDNConvertibleCalendarDateAdapter.MM_YYYY: {
+                    dateString = `${calendarPeriod.periodStart.month}-${calendarPeriod.periodStart.year}`;
+                    break;
+                }
+
+                default: {
+                    console.log(`Error: supported display format was not handled correctly: ${displayFormat}`);
+                }
+
+            }
+
+        } else {
+            console.log(`Error: unknown displayFormat ${displayFormat}`);
+        }
+
+        return dateString;
     }
 
     addCalendarYears(date: JDNConvertibleCalendarModule.JDNConvertibleCalendar, years: number): JDNConvertibleCalendarModule.JDNConvertibleCalendar {
