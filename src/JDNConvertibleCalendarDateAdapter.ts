@@ -44,6 +44,30 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
         'DD-MM-YYYY': /^(\d?\d)-(\d?\d)-(\d{4})/
     };
 
+    /**
+     * Adds leaading zeros to a given number and returns the resulting string.
+     *
+     * @param {number} num the given number.
+     * @param {number} digits the number of expected digits.
+     */
+    private static addLeadingZeroToNumber(num: number, digits: number): string {
+
+        const missingDigits = digits - String(num).length;
+
+        if (missingDigits > 0) {
+            let leadingZeros: string = '';
+            for (let i=0; i < missingDigits; i++) {
+                leadingZeros += '0';
+            }
+
+            return `${leadingZeros}${num}`;
+
+        } else {
+            return String(num);
+        }
+
+    }
+
     getYear(date: JDNConvertibleCalendarModule.JDNConvertibleCalendar): number {
         return date.toCalendarPeriod().periodStart.year;
     }
@@ -183,7 +207,7 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
 
                 case JDNConvertibleCalendarDateAdapter.DD_MM_YYYY: {
 
-                    dateString = `${calendarPeriod.periodStart.day}-${calendarPeriod.periodStart.month}-${calendarPeriod.periodStart.year}`;
+                    dateString = `${JDNConvertibleCalendarDateAdapter.addLeadingZeroToNumber(calendarPeriod.periodStart.day,2)}-${JDNConvertibleCalendarDateAdapter.addLeadingZeroToNumber(calendarPeriod.periodStart.month, 2)}-${JDNConvertibleCalendarDateAdapter.addLeadingZeroToNumber(calendarPeriod.periodStart.year, 4)}`;
                     break;
 
                 }
@@ -232,9 +256,13 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
     }
 
     toIso8601(date: JDNConvertibleCalendarModule.JDNConvertibleCalendar) {
-        // TODO: implement this properly
 
-        return '';
+        // use Gregorian
+        const gregorianCal = date.convertCalendar('Gregorian');
+
+        const gregorianCalPeriod = gregorianCal.toCalendarPeriod();
+
+        return `${JDNConvertibleCalendarDateAdapter.addLeadingZeroToNumber(gregorianCalPeriod.periodStart.year, 4)}-${JDNConvertibleCalendarDateAdapter.addLeadingZeroToNumber(gregorianCalPeriod.periodStart.month, 2)}-${JDNConvertibleCalendarDateAdapter.addLeadingZeroToNumber(gregorianCalPeriod.periodStart.day, 2)}`;
 
     }
 
