@@ -20,8 +20,8 @@
 
 import {Injectable} from "@angular/core";
 import {DateAdapter} from "@angular/material";
-import {JDNConvertibleCalendarModule} from 'jdnconvertiblecalendar/src/JDNConvertibleCalendar'
-import {JDNConvertibleConversionModule} from 'jdnconvertiblecalendar/src/JDNCalendarConversion'
+import {JDNConvertibleCalendar, CalendarDate, GregorianCalendarDate, JDNPeriod} from 'jdnconvertiblecalendar'
+import {JDNConvertibleConversionModule} from 'jdnconvertiblecalendar'
 
 
 @Injectable()
@@ -30,7 +30,7 @@ import {JDNConvertibleConversionModule} from 'jdnconvertiblecalendar/src/JDNCale
  *
  * `JDNConvertibleCalendar` supports periods (dates with different precisions), but here only exact days are supported for now.
  */
-export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibleCalendarModule.JDNConvertibleCalendar> {
+export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibleCalendar> {
 
     private static readonly DD_MM_YYYY = 'DD-MM-YYYY';
 
@@ -68,20 +68,20 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
 
     }
 
-    getYear(date: JDNConvertibleCalendarModule.JDNConvertibleCalendar): number {
+    getYear(date: JDNConvertibleCalendar): number {
         return date.toCalendarPeriod().periodStart.year;
     }
 
-    getMonth(date: JDNConvertibleCalendarModule.JDNConvertibleCalendar): number {
+    getMonth(date: JDNConvertibleCalendar): number {
         // return 0 index based month
         return date.toCalendarPeriod().periodStart.month -1;
     }
 
-    getDate(date: JDNConvertibleCalendarModule.JDNConvertibleCalendar): number {
+    getDate(date: JDNConvertibleCalendar): number {
         return date.toCalendarPeriod().periodStart.day;
     }
 
-    getDayOfWeek(date: JDNConvertibleCalendarModule.JDNConvertibleCalendar) {
+    getDayOfWeek(date: JDNConvertibleCalendar) {
         return date.toCalendarPeriod().periodStart.dayOfWeek;
     }
 
@@ -105,7 +105,7 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
         return ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat']
     }
 
-    getYearName(date: JDNConvertibleCalendarModule.JDNConvertibleCalendar): string {
+    getYearName(date: JDNConvertibleCalendar): string {
         return String(date.toCalendarPeriod().periodStart.year);
     }
 
@@ -114,32 +114,32 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
         return 0;
     }
 
-    getNumDaysInMonth(date: JDNConvertibleCalendarModule.JDNConvertibleCalendar): number {
+    getNumDaysInMonth(date: JDNConvertibleCalendar): number {
         const calendarPeriod = date.toCalendarPeriod();
 
         return date.daysInMonth(calendarPeriod.periodStart);
     }
 
-    clone(date: JDNConvertibleCalendarModule.JDNConvertibleCalendar): JDNConvertibleCalendarModule.JDNConvertibleCalendar {
+    clone(date: JDNConvertibleCalendar): JDNConvertibleCalendar {
         // TODO: no actual cloning is needed as JDNConvertibleCalendar will not mutate when not explicitly requested
         return date;
     }
 
-    createDate(year: number, month: number, date: number): JDNConvertibleCalendarModule.JDNConvertibleCalendar {
+    createDate(year: number, month: number, date: number): JDNConvertibleCalendar {
 
         // TODO: support different calendar formats
         // assume Gregorian for now
 
         // month param is 0 indexed, but we use 1 based index for months
-        const calDate = new JDNConvertibleCalendarModule.CalendarDate(year, month+1, date);
+        const calDate = new CalendarDate(year, month+1, date);
 
         const jdn = JDNConvertibleConversionModule.gregorianToJDN(calDate);
 
-        return new JDNConvertibleCalendarModule.GregorianCalendarDate(new JDNConvertibleCalendarModule.JDNPeriod(jdn, jdn));
+        return new GregorianCalendarDate(new JDNPeriod(jdn, jdn));
 
     }
 
-    today(): JDNConvertibleCalendarModule.JDNConvertibleCalendar {
+    today(): JDNConvertibleCalendar {
 
         // get today's date from the native JS Date object
         const today: Date = new Date();
@@ -157,7 +157,7 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
 
     }
 
-    parse(value: any, parseFormat: any): JDNConvertibleCalendarModule.JDNConvertibleCalendar | null {
+    parse(value: any, parseFormat: any): JDNConvertibleCalendar | null {
 
         let date;
         if (parseFormat !== undefined && typeof parseFormat == 'string' && JDNConvertibleCalendarDateAdapter.parsableDateFormats.indexOf(parseFormat) !== -1) {
@@ -197,7 +197,7 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
         return date;
     }
 
-    format(date: JDNConvertibleCalendarModule.JDNConvertibleCalendar, displayFormat: any): string {
+    format(date: JDNConvertibleCalendar, displayFormat: any): string {
         let dateString = '';
         if (displayFormat !== undefined && typeof displayFormat == 'string' && JDNConvertibleCalendarDateAdapter.displayDateFormats.lastIndexOf(displayFormat) !== -1) {
 
@@ -230,7 +230,7 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
         return dateString;
     }
 
-    addCalendarYears(date: JDNConvertibleCalendarModule.JDNConvertibleCalendar, years: number): JDNConvertibleCalendarModule.JDNConvertibleCalendar {
+    addCalendarYears(date: JDNConvertibleCalendar, years: number): JDNConvertibleCalendar {
 
         // mutates the object
         date.transposePeriodByYear(years);
@@ -238,7 +238,7 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
         return date;
     }
 
-    addCalendarMonths(date: JDNConvertibleCalendarModule.JDNConvertibleCalendar, months: number): JDNConvertibleCalendarModule.JDNConvertibleCalendar {
+    addCalendarMonths(date: JDNConvertibleCalendar, months: number): JDNConvertibleCalendar {
 
         // mutates the object
         date.transposePeriodByMonth(months);
@@ -247,7 +247,7 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
 
     }
 
-    addCalendarDays(date: JDNConvertibleCalendarModule.JDNConvertibleCalendar, days: number): JDNConvertibleCalendarModule.JDNConvertibleCalendar {
+    addCalendarDays(date: JDNConvertibleCalendar, days: number): JDNConvertibleCalendar {
 
         // mutates the object
         date.transposePeriodByDay(days);
@@ -255,7 +255,7 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
         return date;
     }
 
-    toIso8601(date: JDNConvertibleCalendarModule.JDNConvertibleCalendar) {
+    toIso8601(date: JDNConvertibleCalendar) {
 
         // use Gregorian
         const gregorianCal = date.convertCalendar('Gregorian');
@@ -268,23 +268,23 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
 
 
     isDateInstance(obj: any): boolean {
-        return (obj instanceof JDNConvertibleCalendarModule.JDNConvertibleCalendar);
+        return (obj instanceof JDNConvertibleCalendar);
     }
 
-    isValid(date: JDNConvertibleCalendarModule.JDNConvertibleCalendar): boolean {
+    isValid(date: JDNConvertibleCalendar): boolean {
         // TODO: implement this properly
 
         return true;
     }
 
-    invalid(): JDNConvertibleCalendarModule.JDNConvertibleCalendar {
+    invalid(): JDNConvertibleCalendar {
         // TODO: create an invalid instance? For testing?
 
         return this.today();
     }
 
     // deprecated, to be removed
-    fromIso8601(iso8601String: string): JDNConvertibleCalendarModule.JDNConvertibleCalendar | null {
+    fromIso8601(iso8601String: string): JDNConvertibleCalendar | null {
 
         return null;
     }

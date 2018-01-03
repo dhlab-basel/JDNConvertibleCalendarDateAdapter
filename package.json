@@ -19,7 +19,7 @@
   "peerDependencies": {
     "@angular/material": "",
     "@angular/core": "",
-    "jdnconvertiblecalendar": "git+https://github.com/dhlab-basel/JDNConvertibleCalendar.git"
+    "jdnconvertiblecalendar": "0.0.1"
   },
   "dependencies": {
     "tslib": "^1.7.1"
