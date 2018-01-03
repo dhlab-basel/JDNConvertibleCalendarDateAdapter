@@ -5,8 +5,8 @@
   "types": "dist/index.d.ts",
   "main": "dist/index.js",
   "scripts": {
-    "prepublish": "npm run build",
-    "build": "tsc",
+    "prepublishOnly": "npm run prepare",
+    "prepare": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
