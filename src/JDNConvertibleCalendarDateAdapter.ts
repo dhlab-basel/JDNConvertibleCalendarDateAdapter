@@ -81,8 +81,17 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
         return date.toCalendarPeriod().periodStart.day;
     }
 
-    getDayOfWeek(date: JDNConvertibleCalendar) {
-        return date.toCalendarPeriod().periodStart.dayOfWeek;
+    getDayOfWeek(date: JDNConvertibleCalendar): number {
+
+        // dayOfWeek is an optional class member, but always set when returned by this method
+        let dayOfWeek: number | undefined = date.toCalendarPeriod().periodStart.dayOfWeek;
+
+        if (dayOfWeek !== undefined) {
+            return dayOfWeek
+        } else {
+            throw new Error("day of week is not set although it should be");
+        }
+
     }
 
     getMonthNames(style: 'long' | 'short' | 'narrow'): string[] {
