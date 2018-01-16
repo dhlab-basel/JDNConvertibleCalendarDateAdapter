@@ -7,7 +7,7 @@
   "scripts": {
     "prepublishOnly": "npm run prepare",
     "prepare": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jasmine"
   },
   "repository": {
     "type": "git",
@@ -38,5 +38,9 @@
     "rxjs": "^5.5.2",
     "ts-helpers": "^1.1.2",
     "zone.js": "^0.8.16"
+  },
+  "devDependencies": {
+    "@types/jasmine": "^2.8.4",
+    "jasmine": "^2.8.0"
   }
 }

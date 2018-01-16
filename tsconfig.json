@@ -7,7 +7,8 @@
     "strict": true,
     "baseUrl": "src",
     "experimentalDecorators": true,
-    "lib": ["es5", "es2016", "dom"]
+    "lib": ["es5", "es2016", "dom"],
+    "types": ["jasmine"]
   },
   "exclude": [
     "node_modules",

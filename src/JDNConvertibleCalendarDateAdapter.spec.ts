@@ -1,8 +1,8 @@
-/*import {async, inject, TestBed} from '@angular/core/testing';
+import {async, inject, TestBed} from '@angular/core/testing';
 import {JDNConvertibleCalendarDateAdapter} from "./JDNConvertibleCalendarDateAdapter";
 import {JDNConvertibleCalendar, GregorianCalendarDate, JDNPeriod} from 'jdnconvertiblecalendar';
 
-import {} from 'mocha';
+import {} from 'jasmine';
 
 describe('JDNConvertibleCalendarDateAdapter', () => {
     let adapter: JDNConvertibleCalendarDateAdapter;
@@ -32,4 +32,4 @@ describe('JDNConvertibleCalendarDateAdapter', () => {
         expect(adapter.getYear(new GregorianCalendarDate(new JDNPeriod(jdn, jdn)))).toBe(2017);
     });
 
-});*/
+});
