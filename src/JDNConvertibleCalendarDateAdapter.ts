@@ -45,7 +45,7 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
     };
 
     /**
-     * Adds leaading zeros to a given number and returns the resulting string.
+     * Adds leading zeros to a given number and returns the resulting string.
      *
      * @param {number} num the given number.
      * @param {number} digits the number of expected digits.
