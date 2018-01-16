@@ -1,6 +1,7 @@
 import {async, inject, TestBed} from '@angular/core/testing';
 import {JDNConvertibleCalendarDateAdapter} from "./JDNConvertibleCalendarDateAdapter";
 import {JDNConvertibleCalendar, GregorianCalendarDate, JDNPeriod} from 'jdnconvertiblecalendar';
+import {DateAdapter, DEC, FEB, JAN, MAR, MAT_DATE_LOCALE} from '@angular/material/core';
 
 import {} from 'jasmine';
 
@@ -14,7 +15,7 @@ describe('JDNConvertibleCalendarDateAdapter', () => {
         }).compileComponents();
     }));
 
-    beforeEach(inject([JDNConvertibleCalendarDateAdapter], (dateAdapter: JDNConvertibleCalendarDateAdapter) => {
+    beforeEach(inject([DateAdapter], (dateAdapter: JDNConvertibleCalendarDateAdapter) => {
         adapter = dateAdapter;
 
         assertValidDate = (d: JDNConvertibleCalendar | null, valid: boolean) => {
