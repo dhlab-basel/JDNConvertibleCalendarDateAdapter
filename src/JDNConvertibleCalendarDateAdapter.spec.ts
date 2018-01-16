@@ -4,6 +4,7 @@ import {JDNConvertibleCalendar, GregorianCalendarDate, JDNPeriod} from 'jdnconve
 import {DateAdapter, DEC, FEB, JAN, MAR, MAT_DATE_LOCALE} from '@angular/material/core';
 
 import {} from 'jasmine';
+import {JDNConvertibleCalendarDateAdapterModule} from "./index";
 
 describe('JDNConvertibleCalendarDateAdapter', () => {
     let adapter: JDNConvertibleCalendarDateAdapter;
@@ -11,7 +12,7 @@ describe('JDNConvertibleCalendarDateAdapter', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [JDNConvertibleCalendarDateAdapter]
+            imports: [JDNConvertibleCalendarDateAdapterModule]
         }).compileComponents();
     }));
 
