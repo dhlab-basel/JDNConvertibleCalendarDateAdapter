@@ -89,7 +89,7 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
         if (dayOfWeek !== undefined) {
             return dayOfWeek
         } else {
-            throw new Error("day of week is not set although it should be");
+            throw new Error('day of week is not set although it should be');
         }
 
     }
@@ -101,7 +101,7 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
 
     getDateNames(): string[] {
         // TODO: implement this properly, taking calendar format and locale into account
-        let dateNames: string[] = [];
+        const dateNames: string[] = [];
         for (let i = 1; i <= 31; i++) {
             dateNames.push(String(i));
         }
@@ -111,7 +111,7 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
 
     getDayOfWeekNames(style: 'long' | 'short' | 'narrow') {
         // TODO: implement this properly, taking calendar format and locale into account
-        return ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat']
+        return ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'];
     }
 
     getYearName(date: JDNConvertibleCalendar): string {
