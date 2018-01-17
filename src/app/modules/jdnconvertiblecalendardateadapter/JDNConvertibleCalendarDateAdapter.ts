@@ -18,10 +18,10 @@
  * License along with JDNConvertibleCalendarDateAdapter.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {Injectable} from "@angular/core";
-import {DateAdapter} from "@angular/material";
-import {JDNConvertibleCalendar, CalendarDate, GregorianCalendarDate, JDNPeriod} from 'jdnconvertiblecalendar'
-import {JDNConvertibleConversionModule} from 'jdnconvertiblecalendar'
+import {Injectable} from '@angular/core';
+import {DateAdapter} from '@angular/material';
+import {JDNConvertibleCalendar, CalendarDate, GregorianCalendarDate, JDNPeriod} from 'jdnconvertiblecalendar';
+import {JDNConvertibleConversionModule} from 'jdnconvertiblecalendar';
 
 
 @Injectable()

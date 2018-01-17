@@ -1,17 +1,19 @@
 {
+  "compileOnSave": false,
   "compilerOptions": {
-    "target": "es5",
-    "module": "commonjs",
-    "declaration": true,
-    "outDir": "./dist",
-    "strict": true,
-    "baseUrl": "src",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "lib": ["es5", "es2016", "dom"],
-    "types": ["jasmine"]
-  },
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+    "target": "es5",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2017",
+      "dom"
+    ]
+  }
 }
