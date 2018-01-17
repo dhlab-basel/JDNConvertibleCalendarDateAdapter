@@ -7,7 +7,7 @@
   "scripts": {
     "prepublishOnly": "npm run prepare",
     "prepare": "tsc",
-    "test": "jasmine"
+    "test": ""
   },
   "repository": {
     "type": "git",
