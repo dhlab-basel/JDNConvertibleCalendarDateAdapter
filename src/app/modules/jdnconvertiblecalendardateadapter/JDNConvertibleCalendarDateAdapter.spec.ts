@@ -50,4 +50,11 @@ describe('JDNConvertibleCalendarDateAdapter', () => {
     expect(adapter.getDate(new GregorianCalendarDate(new JDNPeriod(jdn, jdn)))).toBe(1);
   });
 
+  it('should get day of week', () => {
+    // January 1 2017
+    const jdn = 2457755;
+
+    expect(adapter.getDayOfWeek(new GregorianCalendarDate(new JDNPeriod(jdn, jdn)))).toBe(0);
+  });
+
 });
