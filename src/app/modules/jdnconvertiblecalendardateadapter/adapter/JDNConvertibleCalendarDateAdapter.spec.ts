@@ -255,4 +255,9 @@ describe('JDNConvertibleCalendarDateAdapter', () => {
       .toEqual(new GregorianCalendarDate(new JDNPeriod(jdn + 31, jdn + 31)));
   });
 
+  it('should create valid dates from valid ISO strings', () => {
+    assertValidDate(adapter.deserialize('1985-04-12T23:20:50.52Z'), true);
+
+  });
+
 });

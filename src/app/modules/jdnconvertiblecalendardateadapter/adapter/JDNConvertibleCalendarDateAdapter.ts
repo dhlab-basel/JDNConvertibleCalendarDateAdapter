@@ -32,270 +32,264 @@ import {JDNConvertibleConversionModule} from 'jdnconvertiblecalendar';
  */
 export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibleCalendar> {
 
-    private static readonly DD_MM_YYYY = 'DD-MM-YYYY';
+  private static readonly DD_MM_YYYY = 'DD-MM-YYYY';
 
-    private static readonly MM_YYYY = 'MM-YYYY';
+  private static readonly MM_YYYY = 'MM-YYYY';
 
-    private static readonly displayDateFormats = [JDNConvertibleCalendarDateAdapter.DD_MM_YYYY, JDNConvertibleCalendarDateAdapter.MM_YYYY];
+  private static readonly displayDateFormats = [JDNConvertibleCalendarDateAdapter.DD_MM_YYYY, JDNConvertibleCalendarDateAdapter.MM_YYYY];
 
-    private static readonly parsableDateFormats = [JDNConvertibleCalendarDateAdapter.DD_MM_YYYY];
+  private static readonly parsableDateFormats = [JDNConvertibleCalendarDateAdapter.DD_MM_YYYY];
 
-    private static readonly dateFormatRegexes = {
-        'DD-MM-YYYY': /^(\d?\d)-(\d?\d)-(\d{4})/
-    };
+  private static readonly dateFormatRegexes = {
+    'DD-MM-YYYY': /^(\d?\d)-(\d?\d)-(\d{4})/
+  };
 
-    /**
-     * Adds leading zeros to a given number and returns the resulting string.
-     *
-     * @param {number} num the given number.
-     * @param {number} digits the number of expected digits.
-     */
-    private static addLeadingZeroToNumber(num: number, digits: number): string {
+  /**
+   * Adds leading zeros to a given number and returns the resulting string.
+   *
+   * @param {number} num the given number.
+   * @param {number} digits the number of expected digits.
+   */
+  private static addLeadingZeroToNumber(num: number, digits: number): string {
 
-        const missingDigits = digits - String(num).length;
+    const missingDigits = digits - String(num).length;
 
-        if (missingDigits > 0) {
-            let leadingZeros: string = '';
-            for (let i=0; i < missingDigits; i++) {
-                leadingZeros += '0';
-            }
+    if (missingDigits > 0) {
+      let leadingZeros: string = '';
+      for (let i = 0; i < missingDigits; i++) {
+        leadingZeros += '0';
+      }
 
-            return `${leadingZeros}${num}`;
+      return `${leadingZeros}${num}`;
 
-        } else {
-            return String(num);
-        }
-
+    } else {
+      return String(num);
     }
 
-    getYear(date: JDNConvertibleCalendar): number {
-        return date.toCalendarPeriod().periodStart.year;
+  }
+
+  getYear(date: JDNConvertibleCalendar): number {
+    return date.toCalendarPeriod().periodStart.year;
+  }
+
+  getMonth(date: JDNConvertibleCalendar): number {
+    // return 0 index based month
+    return date.toCalendarPeriod().periodStart.month - 1;
+  }
+
+  getDate(date: JDNConvertibleCalendar): number {
+    return date.toCalendarPeriod().periodStart.day;
+  }
+
+  getDayOfWeek(date: JDNConvertibleCalendar): number {
+
+    // dayOfWeek is an optional class member, but always set when returned by this method
+    const dayOfWeek: number | undefined = date.toCalendarPeriod().periodStart.dayOfWeek;
+
+    if (dayOfWeek !== undefined) {
+      return dayOfWeek;
+    } else {
+      throw new Error('day of week is not set although it should be');
     }
 
-    getMonth(date: JDNConvertibleCalendar): number {
-        // return 0 index based month
-        return date.toCalendarPeriod().periodStart.month -1;
+  }
+
+  getMonthNames(style: 'long' | 'short' | 'narrow'): string[] {
+    // TODO: implement this properly, taking calendar format and locale into account
+    return ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+  }
+
+  getDateNames(): string[] {
+    // TODO: implement this properly, taking calendar format and locale into account
+    const dateNames: string[] = [];
+    for (let i = 1; i <= 31; i++) {
+      dateNames.push(String(i));
     }
 
-    getDate(date: JDNConvertibleCalendar): number {
-        return date.toCalendarPeriod().periodStart.day;
-    }
+    return dateNames;
+  }
 
-    getDayOfWeek(date: JDNConvertibleCalendar): number {
+  getDayOfWeekNames(style: 'long' | 'short' | 'narrow') {
+    // TODO: implement this properly, taking calendar format and locale into account
+    return ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
+  }
 
-        // dayOfWeek is an optional class member, but always set when returned by this method
-        let dayOfWeek: number | undefined = date.toCalendarPeriod().periodStart.dayOfWeek;
+  getYearName(date: JDNConvertibleCalendar): string {
+    return String(date.toCalendarPeriod().periodStart.year);
+  }
 
-        if (dayOfWeek !== undefined) {
-            return dayOfWeek
-        } else {
-            throw new Error('day of week is not set although it should be');
-        }
+  getFirstDayOfWeek(): number {
+    // TODO: implement this properly, taking calendar format into account
+    return 0;
+  }
 
-    }
+  getNumDaysInMonth(date: JDNConvertibleCalendar): number {
+    const calendarPeriod = date.toCalendarPeriod();
 
-    getMonthNames(style: 'long' | 'short' | 'narrow'): string[] {
-        // TODO: implement this properly, taking calendar format and locale into account
-        return ['Jan', 'Feb',  'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
-    }
+    return date.daysInMonth(calendarPeriod.periodStart);
+  }
 
-    getDateNames(): string[] {
-        // TODO: implement this properly, taking calendar format and locale into account
-        const dateNames: string[] = [];
-        for (let i = 1; i <= 31; i++) {
-            dateNames.push(String(i));
-        }
+  clone(date: JDNConvertibleCalendar): JDNConvertibleCalendar {
+    // TODO: no actual cloning is needed as JDNConvertibleCalendar will not mutate when not explicitly requested
+    return date;
+  }
 
-        return dateNames;
-    }
+  createDate(year: number, month: number, date: number): JDNConvertibleCalendar {
 
-    getDayOfWeekNames(style: 'long' | 'short' | 'narrow') {
-        // TODO: implement this properly, taking calendar format and locale into account
-        return ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'];
-    }
+    // TODO: support different calendar formats
+    // assume Gregorian for now
 
-    getYearName(date: JDNConvertibleCalendar): string {
-        return String(date.toCalendarPeriod().periodStart.year);
-    }
+    // month param is 0 indexed, but we use 1 based index for months
+    const calDate = new CalendarDate(year, month + 1, date);
 
-    getFirstDayOfWeek(): number {
-        // TODO: implement this properly, taking calendar format into account
-        return 0;
-    }
+    const jdn = JDNConvertibleConversionModule.gregorianToJDN(calDate);
 
-    getNumDaysInMonth(date: JDNConvertibleCalendar): number {
-        const calendarPeriod = date.toCalendarPeriod();
+    return new GregorianCalendarDate(new JDNPeriod(jdn, jdn));
 
-        return date.daysInMonth(calendarPeriod.periodStart);
-    }
+  }
 
-    clone(date: JDNConvertibleCalendar): JDNConvertibleCalendar {
-        // TODO: no actual cloning is needed as JDNConvertibleCalendar will not mutate when not explicitly requested
-        return date;
-    }
+  today(): JDNConvertibleCalendar {
 
-    createDate(year: number, month: number, date: number): JDNConvertibleCalendar {
+    // get today's date from the native JS Date object
+    const today: Date = new Date();
 
-        // TODO: support different calendar formats
-        // assume Gregorian for now
+    const year = today.getFullYear();
 
-        // month param is 0 indexed, but we use 1 based index for months
-        const calDate = new CalendarDate(year, month+1, date);
+    // 0 based month
+    const month = today.getMonth();
 
-        const jdn = JDNConvertibleConversionModule.gregorianToJDN(calDate);
+    // day of month, 1 based index
+    const day = today.getDate();
 
-        return new GregorianCalendarDate(new JDNPeriod(jdn, jdn));
+    // Gregorian calendar assumed (default)
+    return this.createDate(year, month, day);
 
-    }
+  }
 
-    today(): JDNConvertibleCalendar {
+  parse(value: any, parseFormat: any): JDNConvertibleCalendar | null {
 
-        // get today's date from the native JS Date object
-        const today: Date = new Date();
+    let date;
+    if (parseFormat !== undefined && typeof parseFormat == 'string' && JDNConvertibleCalendarDateAdapter.parsableDateFormats.indexOf(parseFormat) !== -1) {
 
-        const year = today.getFullYear();
+      switch (parseFormat) {
+        case JDNConvertibleCalendarDateAdapter.DD_MM_YYYY: {
 
-        // 0 based month
-        const month = today.getMonth();
+          const dateStringRegex = JDNConvertibleCalendarDateAdapter.dateFormatRegexes[parseFormat];
 
-        // day of month, 1 based index
-        const day = today.getDate();
+          const parsed: Array<any> | null = dateStringRegex.exec(value);
 
-        // Gregorian calendar assumed (default)
-        return this.createDate(year, month, day);
+          if (parsed !== null) {
 
-    }
+            // index 0 is the whole match
 
-    parse(value: any, parseFormat: any): JDNConvertibleCalendar | null {
+            // month index must be 0 based
+            date = this.createDate(parseInt(parsed[3]), parseInt(parsed[2]) - 1, parseInt(parsed[1]));
+            break;
 
-        let date;
-        if (parseFormat !== undefined && typeof parseFormat == 'string' && JDNConvertibleCalendarDateAdapter.parsableDateFormats.indexOf(parseFormat) !== -1) {
-
-            switch (parseFormat) {
-                case JDNConvertibleCalendarDateAdapter.DD_MM_YYYY: {
-
-                    let dateStringRegex = JDNConvertibleCalendarDateAdapter.dateFormatRegexes[parseFormat];
-
-                    const parsed: Array<any> | null = dateStringRegex.exec(value);
-
-                    if (parsed !== null) {
-
-                        // index 0 is the whole match
-
-                        // month index must be 0 based
-                        date = this.createDate(parseInt(parsed[3]), parseInt(parsed[2])-1, parseInt(parsed[1]));
-                        break;
-
-                    } else {
-                        console.log(`Error: parsing of date string failed: ${value}`);
-                        return null;
-                    }
-                }
-                default: {
-                    console.log(`Error: supported parsable format was not handled correctly: ${parseFormat}`);
-                    return null;
-                }
-            }
-
-
-        } else {
-            console.log(`Error: unknown parseFormat ${parseFormat}`);
+          } else {
+            console.log(`Error: parsing of date string failed: ${value}`);
             return null;
+          }
+        }
+        default: {
+          console.log(`Error: supported parsable format was not handled correctly: ${parseFormat}`);
+          return null;
+        }
+      }
+
+
+    } else {
+      console.log(`Error: unknown parseFormat ${parseFormat}`);
+      return null;
+    }
+
+    return date;
+  }
+
+  format(date: JDNConvertibleCalendar, displayFormat: any): string {
+    let dateString = '';
+    if (displayFormat !== undefined && typeof displayFormat == 'string' && JDNConvertibleCalendarDateAdapter.displayDateFormats.lastIndexOf(displayFormat) !== -1) {
+
+      const calendarPeriod = date.toCalendarPeriod();
+
+      switch (displayFormat) {
+
+        case JDNConvertibleCalendarDateAdapter.DD_MM_YYYY: {
+
+          dateString = `${JDNConvertibleCalendarDateAdapter.addLeadingZeroToNumber(calendarPeriod.periodStart.day, 2)}-${JDNConvertibleCalendarDateAdapter.addLeadingZeroToNumber(calendarPeriod.periodStart.month, 2)}-${JDNConvertibleCalendarDateAdapter.addLeadingZeroToNumber(calendarPeriod.periodStart.year, 4)}`;
+          break;
+
         }
 
-        return date;
-    }
-
-    format(date: JDNConvertibleCalendar, displayFormat: any): string {
-        let dateString = '';
-        if (displayFormat !== undefined && typeof displayFormat == 'string' && JDNConvertibleCalendarDateAdapter.displayDateFormats.lastIndexOf(displayFormat) !== -1) {
-
-            const calendarPeriod = date.toCalendarPeriod();
-
-            switch (displayFormat) {
-
-                case JDNConvertibleCalendarDateAdapter.DD_MM_YYYY: {
-
-                    dateString = `${JDNConvertibleCalendarDateAdapter.addLeadingZeroToNumber(calendarPeriod.periodStart.day,2)}-${JDNConvertibleCalendarDateAdapter.addLeadingZeroToNumber(calendarPeriod.periodStart.month, 2)}-${JDNConvertibleCalendarDateAdapter.addLeadingZeroToNumber(calendarPeriod.periodStart.year, 4)}`;
-                    break;
-
-                }
-
-                case JDNConvertibleCalendarDateAdapter.MM_YYYY: {
-                    dateString = `${calendarPeriod.periodStart.month}-${calendarPeriod.periodStart.year}`;
-                    break;
-                }
-
-                default: {
-                    console.log(`Error: supported display format was not handled correctly: ${displayFormat}`);
-                }
-
-            }
-
-        } else {
-            console.log(`Error: unknown displayFormat ${displayFormat}`);
+        case JDNConvertibleCalendarDateAdapter.MM_YYYY: {
+          dateString = `${JDNConvertibleCalendarDateAdapter.addLeadingZeroToNumber(calendarPeriod.periodStart.month, 2)}-${JDNConvertibleCalendarDateAdapter.addLeadingZeroToNumber(calendarPeriod.periodStart.year, 4)}`;
+          break;
         }
 
-        return dateString;
+        default: {
+          console.log(`Error: supported display format was not handled correctly: ${displayFormat}`);
+        }
+
+      }
+
+    } else {
+      console.log(`Error: unknown displayFormat ${displayFormat}`);
     }
 
-    addCalendarYears(date: JDNConvertibleCalendar, years: number): JDNConvertibleCalendar {
+    return dateString;
+  }
 
-        // mutates the object
-        date.transposePeriodByYear(years);
+  addCalendarYears(date: JDNConvertibleCalendar, years: number): JDNConvertibleCalendar {
 
-        return date;
-    }
+    // mutates the object
+    date.transposePeriodByYear(years);
 
-    addCalendarMonths(date: JDNConvertibleCalendar, months: number): JDNConvertibleCalendar {
+    return date;
+  }
 
-        // mutates the object
-        date.transposePeriodByMonth(months);
+  addCalendarMonths(date: JDNConvertibleCalendar, months: number): JDNConvertibleCalendar {
 
-        return date;
+    // mutates the object
+    date.transposePeriodByMonth(months);
 
-    }
+    return date;
 
-    addCalendarDays(date: JDNConvertibleCalendar, days: number): JDNConvertibleCalendar {
+  }
 
-        // mutates the object
-        date.transposePeriodByDay(days);
+  addCalendarDays(date: JDNConvertibleCalendar, days: number): JDNConvertibleCalendar {
 
-        return date;
-    }
+    // mutates the object
+    date.transposePeriodByDay(days);
 
-    toIso8601(date: JDNConvertibleCalendar) {
+    return date;
+  }
 
-        // use Gregorian
-        const gregorianCal = date.convertCalendar('Gregorian');
+  toIso8601(date: JDNConvertibleCalendar) {
 
-        const gregorianCalPeriod = gregorianCal.toCalendarPeriod();
+    // use Gregorian
+    const gregorianCal = date.convertCalendar('Gregorian');
 
-        return `${JDNConvertibleCalendarDateAdapter.addLeadingZeroToNumber(gregorianCalPeriod.periodStart.year, 4)}-${JDNConvertibleCalendarDateAdapter.addLeadingZeroToNumber(gregorianCalPeriod.periodStart.month, 2)}-${JDNConvertibleCalendarDateAdapter.addLeadingZeroToNumber(gregorianCalPeriod.periodStart.day, 2)}`;
+    const gregorianCalPeriod = gregorianCal.toCalendarPeriod();
 
-    }
+    return `${JDNConvertibleCalendarDateAdapter.addLeadingZeroToNumber(gregorianCalPeriod.periodStart.year, 4)}-${JDNConvertibleCalendarDateAdapter.addLeadingZeroToNumber(gregorianCalPeriod.periodStart.month, 2)}-${JDNConvertibleCalendarDateAdapter.addLeadingZeroToNumber(gregorianCalPeriod.periodStart.day, 2)}`;
+
+  }
 
 
-    isDateInstance(obj: any): boolean {
-        return (obj instanceof JDNConvertibleCalendar);
-    }
+  isDateInstance(obj: any): boolean {
+    return (obj instanceof JDNConvertibleCalendar);
+  }
 
-    isValid(date: JDNConvertibleCalendar): boolean {
-        // TODO: implement this properly
+  isValid(date: JDNConvertibleCalendar): boolean {
+    // TODO: implement this properly
 
-        return true;
-    }
+    return true;
+  }
 
-    invalid(): JDNConvertibleCalendar {
-        // TODO: create an invalid instance? For testing?
+  invalid(): JDNConvertibleCalendar {
+    // TODO: create an invalid instance? For testing?
 
-        return this.today();
-    }
-
-    // deprecated, to be removed
-    fromIso8601(iso8601String: string): JDNConvertibleCalendar | null {
-
-        return null;
-    }
+    return this.today();
+  }
 
 }
