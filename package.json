@@ -1,16 +1,7 @@
 {
-  "name": "jdnconvertiblecalendardateadapter",
-  "description": "Implementation of Angular Material 2 DateAdapter for JDNConvertibleCalendar",
-  "version": "0.0.2",
-  "license": "AGPL-3.0",
-  "author": "Tobias Schweizer <t.schweizer@unibas.ch>, DHLab University of Basel (http://www.dhlab.unibas.ch)",
-  "bugs": {
-    "url": "https://github.com/dhlab-basel/JDNConvertibleCalendarDateAdapter/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/dhlab-basel/JDNConvertibleCalendarDateAdapter.git"
-  },
+  "name": "App for development of jdnconvertiblecalendardateadapter",
+  "description": "App for development of implementation of Angular Material 2 DateAdapter for JDNConvertibleCalendar",
+  "version": "",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

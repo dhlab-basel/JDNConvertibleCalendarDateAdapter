@@ -10,7 +10,7 @@ import 'hammerjs';
 import { AppComponent } from './app.component';
 import {
   MatJDNConvertibleCalendarDateAdapterModule
-} from './modules/jdnconvertiblecalendardateadapter/index';
+} from './modules/jdnconvertiblecalendardateadapter/adapter/index';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 

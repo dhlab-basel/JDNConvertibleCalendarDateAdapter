@@ -1,1 +1,1 @@
-export * from './src/app/modules/jdnconvertiblecalendardateadapter/index';
+export * from './src/app/modules/jdnconvertiblecalendardateadapter/adapter/index';
