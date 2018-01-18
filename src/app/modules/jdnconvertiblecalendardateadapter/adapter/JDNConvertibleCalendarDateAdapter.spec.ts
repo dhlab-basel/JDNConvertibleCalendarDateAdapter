@@ -59,7 +59,7 @@ describe('JDNConvertibleCalendarDateAdapter', () => {
   });
 
   it('should get long month names', () => {
-    expect(adapter.getMonthNames('long')).toEqual(['Jan', 'Feb',  'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']);
+    expect(adapter.getMonthNames('long')).toEqual(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']);
   });
 
   it('should get date names', () => {
@@ -198,5 +198,61 @@ describe('JDNConvertibleCalendarDateAdapter', () => {
     expect(past.toCalendarPeriod().periodStart).toEqual(new CalendarDate(2016, 12, 31, 6));
   });
 
+  it('should compare dates', () => {
+    // January 1 2017
+    const jdn = 2457755;
+
+    const january1st2017 = new GregorianCalendarDate(new JDNPeriod(jdn, jdn));
+    const january2nd2017 = new GregorianCalendarDate(new JDNPeriod(jdn + 1, jdn + 1));
+
+    const february1st2017 = new GregorianCalendarDate(new JDNPeriod(jdn + 31, jdn + 31));
+
+    const january1st2018 = new GregorianCalendarDate(new JDNPeriod(jdn + 365, jdn + 365));
+
+    expect(adapter.compareDate(january1st2017, january2nd2017)).toBeLessThan(0);
+
+    expect(adapter.compareDate(january1st2017, february1st2017)).toBeLessThan(0);
+
+    expect(adapter.compareDate(january1st2017, january1st2018)).toBeLessThan(0);
+
+    expect(adapter.compareDate(january1st2017, january1st2017)).toBe(0);
+
+    expect(adapter.compareDate(january1st2018, january1st2017)).toBeGreaterThan(0);
+
+    expect(adapter.compareDate(february1st2017, january1st2017)).toBeGreaterThan(0);
+
+    expect(adapter.compareDate(january2nd2017, january1st2017)).toBeGreaterThan(0);
+  });
+
+  it('should clamp date at lower bound', () => {
+    // January 1 2017
+    const jdn = 2457755;
+
+    // Given date January 1 2017, min: January 1 2018, max: January 1 2018
+    expect(adapter.clampDate(
+      new GregorianCalendarDate(new JDNPeriod(jdn, jdn)), new GregorianCalendarDate(new JDNPeriod(jdn + 365, jdn + 365)), new GregorianCalendarDate(new JDNPeriod(jdn + (365 * 2), jdn + (365 * 2)))))
+      .toEqual(new GregorianCalendarDate(new JDNPeriod(jdn + 365, jdn + 365)));
+
+  });
+
+  it('should clamp date at upper bound', () => {
+    // January 1 2018
+    const jdn = 2458120;
+
+    // Given date January 1 2020, min: January 1 2018, max: January 1 2019
+    expect(adapter.clampDate(
+      new GregorianCalendarDate(new JDNPeriod(jdn + (2 * 365), jdn + (2 * 365))), new GregorianCalendarDate(new JDNPeriod(jdn, jdn)), new GregorianCalendarDate(new JDNPeriod(jdn + 365, jdn + 365))))
+      .toEqual(new GregorianCalendarDate(new JDNPeriod(jdn + 365, jdn + 365)));
+  });
+
+  it('should clamp date already within bounds', () => {
+    // January 1 2018
+    const jdn = 2458120;
+
+    // Given date February 2018, min: January 1 2018, max: January 1 2019
+    expect(adapter.clampDate(
+      new GregorianCalendarDate(new JDNPeriod(jdn + 31, jdn + 31)), new GregorianCalendarDate(new JDNPeriod(jdn, jdn)), new GregorianCalendarDate(new JDNPeriod(jdn + 365, jdn + 365))))
+      .toEqual(new GregorianCalendarDate(new JDNPeriod(jdn + 31, jdn + 31)));
+  });
 
 });
