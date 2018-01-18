@@ -135,7 +135,68 @@ describe('JDNConvertibleCalendarDateAdapter', () => {
     expect(past.toCalendarPeriod().periodStart).toEqual(new CalendarDate(2015, 2, 28, 6));
   });
 
+  it('should add months', () => {
+    // January 1 2017
+    const jdn = 2457755;
 
+    const future = adapter.addCalendarMonths(new GregorianCalendarDate(new JDNPeriod(jdn, jdn)), 1);
+
+    expect(future)
+      .toEqual(new GregorianCalendarDate(new JDNPeriod(jdn + 31, jdn + 31)));
+
+    expect(future.toCalendarPeriod().periodStart).toEqual(new CalendarDate(2017, 2, 1, 3));
+
+    const past = adapter.addCalendarMonths(new GregorianCalendarDate(new JDNPeriod(jdn, jdn)), -1);
+
+    expect(past)
+      .toEqual(new GregorianCalendarDate(new JDNPeriod(jdn - 31, jdn - 31)));
+
+    expect(past.toCalendarPeriod().periodStart).toEqual(new CalendarDate(2016, 12, 1, 4));
+
+  });
+
+  it('should respect month length differences when adding months', () => {
+    // January 31 2017
+    const jdn1 = 2457785;
+
+    const future = adapter.addCalendarMonths(new GregorianCalendarDate(new JDNPeriod(jdn1, jdn1)), 1);
+
+    expect(future)
+      .toEqual(new GregorianCalendarDate(new JDNPeriod(jdn1 + 28, jdn1 + 28)));
+
+    expect(future.toCalendarPeriod().periodStart).toEqual(new CalendarDate(2017, 2, 28, 2));
+
+    // March 31 2017
+    const jdn2 = 2457844;
+
+    const past = adapter.addCalendarMonths(new GregorianCalendarDate(new JDNPeriod(jdn2, jdn2)), -1);
+
+    expect(past)
+      .toEqual(new GregorianCalendarDate(new JDNPeriod(jdn2 - 31, jdn2 - 31)));
+
+    expect(past.toCalendarPeriod().periodStart).toEqual(new CalendarDate(2017, 2, 28, 2));
+
+  });
+
+  it('should add days', () => {
+
+    // January 1 2017
+    const jdn = 2457755;
+
+    const future = adapter.addCalendarDays(new GregorianCalendarDate(new JDNPeriod(jdn, jdn)), 1);
+
+    expect(future)
+      .toEqual(new GregorianCalendarDate(new JDNPeriod(jdn + 1, jdn + 1)));
+
+    expect(future.toCalendarPeriod().periodStart).toEqual(new CalendarDate(2017, 1, 2, 1));
+
+    const past = adapter.addCalendarDays(new GregorianCalendarDate(new JDNPeriod(jdn, jdn)), -1);
+
+    expect(past)
+      .toEqual(new GregorianCalendarDate(new JDNPeriod(jdn - 1, jdn - 1)));
+
+    expect(past.toCalendarPeriod().periodStart).toEqual(new CalendarDate(2016, 12, 31, 6));
+  });
 
 
 });
