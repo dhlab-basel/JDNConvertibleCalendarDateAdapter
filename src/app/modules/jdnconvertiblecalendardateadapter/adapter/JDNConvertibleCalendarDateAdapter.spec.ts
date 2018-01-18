@@ -70,7 +70,7 @@ describe('JDNConvertibleCalendarDateAdapter', () => {
   });
 
   it('should get long day of week names', () => {
-    expect(adapter.getDayOfWeekNames('long')).toEqual(['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat']);
+    expect(adapter.getDayOfWeekNames('long')).toEqual(['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat']);
   });
 
   it('should get year name', () => {
