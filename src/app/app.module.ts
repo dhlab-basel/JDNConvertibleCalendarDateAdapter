@@ -5,13 +5,14 @@ import { NgModule } from '@angular/core';
 // import the material design modules
 //
 import {AppMaterialModule} from './app-material-module';
+import 'hammerjs';
 
 import { AppComponent } from './app.component';
 import {
   MatJDNConvertibleCalendarDateAdapterModule
 } from './modules/jdnconvertiblecalendardateadapter/index';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import {ReactiveFormsModule} from '@angular/forms';
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     AppMaterialModule,
     MatJDNConvertibleCalendarDateAdapterModule,
     BrowserAnimationsModule,
