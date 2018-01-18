@@ -100,13 +100,42 @@ describe('JDNConvertibleCalendarDateAdapter', () => {
     // January 1 2017
     const jdn = 2457755;
 
-    expect(adapter.addCalendarYears(new GregorianCalendarDate(new JDNPeriod(jdn, jdn)), 1))
+    const future = adapter.addCalendarYears(new GregorianCalendarDate(new JDNPeriod(jdn, jdn)), 1);
+
+    expect(future)
       .toEqual(new GregorianCalendarDate(new JDNPeriod(jdn + 365, jdn + 365)));
 
-    expect(adapter.addCalendarYears(new GregorianCalendarDate(new JDNPeriod(jdn, jdn)), -1))
+    expect(future.toCalendarPeriod().periodStart).toEqual(new CalendarDate(2018, 1, 1, 1));
+
+    const past = adapter.addCalendarYears(new GregorianCalendarDate(new JDNPeriod(jdn, jdn)), -1);
+
+    expect(past)
       .toEqual(new GregorianCalendarDate(new JDNPeriod(jdn - 366, jdn - 366))); // leap year
 
+    expect(past.toCalendarPeriod().periodStart).toEqual(new CalendarDate(2016, 1, 1, 5));
+
   });
+
+  it('should respect leap years when adding years', () => {
+    // February 29 2016
+    const jdn = 2457448;
+
+    const future = adapter.addCalendarYears(new GregorianCalendarDate(new JDNPeriod(jdn, jdn)), 1);
+
+    expect(future)
+      .toEqual(new GregorianCalendarDate(new JDNPeriod(jdn + 365, jdn + 365)));
+
+    expect(future.toCalendarPeriod().periodStart).toEqual(new CalendarDate(2017, 2, 28, 2));
+
+    const past = adapter.addCalendarYears(new GregorianCalendarDate(new JDNPeriod(jdn, jdn)), -1);
+
+    expect(past)
+      .toEqual(new GregorianCalendarDate(new JDNPeriod(jdn - 366, jdn - 366)));
+
+    expect(past.toCalendarPeriod().periodStart).toEqual(new CalendarDate(2015, 2, 28, 6));
+  });
+
+
 
 
 });
