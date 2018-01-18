@@ -1,5 +1,5 @@
 {
-  "name": "App for development of jdnconvertiblecalendardateadapter",
+  "name": "app_jdnconvertiblecalendardateadapter",
   "description": "App for development of implementation of Angular Material 2 DateAdapter for JDNConvertibleCalendar",
   "version": "",
   "scripts": {

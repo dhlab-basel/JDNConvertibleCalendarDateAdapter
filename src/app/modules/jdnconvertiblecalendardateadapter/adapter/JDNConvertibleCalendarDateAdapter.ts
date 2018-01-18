@@ -130,8 +130,11 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
   }
 
   clone(date: JDNConvertibleCalendar): JDNConvertibleCalendar {
-    // TODO: no actual cloning is needed as JDNConvertibleCalendar will not mutate when not explicitly requested
-    return date;
+    // TODO: assume Gregorian date for now, make this configurable
+
+    const jdnPeriod = date.toJDNPeriod();
+
+    return new GregorianCalendarDate(jdnPeriod);
   }
 
   createDate(year: number, month: number, date: number): JDNConvertibleCalendar {
@@ -241,27 +244,36 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
 
   addCalendarYears(date: JDNConvertibleCalendar, years: number): JDNConvertibleCalendar {
 
-    // mutates the object
-    date.transposePeriodByYear(years);
+    // another instance has to be returned, otherwise "activeDate" set method is not triggered for MatYearView
 
-    return date;
+    const dateMod = this.clone(date);
+
+    dateMod.transposePeriodByYear(years);
+
+    return dateMod;
+
   }
 
   addCalendarMonths(date: JDNConvertibleCalendar, months: number): JDNConvertibleCalendar {
 
-    // mutates the object
-    date.transposePeriodByMonth(months);
+    // another instance has to be returned, otherwise "activeDate" set method is not triggered for MatMonthView
 
-    return date;
+    const dateMod = this.clone(date);
 
+    dateMod.transposePeriodByMonth(months);
+
+    return dateMod;
   }
 
   addCalendarDays(date: JDNConvertibleCalendar, days: number): JDNConvertibleCalendar {
 
-    // mutates the object
-    date.transposePeriodByDay(days);
+    // another instance has to be returned, otherwiese events do not work correctly
 
-    return date;
+    const dateMod = this.clone(date);
+
+    dateMod.transposePeriodByDay(days);
+
+    return dateMod;
   }
 
   toIso8601(date: JDNConvertibleCalendar) {

@@ -13,6 +13,7 @@ import {
 } from './modules/jdnconvertiblecalendardateadapter/adapter/index';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {MatNativeDateModule} from '@angular/material';
 
 @NgModule({
   declarations: [
