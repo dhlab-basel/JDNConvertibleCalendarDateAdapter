@@ -260,4 +260,28 @@ describe('JDNConvertibleCalendarDateAdapter', () => {
 
   });
 
+  it('convert a Gregorian date to a Julian date', () => {
+    // January 1 2018
+    const jdn = 2458120;
+
+    const gregorianDate = new GregorianCalendarDate(new JDNPeriod(jdn, jdn));
+
+    const julianDate = adapter.convertCalendarFormat(gregorianDate, 'Julian');
+
+    const julianJDNPeriod = julianDate.toJDNPeriod();
+
+    expect(julianJDNPeriod.periodStart).toEqual(jdn);
+
+    const julianCalendarPeriod = julianDate.toCalendarPeriod();
+
+    expect(julianCalendarPeriod.periodStart.year).toEqual(2017);
+
+    expect(julianCalendarPeriod.periodStart.month).toEqual(12);
+
+    expect(julianCalendarPeriod.periodStart.day).toEqual(19);
+
+    expect(julianCalendarPeriod.periodStart.dayOfWeek).toEqual(1);
+
+  });
+
 });

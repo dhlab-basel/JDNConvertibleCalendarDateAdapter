@@ -68,6 +68,28 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
 
   }
 
+  /**
+   * Converts the given date to the indicated calendar format.
+   *
+   * @param {JDNConvertibleCalendarModule.JDNConvertibleCalendar} date the date to be converted.
+   * @param {string} format the calendar format to convert to.
+   * @returns {JDNConvertibleCalendarModule.JDNConvertibleCalendar}
+   */
+  convertCalendarFormat(date: JDNConvertibleCalendar, format: string): JDNConvertibleCalendar {
+
+    switch (format) {
+      case 'Gregorian':
+        return date.convertCalendar('Gregorian');
+
+      case 'Julian':
+        return date.convertCalendar('Julian');
+
+      default:
+        // invalid format
+        return date;
+    }
+  }
+
   getYear(date: JDNConvertibleCalendar): number {
     return date.toCalendarPeriod().periodStart.year;
   }
@@ -303,5 +325,7 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
 
     return this.today();
   }
+
+
 
 }
