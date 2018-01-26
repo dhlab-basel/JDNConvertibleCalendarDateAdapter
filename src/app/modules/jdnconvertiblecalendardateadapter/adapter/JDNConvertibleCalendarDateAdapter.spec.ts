@@ -1,13 +1,7 @@
-import {JDNConvertibleCalendarDateAdapter} from './JDNConvertibleCalendarDateAdapter';
-import {JDNConvertibleCalendarModule} from 'jdnconvertiblecalendar/dist/JDNConvertibleCalendar';
-import JDNConvertibleCalendar = JDNConvertibleCalendarModule.JDNConvertibleCalendar;
-import {JDNConvertibleCalendarDateAdapterModule} from './index';
+import {JDNConvertibleCalendar, GregorianCalendarDate, JDNPeriod, CalendarDate} from 'jdnconvertiblecalendar';
+import {JDNConvertibleCalendarDateAdapterModule, JDNConvertibleCalendarDateAdapter} from './index';
 import {async, inject, TestBed} from '@angular/core/testing';
 import {DateAdapter} from '@angular/material';
-import GregorianCalendarDate = JDNConvertibleCalendarModule.GregorianCalendarDate;
-import JDNPeriod = JDNConvertibleCalendarModule.JDNPeriod;
-import CalendarDate = JDNConvertibleCalendarModule.CalendarDate;
-
 
 describe('JDNConvertibleCalendarDateAdapter', () => {
   let adapter: JDNConvertibleCalendarDateAdapter;
@@ -29,6 +23,12 @@ describe('JDNConvertibleCalendarDateAdapter', () => {
         ` but was ${valid ? 'invalid' : 'valid'}`);
     };
   }));
+
+  it('check class of date adapter', () => {
+
+    expect(adapter instanceof JDNConvertibleCalendarDateAdapter).toBeTruthy();
+
+  });
 
   it('should get year', () => {
     // January 1 2017

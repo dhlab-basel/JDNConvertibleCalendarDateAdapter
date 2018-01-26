@@ -16,3 +16,5 @@ export class JDNConvertibleCalendarDateAdapterModule {}
   providers: [{provide: MAT_DATE_FORMATS, useValue: MAT_JDN_DATE_FORMATS}],
 })
 export class MatJDNConvertibleCalendarDateAdapterModule {}
+
+export {JDNConvertibleCalendarDateAdapter} from './JDNConvertibleCalendarDateAdapter';
