@@ -5334,7 +5334,13 @@ run-queue@^1.0.0, run-queue@^1.0.3:
   dependencies:
     aproba "^1.1.1"
 
-rxjs@^5.5.2, rxjs@^5.5.6, rxjs@^5.5.8:
+rxjs@6.0.0-beta.1:
+  version "6.0.0-beta.1"
+  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.0.0-beta.1.tgz#ac6b181251ece21051435c3da2538444b43a37c1"
+  dependencies:
+    tslib "^1.9.0"
+
+rxjs@^5.5.6, rxjs@^5.5.8:
   version "5.5.8"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-5.5.8.tgz#b2b0809a57614ad6254c03d7446dea0d83ca3791"
   dependencies:
