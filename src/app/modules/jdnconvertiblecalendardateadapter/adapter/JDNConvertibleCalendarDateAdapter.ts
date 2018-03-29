@@ -77,16 +77,20 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
    */
   convertCalendarFormat(date: JDNConvertibleCalendar, format: string): JDNConvertibleCalendar {
 
+    // another instance has to be returned, otherwise "activeDate" set method is not triggered for MatYearView
+
+    const dateMod = this.clone(date);
+
     switch (format) {
       case 'Gregorian':
-        return date.convertCalendar('Gregorian');
+        return dateMod.convertCalendar('Gregorian');
 
       case 'Julian':
-        return date.convertCalendar('Julian');
+        return dateMod.convertCalendar('Julian');
 
       default:
         // invalid format
-        return date;
+        return dateMod;
     }
   }
 
