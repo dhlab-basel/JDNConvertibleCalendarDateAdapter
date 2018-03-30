@@ -53,11 +53,12 @@ export class HeaderComponent<D> {
   convertCalendar(calendar: 'Gregorian' | 'Julian') {
 
     if (this._dateAdapter instanceof JDNConvertibleCalendarDateAdapter) {
+
       const convertedDate = this._dateAdapter.convertCalendarFormat(this._calendar.activeDate, calendar);
 
-      console.log(convertedDate);
-
       this._calendar.activeDate = convertedDate;
+
+      this._calendar._dateSelected(convertedDate);
     }
   }
 
