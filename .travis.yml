@@ -16,5 +16,5 @@ addons:
 before_script:
 - yarn global add @angular/cli
 
-script: ng t
+script: ng t --browser=ChromeHeadless --single-run=true
 
