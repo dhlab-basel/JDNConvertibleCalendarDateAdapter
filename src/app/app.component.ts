@@ -1,4 +1,4 @@
-import {Component, Host, Inject} from '@angular/core';
+import {Component, Host, Inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {DateAdapter, MatCalendar} from '@angular/material';
 import {JDNConvertibleCalendar} from 'jdnconvertiblecalendar';
@@ -31,10 +31,11 @@ export class AppComponent {
 @Component({
   selector: 'app-calendar-header',
   template: `
-    <select (change)="convertCalendar($event.target.value)">
-      <option>Gregorian</option>
-      <option>Julian</option>
-    </select>
+    <mat-form-field>
+      <mat-select [formControl]="form.controls['calendar']">
+        <mat-option *ngFor="let cal of supportedCalendarFormats" [value]="cal">{{cal}}</mat-option>
+      </mat-select>
+    </mat-form-field>
     <div class="custom-header">
       <button mat-icon-button (click)="previousClicked('year')">&lt;&lt;</button>
       <button mat-icon-button (click)="previousClicked('month')">&lt;</button>
@@ -45,9 +46,36 @@ export class AppComponent {
   `,
   styleUrls: []
 })
-export class HeaderComponent<D> {
+export class HeaderComponent<D> implements OnInit {
   constructor(@Host() private _calendar: MatCalendar<JDNConvertibleCalendar>,
-              private _dateAdapter: DateAdapter<JDNConvertibleCalendar>) {
+              private _dateAdapter: DateAdapter<JDNConvertibleCalendar>,
+              @Inject(FormBuilder) private fb: FormBuilder) {
+  }
+
+  form: FormGroup;
+
+  supportedCalendarFormats = JDNConvertibleCalendar.supportedCalendars;
+
+  activeFormat;
+
+  ngOnInit() {
+
+    this.activeFormat = 'Gregorian';
+
+    if (this._dateAdapter instanceof JDNConvertibleCalendarDateAdapter) {
+      this.activeFormat = this._dateAdapter.activeCalendarFormat;
+    }
+
+    // build a form for the calendar format selection
+    this.form = this.fb.group({
+      calendar: [this.activeFormat, Validators.required]
+    });
+
+    // update the selected calendar format
+    this.form.valueChanges.subscribe((data) => {
+      this.convertCalendar(data.calendar);
+    });
+
   }
 
   convertCalendar(calendar: 'Gregorian' | 'Julian') {
