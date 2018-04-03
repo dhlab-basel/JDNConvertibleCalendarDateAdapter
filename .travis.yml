@@ -1,0 +1,19 @@
+dist: trusty
+sudo: required
+
+language: node_js
+
+node_js:
+  - "8"
+
+cache:
+  directories:
+    - "node_modules"
+
+addons:
+  chrome: stable
+
+before_script:
+- yarn global add @angular/cli
+
+script: ng t
