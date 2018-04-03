@@ -32,7 +32,7 @@ export class AppComponent {
   selector: 'app-calendar-header',
   template: `
     <mat-form-field>
-      <mat-select [formControl]="form.controls['calendar']">
+      <mat-select placeholder="Calendar Format" [formControl]="form.controls['calendar']">
         <mat-option *ngFor="let cal of supportedCalendarFormats" [value]="cal">{{cal}}</mat-option>
       </mat-select>
     </mat-form-field>
