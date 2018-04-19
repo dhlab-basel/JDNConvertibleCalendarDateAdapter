@@ -87,6 +87,8 @@ export class HeaderComponent<D> implements OnInit {
       this._calendar.activeDate = convertedDate;
 
       this._calendar._dateSelected(convertedDate);
+
+      this._calendar.ngAfterContentInit();
     }
   }
 

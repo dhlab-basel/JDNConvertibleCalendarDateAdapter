@@ -180,14 +180,22 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
 
   }
 
-  createDate(year: number, month: number, date: number): JDNConvertibleCalendar {
-
+  /**
+   * Creates a date in the specified calendar format.
+   *
+   * @param {number} year the date's year.
+   * @param {number} month the date's month (0-based index).
+   * @param {number} date the date's day.
+   * @param {string} calendar the calendar format to be used.
+   * @returns {JDNConvertibleCalendarModule.JDNConvertibleCalendar}
+   */
+  private createCalendarDate(year: number, month: number, date: number, calendar: string): JDNConvertibleCalendar {
     // month param is 0 indexed, but we use 1 based index for months
     const calDate = new CalendarDate(year, month + 1, date);
 
     let jdn;
 
-    switch (this._activeCalendarFormat) {
+    switch (calendar) {
       case 'Gregorian':
         jdn = JDNConvertibleConversionModule.gregorianToJDN(calDate);
         return new GregorianCalendarDate(new JDNPeriod(jdn, jdn));
@@ -196,6 +204,12 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
         jdn = JDNConvertibleConversionModule.julianToJDN(calDate);
         return new JulianCalendarDate(new JDNPeriod(jdn, jdn));
     }
+  }
+
+  createDate(year: number, month: number, date: number): JDNConvertibleCalendar {
+
+    // create a date in the active calendar format
+    return this.createCalendarDate(year, month, date, this._activeCalendarFormat);
 
   }
 
@@ -212,8 +226,13 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
     // day of month, 1 based index
     const day = today.getDate();
 
-    // Gregorian calendar assumed (default)
-    return this.createDate(year, month, day);
+    // create a Gregorian calendar date from the native JS object
+    const dateGregorian = this.createCalendarDate(year, month, day, 'Gregorian');
+
+    // convert the date to the active calendar format
+    const date = this.convertCalendarFormat(dateGregorian, this._activeCalendarFormat);
+
+    return date;
 
   }
 
