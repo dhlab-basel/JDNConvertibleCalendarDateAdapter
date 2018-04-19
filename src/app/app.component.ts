@@ -88,7 +88,9 @@ export class HeaderComponent<D> implements OnInit {
 
       this._calendar._dateSelected(convertedDate);
 
-      this._calendar.ngAfterContentInit();
+      const view: 'month' | 'year' | 'multi-year' = this._calendar.currentView;
+
+      this._calendar._goToDateInView(convertedDate, view);
     }
   }
 
