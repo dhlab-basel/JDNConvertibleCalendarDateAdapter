@@ -70,6 +70,11 @@ export class HeaderComponent<D> implements OnInit {
 
   }
 
+  /**
+   * Converts the date in the current format into the target format.
+   *
+   * @param {"Gregorian" | "Julian"} calendar the target calendar format.
+   */
   convertCalendar(calendar: 'Gregorian' | 'Julian') {
 
     if (this._dateAdapter instanceof JDNConvertibleCalendarDateAdapter) {
@@ -78,11 +83,11 @@ export class HeaderComponent<D> implements OnInit {
 
       this._calendar.activeDate = convertedDate;
 
+      // update the calendar UI after date format conversion
+      // TODO: today's date is not reset correctly
+      this._calendar.ngAfterContentInit();
+
       this._calendar._dateSelected(convertedDate);
-
-      const view: 'month' | 'year' | 'multi-year' = this._calendar.currentView;
-
-      this._calendar._goToDateInView(convertedDate, view);
     }
   }
 }
