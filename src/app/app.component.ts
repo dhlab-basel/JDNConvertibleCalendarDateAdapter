@@ -31,18 +31,10 @@ export class AppComponent {
 @Component({
   selector: 'app-calendar-header',
   template: `
-    <mat-form-field>
-      <mat-select placeholder="Calendar Format" [formControl]="form.controls['calendar']">
-        <mat-option *ngFor="let cal of supportedCalendarFormats" [value]="cal">{{cal}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <div class="custom-header">
-      <button mat-icon-button (click)="previousClicked('year')">&lt;&lt;</button>
-      <button mat-icon-button (click)="previousClicked('month')">&lt;</button>
-      <span class="custom-header-label">{{periodLabel}}</span>
-      <button mat-icon-button (click)="nextClicked('month')">&gt;</button>
-      <button mat-icon-button (click)="nextClicked('year')">&gt;&gt;</button>
-    </div>
+    <mat-select placeholder="Calendar Format" [formControl]="form.controls['calendar']">
+      <mat-option *ngFor="let cal of supportedCalendarFormats" [value]="cal">{{cal}}</mat-option>
+    </mat-select>
+    <mat-calendar-header></mat-calendar-header>
   `,
   styleUrls: []
 })
@@ -93,25 +85,6 @@ export class HeaderComponent<D> implements OnInit {
       this._calendar._goToDateInView(convertedDate, view);
     }
   }
-
-  get periodLabel() {
-    const year = this._dateAdapter.getYearName(this._calendar.activeDate);
-    const month = (this._dateAdapter.getMonth(this._calendar.activeDate) + 1);
-    return `${month}/${year}`;
-  }
-
-  previousClicked(mode: 'month' | 'year') {
-    this._calendar.activeDate = mode === 'month' ?
-      this._dateAdapter.addCalendarMonths(this._calendar.activeDate, -1) :
-      this._dateAdapter.addCalendarYears(this._calendar.activeDate, -1);
-  }
-
-  nextClicked(mode: 'month' | 'year') {
-    this._calendar.activeDate = mode === 'month' ?
-      this._dateAdapter.addCalendarMonths(this._calendar.activeDate, 1) :
-      this._dateAdapter.addCalendarYears(this._calendar.activeDate, 1);
-  }
-
 }
 
 
