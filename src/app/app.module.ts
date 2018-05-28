@@ -7,7 +7,7 @@ import { NgModule } from '@angular/core';
 import {AppMaterialModule} from './app-material-module';
 import 'hammerjs';
 
-import { AppComponent } from './app.component';
+import {AppComponent, HeaderComponent} from './app.component';
 import {
   MatJDNConvertibleCalendarDateAdapterModule
 } from './modules/jdnconvertiblecalendardateadapter/adapter/index';
@@ -17,7 +17,8 @@ import {MatNativeDateModule} from '@angular/material';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +29,10 @@ import {MatNativeDateModule} from '@angular/material';
     ReactiveFormsModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    HeaderComponent
+  ]
 })
 export class AppModule { }
 

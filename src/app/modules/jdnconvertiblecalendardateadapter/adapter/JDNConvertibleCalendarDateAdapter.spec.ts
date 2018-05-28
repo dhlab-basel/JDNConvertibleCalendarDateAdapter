@@ -1,4 +1,10 @@
-import {JDNConvertibleCalendar, GregorianCalendarDate, JDNPeriod, CalendarDate} from 'jdnconvertiblecalendar';
+import {
+  JDNConvertibleCalendar,
+  GregorianCalendarDate,
+  JDNPeriod,
+  CalendarDate,
+  JDNConvertibleConversionModule
+} from 'jdnconvertiblecalendar';
 import {JDNConvertibleCalendarDateAdapterModule, JDNConvertibleCalendarDateAdapter} from './index';
 import {async, inject, TestBed} from '@angular/core/testing';
 import {DateAdapter} from '@angular/material';
@@ -260,7 +266,7 @@ describe('JDNConvertibleCalendarDateAdapter', () => {
 
   });
 
-  it('convert a Gregorian date to a Julian date', () => {
+  it('should convert a Gregorian date to a Julian date', () => {
     // January 1 2018
     const jdn = 2458120;
 
@@ -282,6 +288,33 @@ describe('JDNConvertibleCalendarDateAdapter', () => {
 
     expect(julianCalendarPeriod.periodStart.dayOfWeek).toEqual(1);
 
+    expect(adapter.activeCalendarFormat).toEqual('Julian');
+
+  });
+
+  it('should create today\'s date in the Gregorian calendar', () => {
+
+    const today: JDNConvertibleCalendar = adapter.today();
+
+    // yes, if the line below is executed after midnight and the line above before midnight, it will be wrong ...
+
+    const todayExpected: Date = new Date();
+
+    const year = todayExpected.getFullYear();
+
+    // 0 based month
+    const month = todayExpected.getMonth();
+
+    // day of month, 1 based index
+    const day = todayExpected.getDate();
+
+    const calDate = new CalendarDate(year, month + 1, day);
+
+    const jdn = JDNConvertibleConversionModule.gregorianToJDN(calDate);
+    const todayCalDate: GregorianCalendarDate =  new GregorianCalendarDate(new JDNPeriod(jdn, jdn));
+
+    expect(adapter.activeCalendarFormat).toEqual('Gregorian'); // Gregorian is the standard if no conversions have been done
+    expect(today).toEqual(todayCalDate);
   });
 
 });
