@@ -83,11 +83,13 @@ export class HeaderComponent<D> implements OnInit {
 
       this._calendar.activeDate = convertedDate;
 
-      // update the calendar UI after date format conversion
-      // TODO: today's date is not reset correctly
-      this._calendar.ngAfterContentInit();
-
       this._calendar._dateSelected(convertedDate);
+
+      // update view after calendar format conversion
+      const view = this._calendar.currentView === 'month' ? this._calendar.monthView :
+        (this._calendar.currentView === 'year' ? this._calendar.yearView : this._calendar.multiYearView);
+
+      view.ngAfterContentInit();
     }
   }
 }
