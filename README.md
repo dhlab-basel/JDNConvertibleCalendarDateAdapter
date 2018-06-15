@@ -1,3 +1,7 @@
+# General Remarks
+ 
+The following information is about the development environment. Please see `projects/jdnconvertible-calendar-date-adapter/README.md` for more information about `JDNConvertibleCalendarDateAdapter`.
+
 # DateAdapter
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.8.
