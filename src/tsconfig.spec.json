@@ -1,0 +1,24 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../out-tsc/spec",
+    "module": "commonjs",
+    "types": [
+      "jasmine",
+      "node"
+    ],
+    "paths": {
+      "jdnconvertible-calendar-date-adapter": [
+        "dist/jdnconvertible-calendar-date-adapter"
+      ]
+    }
+  },
+  "files": [
+    "test.ts",
+    "polyfills.ts"
+  ],
+  "include": [
+    "**/*.spec.ts",
+    "**/*.d.ts"
+  ]
+}
