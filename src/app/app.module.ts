@@ -1,34 +1,33 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
-//
-// import the material design modules
-//
-import {AppMaterialModule} from './app-material-module';
-import 'hammerjs';
-
-import { AppComponent } from './app.component';
-import {
-  MatJDNConvertibleCalendarDateAdapterModule
-} from './modules/jdnconvertiblecalendardateadapter/adapter/index';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatNativeDateModule} from '@angular/material';
+
+import {AppComponent, HeaderComponent} from './app.component';
+import {MatJDNConvertibleCalendarDateAdapterModule} from 'jdnconvertible-calendar-date-adapter';
+import {MatDatepickerModule, MatFormFieldModule, MatInputModule, MatOptionModule, MatSelectModule} from '@angular/material';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    AppMaterialModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatOptionModule,
+    MatSelectModule,
     MatJDNConvertibleCalendarDateAdapterModule,
-    BrowserAnimationsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    HeaderComponent
+  ]
 })
 export class AppModule { }
-

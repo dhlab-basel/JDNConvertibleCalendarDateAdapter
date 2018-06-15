@@ -20,8 +20,14 @@
 
 import {Injectable} from '@angular/core';
 import {DateAdapter} from '@angular/material';
-import {JDNConvertibleCalendar, CalendarDate, GregorianCalendarDate, JDNPeriod} from 'jdnconvertiblecalendar';
-import {JDNConvertibleConversionModule} from 'jdnconvertiblecalendar';
+import {
+  CalendarDate,
+  GregorianCalendarDate,
+  JDNConvertibleCalendar,
+  JDNConvertibleConversionModule,
+  JDNPeriod,
+  JulianCalendarDate
+} from 'jdnconvertiblecalendar';
 
 
 @Injectable()
@@ -41,21 +47,29 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
   private static readonly parsableDateFormats = [JDNConvertibleCalendarDateAdapter.DD_MM_YYYY];
 
   private static readonly dateFormatRegexes = {
-    'DD-MM-YYYY': /^(\d?\d)-(\d?\d)-(\d{4})/
+    'DD-MM-YYYY': new RegExp('^(\\d?\\d)-(\\d?\\d)-(\\d{4})')
   };
+
+  // the currently active calendar format
+  private _activeCalendarFormat = 'Gregorian';
+
+  get activeCalendarFormat() {
+    return this._activeCalendarFormat;
+  }
 
   /**
    * Adds leading zeros to a given number and returns the resulting string.
    *
-   * @param {number} num the given number.
-   * @param {number} digits the number of expected digits.
+   * @param num the given number.
+   * @param digits the number of expected digits.
+   * @returns string containing leading zeros.
    */
   private static addLeadingZeroToNumber(num: number, digits: number): string {
 
     const missingDigits = digits - String(num).length;
 
     if (missingDigits > 0) {
-      let leadingZeros: string = '';
+      let leadingZeros = '';
       for (let i = 0; i < missingDigits; i++) {
         leadingZeros += '0';
       }
@@ -71,22 +85,28 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
   /**
    * Converts the given date to the indicated calendar format.
    *
-   * @param {JDNConvertibleCalendarModule.JDNConvertibleCalendar} date the date to be converted.
-   * @param {string} format the calendar format to convert to.
-   * @returns {JDNConvertibleCalendarModule.JDNConvertibleCalendar}
+   * @param date the date to be converted.
+   * @param format the calendar format to convert to.
+   * @returns converted date.
    */
   convertCalendarFormat(date: JDNConvertibleCalendar, format: string): JDNConvertibleCalendar {
 
+    // another instance has to be returned, otherwise "activeDate" set method is not triggered for MatYearView
+
+    const dateMod = this.clone(date);
+
     switch (format) {
       case 'Gregorian':
-        return date.convertCalendar('Gregorian');
+        this._activeCalendarFormat = 'Gregorian';
+        return dateMod.convertCalendar('Gregorian');
 
       case 'Julian':
-        return date.convertCalendar('Julian');
+        this._activeCalendarFormat = 'Julian';
+        return dateMod.convertCalendar('Julian');
 
       default:
         // invalid format
-        return date;
+        return dateMod;
     }
   }
 
@@ -152,24 +172,49 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
   }
 
   clone(date: JDNConvertibleCalendar): JDNConvertibleCalendar {
-    // TODO: assume Gregorian date for now, make this configurable
 
     const jdnPeriod = date.toJDNPeriod();
 
-    return new GregorianCalendarDate(jdnPeriod);
+    switch (this._activeCalendarFormat) {
+      case 'Gregorian':
+        return new GregorianCalendarDate(jdnPeriod);
+
+      case 'Julian':
+        return new JulianCalendarDate(jdnPeriod);
+    }
+
+  }
+
+  /**
+   * Creates a date in the specified calendar format.
+   *
+   * @param year the date's year.
+   * @param month the date's month (0-based index).
+   * @param date the date's day.
+   * @param calendar the calendar format to be used.
+   * @returns a date in the specified calendar format.
+   */
+  private createCalendarDate(year: number, month: number, date: number, calendar: string): JDNConvertibleCalendar {
+    // month param is 0 indexed, but we use 1 based index for months
+    const calDate = new CalendarDate(year, month + 1, date);
+
+    let jdn;
+
+    switch (calendar) {
+      case 'Gregorian':
+        jdn = JDNConvertibleConversionModule.gregorianToJDN(calDate);
+        return new GregorianCalendarDate(new JDNPeriod(jdn, jdn));
+
+      case 'Julian':
+        jdn = JDNConvertibleConversionModule.julianToJDN(calDate);
+        return new JulianCalendarDate(new JDNPeriod(jdn, jdn));
+    }
   }
 
   createDate(year: number, month: number, date: number): JDNConvertibleCalendar {
 
-    // TODO: support different calendar formats
-    // assume Gregorian for now
-
-    // month param is 0 indexed, but we use 1 based index for months
-    const calDate = new CalendarDate(year, month + 1, date);
-
-    const jdn = JDNConvertibleConversionModule.gregorianToJDN(calDate);
-
-    return new GregorianCalendarDate(new JDNPeriod(jdn, jdn));
+    // create a date in the active calendar format
+    return this.createCalendarDate(year, month, date, this._activeCalendarFormat);
 
   }
 
@@ -186,15 +231,20 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
     // day of month, 1 based index
     const day = today.getDate();
 
-    // Gregorian calendar assumed (default)
-    return this.createDate(year, month, day);
+    // create a Gregorian calendar date from the native JS object
+    const dateGregorian = this.createCalendarDate(year, month, day, 'Gregorian');
+
+    // convert the date to the active calendar format
+    const date = this.convertCalendarFormat(dateGregorian, this._activeCalendarFormat);
+
+    return date;
 
   }
 
   parse(value: any, parseFormat: any): JDNConvertibleCalendar | null {
 
     let date;
-    if (parseFormat !== undefined && typeof parseFormat == 'string' && JDNConvertibleCalendarDateAdapter.parsableDateFormats.indexOf(parseFormat) !== -1) {
+    if (parseFormat !== undefined && typeof parseFormat === 'string' && JDNConvertibleCalendarDateAdapter.parsableDateFormats.indexOf(parseFormat) !== -1) {
 
       switch (parseFormat) {
         case JDNConvertibleCalendarDateAdapter.DD_MM_YYYY: {
@@ -233,7 +283,7 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
 
   format(date: JDNConvertibleCalendar, displayFormat: any): string {
     let dateString = '';
-    if (displayFormat !== undefined && typeof displayFormat == 'string' && JDNConvertibleCalendarDateAdapter.displayDateFormats.lastIndexOf(displayFormat) !== -1) {
+    if (displayFormat !== undefined && typeof displayFormat === 'string' && JDNConvertibleCalendarDateAdapter.displayDateFormats.lastIndexOf(displayFormat) !== -1) {
 
       const calendarPeriod = date.toCalendarPeriod();
 
@@ -241,7 +291,8 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
 
         case JDNConvertibleCalendarDateAdapter.DD_MM_YYYY: {
 
-          dateString = `${JDNConvertibleCalendarDateAdapter.addLeadingZeroToNumber(calendarPeriod.periodStart.day, 2)}-${JDNConvertibleCalendarDateAdapter.addLeadingZeroToNumber(calendarPeriod.periodStart.month, 2)}-${JDNConvertibleCalendarDateAdapter.addLeadingZeroToNumber(calendarPeriod.periodStart.year, 4)}`;
+          dateString =
+            `${JDNConvertibleCalendarDateAdapter.addLeadingZeroToNumber(calendarPeriod.periodStart.day, 2)}-${JDNConvertibleCalendarDateAdapter.addLeadingZeroToNumber(calendarPeriod.periodStart.month, 2)}-${JDNConvertibleCalendarDateAdapter.addLeadingZeroToNumber(calendarPeriod.periodStart.year, 4)}`;
           break;
 
         }
@@ -289,7 +340,7 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
 
   addCalendarDays(date: JDNConvertibleCalendar, days: number): JDNConvertibleCalendar {
 
-    // another instance has to be returned, otherwiese events do not work correctly
+    // another instance has to be returned, otherwise events do not work correctly
 
     const dateMod = this.clone(date);
 
@@ -304,6 +355,8 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
     const gregorianCal = date.convertCalendar('Gregorian');
 
     const gregorianCalPeriod = gregorianCal.toCalendarPeriod();
+
+    console.log('to iso');
 
     return `${JDNConvertibleCalendarDateAdapter.addLeadingZeroToNumber(gregorianCalPeriod.periodStart.year, 4)}-${JDNConvertibleCalendarDateAdapter.addLeadingZeroToNumber(gregorianCalPeriod.periodStart.month, 2)}-${JDNConvertibleCalendarDateAdapter.addLeadingZeroToNumber(gregorianCalPeriod.periodStart.day, 2)}`;
 
@@ -325,7 +378,6 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
 
     return this.today();
   }
-
 
 
 }

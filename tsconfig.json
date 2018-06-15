@@ -1,9 +1,10 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "outDir": "./dist",
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
     "sourceMap": true,
-    "declaration": true,
+    "declaration": false,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -14,6 +15,14 @@
     "lib": [
       "es2017",
       "dom"
-    ]
+    ],
+    "paths": {
+      "JDNConvertibleCalendarDateAdapter": [
+        "dist/jdnconvertible-calendar-date-adapter"
+      ],
+      "JDNConvertibleCalendarDateAdapter/*": [
+        "dist/jdnconvertible-calendar-date-adapter/*"
+      ]
+    }
   }
 }

@@ -16,7 +16,7 @@ so that the Angular Material 2 DatePicker UI can be used with different calendar
 
 ## Use with Angular Material Datepicker
 
-Add `jdnconvertiblecalendardateadapter` (currently version 0.0.4) and `jdnconvertiblecalendar` (currently version 0.0.1) to the dependencies in your `package.json` and run `npm install`. 
+Add `jdnconvertiblecalendardateadapter` and `jdnconvertiblecalendar` to the dependencies in your `package.json` and run `npm install`. 
 Add `MatJDNConvertibleCalendarDateAdapterModule` to your application's module configuration. See <https://github.com/dhlab-basel/JDNConvertibleCalendarDateAdapter/blob/develop/src/app/app.module.ts> as an example. 
 
 See also <https://material.angular.io/components/datepicker/overview#choosing-a-date-implementation-and-date-format-settings> for instructions how to integrate it with Angular Material 2.

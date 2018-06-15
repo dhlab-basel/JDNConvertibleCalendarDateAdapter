@@ -1,19 +1,13 @@
 {
   "name": "jdnconvertiblecalendardateadapter",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Implementation of Angular Material 2 DateAdapter for JDNConvertibleCalendar",
   "keywords": [
-    "Angular Material DatePicker",
+    "Angular Material Datepicker",
     "DateAdapter",
     "calendar",
     "conversion"
   ],
-  "types": "dist/index.d.ts",
-  "main": "dist/index.js",
-  "scripts": {
-    "prepare": "tsc",
-    "test": ""
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dhlab-basel/JDNConvertibleCalendarDateAdapter.git"
@@ -25,8 +19,11 @@
   },
   "homepage": "https://github.com/dhlab-basel/JDNConvertibleCalendarDateAdapter#readme",
   "peerDependencies": {
-    "@angular/core": "^5.2.2",
-    "@angular/material": "^5.1.0",
+    "@angular/common": "^6.0.0",
+    "@angular/core": "^6.0.0",
+    "@angular/animations": "^6.0.0",
+    "@angular/cdk": "^6.0.0",
+    "@angular/material": "^6.0.0",
     "jdnconvertiblecalendar": "0.0.1"
   }
 }
