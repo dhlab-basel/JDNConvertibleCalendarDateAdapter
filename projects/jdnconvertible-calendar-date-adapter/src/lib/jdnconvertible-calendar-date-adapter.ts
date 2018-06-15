@@ -46,10 +46,8 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
 
   private static readonly parsableDateFormats = [JDNConvertibleCalendarDateAdapter.DD_MM_YYYY];
 
-  private static readonly DDMMYYYY = new RegExp('/^(\d?\d)-(\d?\d)-(\d{4})/');
-
   private static readonly dateFormatRegexes = {
-    'DD-MM-YYYY': JDNConvertibleCalendarDateAdapter.DDMMYYYY
+    'DD-MM-YYYY': new RegExp('^(\\d?\\d)-(\\d?\\d)-(\\d{4})')
   };
 
   // the currently active calendar format
