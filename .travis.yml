@@ -16,4 +16,4 @@ addons:
 before_script:
 - yarn global add @angular/cli
 
-script: ng t JDNConvertibleCalendarDateAdapter --watch=false
+script: ng t JDNConvertibleCalendarDateAdapter --watch=false --browsers=ChromeHeadless

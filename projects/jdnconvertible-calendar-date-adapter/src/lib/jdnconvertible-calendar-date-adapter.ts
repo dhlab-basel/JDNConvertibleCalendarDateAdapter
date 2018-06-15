@@ -251,11 +251,7 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
 
           const dateStringRegex = JDNConvertibleCalendarDateAdapter.dateFormatRegexes[parseFormat];
 
-          console.log(dateStringRegex)
-
           const parsed: Array<any> | null = dateStringRegex.exec(value);
-
-          console.log(parsed);
 
           if (parsed !== null) {
 
