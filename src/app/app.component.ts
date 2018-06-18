@@ -1,7 +1,7 @@
 import {Component, Host, Inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {DateAdapter, MatCalendar} from '@angular/material';
-import {JDNConvertibleCalendar} from 'jdnconvertiblecalendar';
+import {JDNConvertibleCalendar, GregorianCalendarDate, JDNPeriod, JulianCalendarDate} from 'jdnconvertiblecalendar';
 import {JDNConvertibleCalendarDateAdapter} from 'jdnconvertible-calendar-date-adapter';
 
 @Component({
@@ -15,10 +15,13 @@ export class AppComponent {
 
   headerComponent = HeaderComponent;
 
+  private jdn = 2352861; // October 24th 1729 (Gregorian calendar)
+  startDate = new JulianCalendarDate(new JDNPeriod(this.jdn, this.jdn));
+
   constructor(@Inject(FormBuilder) private fb: FormBuilder) {
 
     this.form = this.fb.group({
-      dateValue: [null, Validators.compose([Validators.required])]
+      dateValue: [this.startDate, Validators.compose([Validators.required])]
     });
 
     this.form.valueChanges.subscribe((data) => {
@@ -48,19 +51,27 @@ export class HeaderComponent<D> implements OnInit {
 
   supportedCalendarFormats = JDNConvertibleCalendar.supportedCalendars;
 
-  activeFormat;
-
   ngOnInit() {
 
-    this.activeFormat = 'Gregorian';
+    console.log('init header');
+
+    // get the active date's calendar format
+    const activeCalendarFormat: 'Gregorian' | 'Julian' = this._calendar.activeDate.calendarFormat === 'Gregorian' ? 'Gregorian' : 'Julian';
 
     if (this._dateAdapter instanceof JDNConvertibleCalendarDateAdapter) {
-      this.activeFormat = this._dateAdapter.activeCalendarFormat;
+      // set the active date's calendar format if not set correctly
+      // TODO: this is necessary if the start date is not Gregorian
+      // TODO: the format should not be set from the outside, only the data adapter should control
+      if (this._dateAdapter.activeCalendarFormat !== activeCalendarFormat) {
+        this._dateAdapter.activeCalendarFormat = activeCalendarFormat;
+      }
     }
+
+    console.log(activeCalendarFormat);
 
     // build a form for the calendar format selection
     this.form = this.fb.group({
-      calendar: [this.activeFormat, Validators.required]
+      calendar: [activeCalendarFormat, Validators.required]
     });
 
     // update the selected calendar format

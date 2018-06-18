@@ -50,10 +50,15 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
     'DD-MM-YYYY': new RegExp('^(\\d?\\d)-(\\d?\\d)-(\\d{4})')
   };
 
-  // the currently active calendar format
-  private _activeCalendarFormat = 'Gregorian';
+  // the currently active calendar format, assume Gregorian
+  private _activeCalendarFormat: 'Gregorian' | 'Julian' = 'Gregorian';
 
-  get activeCalendarFormat() {
+  set activeCalendarFormat(calendarFormat: 'Gregorian' | 'Julian') {
+    console.log('setting calendar format');
+    this._activeCalendarFormat = calendarFormat;
+  }
+
+  get activeCalendarFormat(): 'Gregorian' | 'Julian' {
     return this._activeCalendarFormat;
   }
 
@@ -244,7 +249,9 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
   parse(value: any, parseFormat: any): JDNConvertibleCalendar | null {
 
     let date;
-    if (parseFormat !== undefined && typeof parseFormat === 'string' && JDNConvertibleCalendarDateAdapter.parsableDateFormats.indexOf(parseFormat) !== -1) {
+    if (parseFormat !== undefined
+      && typeof parseFormat === 'string'
+      && JDNConvertibleCalendarDateAdapter.parsableDateFormats.indexOf(parseFormat) !== -1) {
 
       switch (parseFormat) {
         case JDNConvertibleCalendarDateAdapter.DD_MM_YYYY: {
@@ -283,7 +290,9 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
 
   format(date: JDNConvertibleCalendar, displayFormat: any): string {
     let dateString = '';
-    if (displayFormat !== undefined && typeof displayFormat === 'string' && JDNConvertibleCalendarDateAdapter.displayDateFormats.lastIndexOf(displayFormat) !== -1) {
+    if (displayFormat !== undefined
+      && typeof displayFormat === 'string'
+      && JDNConvertibleCalendarDateAdapter.displayDateFormats.lastIndexOf(displayFormat) !== -1) {
 
       const calendarPeriod = date.toCalendarPeriod();
 
