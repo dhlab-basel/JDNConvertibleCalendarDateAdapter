@@ -53,8 +53,6 @@ export class HeaderComponent<D> implements OnInit {
 
   ngOnInit() {
 
-    console.log('init header');
-
     // get the active date's calendar format
     const activeCalendarFormat: 'Gregorian' | 'Julian' = this._calendar.activeDate.calendarFormat === 'Gregorian' ? 'Gregorian' : 'Julian';
 
@@ -66,8 +64,6 @@ export class HeaderComponent<D> implements OnInit {
         this._dateAdapter.activeCalendarFormat = activeCalendarFormat;
       }
     }
-
-    console.log(activeCalendarFormat);
 
     // build a form for the calendar format selection
     this.form = this.fb.group({
