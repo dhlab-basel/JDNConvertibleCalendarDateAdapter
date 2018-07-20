@@ -11,21 +11,21 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/cdk": "^6.0.3",
-    "@angular/common": "^6.0.3",
-    "@angular/core": "^6.0.3",
-    "@angular/compiler": "^6.0.3",
     "@angular/animations": "^6.0.3",
+    "@angular/cdk": "angular/cdk-builds#master-f9b9e25",
+    "@angular/common": "^6.0.3",
+    "@angular/compiler": "^6.0.3",
+    "@angular/core": "^6.0.3",
     "@angular/forms": "^6.0.3",
     "@angular/http": "^6.0.3",
-    "@angular/material": "^6.0.3",
+    "@angular/material": "angular/material2-builds#master-f9b9e25",
     "@angular/platform-browser": "^6.0.3",
     "@angular/platform-browser-dynamic": "^6.0.3",
     "@angular/router": "^6.0.3",
     "core-js": "^2.5.4",
+    "jdnconvertiblecalendar": "0.0.1",
     "rxjs": "^6.0.0",
-    "zone.js": "^0.8.26",
-    "jdnconvertiblecalendar": "0.0.1"
+    "zone.js": "^0.8.26"
   },
   "devDependencies": {
     "@angular/compiler-cli": "^6.0.3",
