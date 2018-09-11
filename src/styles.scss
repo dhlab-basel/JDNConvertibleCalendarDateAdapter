@@ -14,3 +14,22 @@ $theme: mat-light-theme($primary, $accent, $warn);
 
 // Include all theme styles for the components.
 @include angular-material-theme($theme);
+
+app-calendar-header {
+  .mat-select {
+    background: #00796b;
+    color: white;
+    padding: 20px;
+    margin-bottom: -20px;
+    box-sizing: border-box;
+  }
+
+  .mat-select-value,
+  .mat-select-arrow {
+    color: #fff;
+  }
+}
+
+.mat-datepicker-content {
+  height: 400px;
+}
