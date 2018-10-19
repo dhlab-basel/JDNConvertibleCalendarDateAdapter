@@ -3569,9 +3569,9 @@ jasminewd2@^2.1.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/jasminewd2/-/jasminewd2-2.2.0.tgz#e37cf0b17f199cce23bea71b2039395246b4ec4e"
 
-jdnconvertiblecalendar@0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/jdnconvertiblecalendar/-/jdnconvertiblecalendar-0.0.1.tgz#1d6271525696a093a7009524f5528769d992e763"
+jdnconvertiblecalendar@0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/jdnconvertiblecalendar/-/jdnconvertiblecalendar-0.0.2.tgz#4bfd8b220f9fd8bb105308e9f3181f7d927f3503"
 
 js-base64@^2.1.8:
   version "2.4.5"
