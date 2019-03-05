@@ -294,12 +294,16 @@ describe('JDNConvertibleCalendarDateAdapter', () => {
 
   it('should create today\'s date in the Gregorian calendar', () => {
 
+    // June 11th 2018 (Gregorian calendar)
+    const todayExpected = new Date(2017, 5, 11);
+
+    // date above will be returned for new Date()
+    // https://jasmine.github.io/tutorials/your_first_suite
+    jasmine.clock().mockDate(todayExpected);
+
     const today: JDNConvertibleCalendar = adapter.today();
 
-    // yes, if the line below is executed after midnight and the line above before midnight, it will be wrong ...
-
-    const todayExpected: Date = new Date();
-
+    // create the expected Gregorian date
     const year = todayExpected.getFullYear();
 
     // 0 based month
@@ -308,9 +312,9 @@ describe('JDNConvertibleCalendarDateAdapter', () => {
     // day of month, 1 based index
     const day = todayExpected.getDate();
 
-    const calDate = new CalendarDate(year, month + 1, day);
+    const expectedCalDate = new CalendarDate(year, month + 1, day);
 
-    const jdn = JDNConvertibleConversionModule.gregorianToJDN(calDate);
+    const jdn = JDNConvertibleConversionModule.gregorianToJDN(expectedCalDate);
     const todayCalDate: GregorianCalendarDate = new GregorianCalendarDate(new JDNPeriod(jdn, jdn));
 
     expect(adapter.activeCalendarFormat).toEqual('Gregorian'); // Gregorian is the standard if no conversions have been done
