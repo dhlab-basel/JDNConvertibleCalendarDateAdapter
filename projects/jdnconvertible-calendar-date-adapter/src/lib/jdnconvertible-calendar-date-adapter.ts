@@ -22,6 +22,7 @@ import {Injectable} from '@angular/core';
 import {DateAdapter} from '@angular/material';
 import {
   CalendarDate,
+  CalendarPeriod,
   GregorianCalendarDate,
   JDNConvertibleCalendar,
   JDNConvertibleConversionModule,
@@ -232,10 +233,12 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
     const day = today.getDate();
 
     // create a Gregorian calendar date from the native JS object
-    const dateGregorian = this.createCalendarDate(year, month, day, 'Gregorian');
+    const calDate = new CalendarDate(year, month + 1, day);
+
+    const dateGregorian = new GregorianCalendarDate(new CalendarPeriod(calDate, calDate));
 
     // convert the date to the active calendar format
-    const date = this.convertCalendarFormat(dateGregorian, this._activeCalendarFormat);
+    const date: JDNConvertibleCalendar = this.convertCalendarFormat(dateGregorian, this._activeCalendarFormat);
 
     return date;
 
