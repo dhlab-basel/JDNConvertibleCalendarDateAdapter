@@ -199,16 +199,12 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
     // month param is 0 indexed, but we use 1 based index for months
     const calDate = new CalendarDate(year, month + 1, date);
 
-    let jdn;
-
     switch (calendar) {
       case 'Gregorian':
-        jdn = JDNConvertibleConversionModule.gregorianToJDN(calDate);
-        return new GregorianCalendarDate(new JDNPeriod(jdn, jdn));
+        return new GregorianCalendarDate(new CalendarPeriod(calDate, calDate));
 
       case 'Julian':
-        jdn = JDNConvertibleConversionModule.julianToJDN(calDate);
-        return new JulianCalendarDate(new JDNPeriod(jdn, jdn));
+        return new JulianCalendarDate(new CalendarPeriod(calDate, calDate));
     }
   }
 

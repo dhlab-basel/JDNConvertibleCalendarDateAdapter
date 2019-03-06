@@ -6,9 +6,9 @@
 
 ## Introduction
 
-`JDNConvertibleCalendarDateAdapter` provides an implementation of the Angular Material 2 `DateAdapter` 
+`JDNConvertibleCalendarDateAdapter` provides an implementation of the Angular Material `DateAdapter` 
 (<https://material.angular.io/components/datepicker/overview#choosing-a-date-implementation-and-date-format-settings>) for `JDNConvertibleCalendar` (<https://www.npmjs.com/package/jdnconvertiblecalendar>), 
-so that the Angular Material 2 DatePicker UI can be used with different calendar formats.
+so that the Angular Material DatePicker UI can be used with different calendar formats.
 
 ## NPM Package
 
@@ -20,3 +20,7 @@ Add `jdnconvertiblecalendardateadapter` and `jdnconvertiblecalendar` to the depe
 Add `MatJDNConvertibleCalendarDateAdapterModule` to your application's module configuration. See <https://github.com/dhlab-basel/JDNConvertibleCalendarDateAdapter/blob/develop/src/app/app.module.ts> as an example. 
 
 See also <https://material.angular.io/components/datepicker/overview#choosing-a-date-implementation-and-date-format-settings> for instructions how to integrate it with Angular Material 2.
+
+## Angular Version
+
+This module works with Angular 7 and Angular Material 7 (see `projects/jdnconvertible-calendar-date-adapter/package.json`). 
