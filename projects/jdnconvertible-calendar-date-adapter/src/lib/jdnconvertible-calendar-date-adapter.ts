@@ -229,6 +229,7 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
     const day = today.getDate();
 
     // create a Gregorian calendar date from the native JS object
+    // month used a 1 based index
     const calDate = new CalendarDate(year, month + 1, day);
 
     const dateGregorian = new GregorianCalendarDate(new CalendarPeriod(calDate, calDate));
