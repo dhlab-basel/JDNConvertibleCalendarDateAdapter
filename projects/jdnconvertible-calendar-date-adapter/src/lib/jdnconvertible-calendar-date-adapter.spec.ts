@@ -8,6 +8,8 @@ import {
 import {JDNConvertibleCalendarDateAdapter, JDNConvertibleCalendarDateAdapterModule} from '../public_api';
 import {async, inject, TestBed} from '@angular/core/testing';
 import {DateAdapter} from '@angular/material';
+import {JDNConvertibleCalendarModule} from "jdnconvertiblecalendar/dist/src/JDNConvertibleCalendar";
+import CalendarPeriod = JDNConvertibleCalendarModule.CalendarPeriod;
 
 describe('JDNConvertibleCalendarDateAdapter', () => {
   let adapter: JDNConvertibleCalendarDateAdapter;
@@ -38,30 +40,30 @@ describe('JDNConvertibleCalendarDateAdapter', () => {
 
   it('should get year', () => {
     // January 1 2017
-    const jdn = 2457755;
+    const calDate = new CalendarDate(2017, 1, 1);
 
-    expect(adapter.getYear(new GregorianCalendarDate(new JDNPeriod(jdn, jdn)))).toBe(2017);
+    expect(adapter.getYear(new GregorianCalendarDate(new CalendarPeriod(calDate, calDate)))).toBe(2017);
   });
 
   it('should get month', () => {
     // January 1 2017
-    const jdn = 2457755;
+    const calDate = new CalendarDate(2017, 1, 1);
 
-    expect(adapter.getMonth(new GregorianCalendarDate(new JDNPeriod(jdn, jdn)))).toBe(0);
+    expect(adapter.getMonth(new GregorianCalendarDate(new CalendarPeriod(calDate, calDate)))).toBe(0);
   });
 
   it('should get date', () => {
     // January 1 2017
-    const jdn = 2457755;
+    const calDate = new CalendarDate(2017, 1, 1);
 
-    expect(adapter.getDate(new GregorianCalendarDate(new JDNPeriod(jdn, jdn)))).toBe(1);
+    expect(adapter.getDate(new GregorianCalendarDate(new CalendarPeriod(calDate, calDate)))).toBe(1);
   });
 
   it('should get day of week', () => {
     // January 1 2017
-    const jdn = 2457755;
+    const calDate = new CalendarDate(2017, 1, 1);
 
-    expect(adapter.getDayOfWeek(new GregorianCalendarDate(new JDNPeriod(jdn, jdn)))).toBe(0);
+    expect(adapter.getDayOfWeek(new GregorianCalendarDate(new CalendarPeriod(calDate, calDate)))).toBe(0);
   });
 
   it('should get long month names', () => {
@@ -81,9 +83,9 @@ describe('JDNConvertibleCalendarDateAdapter', () => {
 
   it('should get year name', () => {
     // January 1 2017
-    const jdn = 2457755;
+    const calDate = new CalendarDate(2017, 1, 1);
 
-    expect(adapter.getYearName(new GregorianCalendarDate(new JDNPeriod(jdn, jdn)))).toBe('2017');
+    expect(adapter.getYearName(new GregorianCalendarDate(new CalendarPeriod(calDate, calDate)))).toBe('2017');
   });
 
   it('should get first day of week', () => {
@@ -96,9 +98,9 @@ describe('JDNConvertibleCalendarDateAdapter', () => {
 
   it('should parse string according to given format', () => {
     // January 2 2017
-    const jdn = 2457756;
+    const calDate = new CalendarDate(2017, 1, 2);
 
-    expect(adapter.parse('02-01-2017', 'DD-MM-YYYY')).toEqual(new GregorianCalendarDate(new JDNPeriod(jdn, jdn)));
+    expect(adapter.parse('02-01-2017', 'DD-MM-YYYY')).toEqual(new GregorianCalendarDate(new CalendarPeriod(calDate, calDate)));
 
   });
 
@@ -314,8 +316,7 @@ describe('JDNConvertibleCalendarDateAdapter', () => {
 
     const expectedCalDate = new CalendarDate(year, month + 1, day);
 
-    const jdn = JDNConvertibleConversionModule.gregorianToJDN(expectedCalDate);
-    const todayCalDate: GregorianCalendarDate = new GregorianCalendarDate(new JDNPeriod(jdn, jdn));
+    const todayCalDate: GregorianCalendarDate = new GregorianCalendarDate(new CalendarPeriod(expectedCalDate, expectedCalDate));
 
     expect(adapter.activeCalendarFormat).toEqual('Gregorian'); // Gregorian is the standard if no conversions have been done
     expect(today).toEqual(todayCalDate);

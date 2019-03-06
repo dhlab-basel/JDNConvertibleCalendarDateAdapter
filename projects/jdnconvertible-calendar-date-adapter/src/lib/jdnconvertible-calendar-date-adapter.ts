@@ -22,6 +22,7 @@ import {Injectable} from '@angular/core';
 import {DateAdapter} from '@angular/material';
 import {
   CalendarDate,
+  CalendarPeriod,
   GregorianCalendarDate,
   JDNConvertibleCalendar,
   JDNConvertibleConversionModule,
@@ -198,16 +199,12 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
     // month param is 0 indexed, but we use 1 based index for months
     const calDate = new CalendarDate(year, month + 1, date);
 
-    let jdn;
-
     switch (calendar) {
       case 'Gregorian':
-        jdn = JDNConvertibleConversionModule.gregorianToJDN(calDate);
-        return new GregorianCalendarDate(new JDNPeriod(jdn, jdn));
+        return new GregorianCalendarDate(new CalendarPeriod(calDate, calDate));
 
       case 'Julian':
-        jdn = JDNConvertibleConversionModule.julianToJDN(calDate);
-        return new JulianCalendarDate(new JDNPeriod(jdn, jdn));
+        return new JulianCalendarDate(new CalendarPeriod(calDate, calDate));
     }
   }
 
@@ -232,10 +229,13 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
     const day = today.getDate();
 
     // create a Gregorian calendar date from the native JS object
-    const dateGregorian = this.createCalendarDate(year, month, day, 'Gregorian');
+    // month used a 1 based index
+    const calDate = new CalendarDate(year, month + 1, day);
+
+    const dateGregorian = new GregorianCalendarDate(new CalendarPeriod(calDate, calDate));
 
     // convert the date to the active calendar format
-    const date = this.convertCalendarFormat(dateGregorian, this._activeCalendarFormat);
+    const date: JDNConvertibleCalendar = this.convertCalendarFormat(dateGregorian, this._activeCalendarFormat);
 
     return date;
 
