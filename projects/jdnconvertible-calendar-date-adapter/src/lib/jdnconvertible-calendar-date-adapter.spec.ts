@@ -316,8 +316,7 @@ describe('JDNConvertibleCalendarDateAdapter', () => {
 
     const expectedCalDate = new CalendarDate(year, month + 1, day);
 
-    const jdn = JDNConvertibleConversionModule.gregorianToJDN(expectedCalDate);
-    const todayCalDate: GregorianCalendarDate = new GregorianCalendarDate(new JDNPeriod(jdn, jdn));
+    const todayCalDate: GregorianCalendarDate = new GregorianCalendarDate(new CalendarPeriod(expectedCalDate, expectedCalDate));
 
     expect(adapter.activeCalendarFormat).toEqual('Gregorian'); // Gregorian is the standard if no conversions have been done
     expect(today).toEqual(todayCalDate);
