@@ -290,7 +290,7 @@ describe('JDNConvertibleCalendarDateAdapter', () => {
 
     expect(julianCalendarPeriod.periodStart.dayOfWeek).toEqual(1);
 
-    expect(adapter.activeCalendarFormat).toEqual('Julian');
+    expect(adapter.activeCalendar).toEqual('Julian');
 
   });
 
@@ -318,7 +318,7 @@ describe('JDNConvertibleCalendarDateAdapter', () => {
 
     const todayCalDate: GregorianCalendarDate = new GregorianCalendarDate(new CalendarPeriod(expectedCalDate, expectedCalDate));
 
-    expect(adapter.activeCalendarFormat).toEqual('Gregorian'); // Gregorian is the standard if no conversions have been done
+    expect(adapter.activeCalendar).toEqual('Gregorian'); // Gregorian is the standard if no conversions have been done
     expect(today).toEqual(todayCalDate);
   });
 

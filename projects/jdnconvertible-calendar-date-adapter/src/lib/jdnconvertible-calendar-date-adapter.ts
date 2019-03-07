@@ -25,8 +25,6 @@ import {
   CalendarPeriod,
   GregorianCalendarDate,
   JDNConvertibleCalendar,
-  JDNConvertibleConversionModule,
-  JDNPeriod,
   JulianCalendarDate
 } from 'jdnconvertiblecalendar';
 
@@ -52,14 +50,14 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
   };
 
   // the currently active calendar format, assume Gregorian
-  private _activeCalendarFormat: 'Gregorian' | 'Julian' = 'Gregorian';
+  private _activeCalendar: 'Gregorian' | 'Julian' = 'Gregorian';
 
-  set activeCalendarFormat(calendarFormat: 'Gregorian' | 'Julian') {
-    this._activeCalendarFormat = calendarFormat;
+  set activeCalendar(calendarFormat: 'Gregorian' | 'Julian') {
+    this._activeCalendar = calendarFormat;
   }
 
-  get activeCalendarFormat(): 'Gregorian' | 'Julian' {
-    return this._activeCalendarFormat;
+  get activeCalendar(): 'Gregorian' | 'Julian' {
+    return this._activeCalendar;
   }
 
   /**
@@ -102,11 +100,11 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
 
     switch (format) {
       case 'Gregorian':
-        this._activeCalendarFormat = 'Gregorian';
+        this._activeCalendar = 'Gregorian';
         return dateMod.convertCalendar('Gregorian');
 
       case 'Julian':
-        this._activeCalendarFormat = 'Julian';
+        this._activeCalendar = 'Julian';
         return dateMod.convertCalendar('Julian');
 
       default:
@@ -180,7 +178,7 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
 
     const jdnPeriod = date.toJDNPeriod();
 
-    switch (this._activeCalendarFormat) {
+    switch (this._activeCalendar) {
       case 'Gregorian':
         return new GregorianCalendarDate(jdnPeriod);
 
@@ -215,7 +213,7 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
   createDate(year: number, month: number, date: number): JDNConvertibleCalendar {
 
     // create a date in the active calendar format
-    return this.createCalendarDate(year, month, date, this._activeCalendarFormat);
+    return this.createCalendarDate(year, month, date, this._activeCalendar);
 
   }
 
@@ -239,7 +237,7 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
     const dateGregorian = new GregorianCalendarDate(new CalendarPeriod(calDate, calDate));
 
     // convert the date to the active calendar format
-    const date: JDNConvertibleCalendar = this.convertCalendarFormat(dateGregorian, this._activeCalendarFormat);
+    const date: JDNConvertibleCalendar = this.convertCalendarFormat(dateGregorian, this._activeCalendar);
 
     return date;
 

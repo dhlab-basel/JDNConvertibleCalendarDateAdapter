@@ -62,8 +62,8 @@ export class HeaderComponent<D> implements OnInit {
 
     if (this._dateAdapter instanceof JDNConvertibleCalendarDateAdapter) {
       // set the calendar the active date uses (Gregorian or Julian)
-      if (this._dateAdapter.activeCalendarFormat !== activeCalendar) {
-        this._dateAdapter.activeCalendarFormat = activeCalendar;
+      if (this._dateAdapter.activeCalendar !== activeCalendar) {
+        this._dateAdapter.activeCalendar = activeCalendar;
       }
     }
 
