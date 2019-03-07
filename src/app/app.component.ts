@@ -1,8 +1,10 @@
 import {Component, Host, Inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {DateAdapter, MatCalendar, MatDatepickerContent} from '@angular/material';
-import {JDNConvertibleCalendar, JDNPeriod, JulianCalendarDate} from 'jdnconvertiblecalendar';
+import {CalendarDate, JDNConvertibleCalendar, JDNPeriod, JulianCalendarDate} from 'jdnconvertiblecalendar';
 import {JDNConvertibleCalendarDateAdapter} from 'jdnconvertible-calendar-date-adapter';
+import {JDNConvertibleCalendarModule} from "jdnconvertiblecalendar/dist/src/JDNConvertibleCalendar";
+import CalendarPeriod = JDNConvertibleCalendarModule.CalendarPeriod;
 
 @Component({
   selector: 'app-root',
@@ -15,8 +17,9 @@ export class AppComponent {
 
   headerComponent = HeaderComponent;
 
-  private jdn = 2352861; // October 24th 1729 (Gregorian calendar)
-  startDate = new JulianCalendarDate(new JDNPeriod(this.jdn, this.jdn));
+  // October 13 1729 (Gregorian calendar)
+  startCalDate = new CalendarDate(1729, 10, 13);
+  startDate = new JulianCalendarDate(new CalendarPeriod(this.startCalDate, this.startCalDate));
 
   constructor(@Inject(FormBuilder) private fb: FormBuilder) {
 
@@ -35,7 +38,7 @@ export class AppComponent {
   selector: 'app-calendar-header',
   template: `
     <mat-select placeholder="Calendar Format" [formControl]="form.controls['calendar']">
-      <mat-option *ngFor="let cal of supportedCalendarFormats" [value]="cal">{{cal}}</mat-option>
+      <mat-option *ngFor="let cal of supportedCalendars" [value]="cal">{{cal}}</mat-option>
     </mat-select>
     <mat-calendar-header></mat-calendar-header>
   `,
@@ -50,7 +53,7 @@ export class HeaderComponent<D> implements OnInit {
 
   form: FormGroup;
 
-  supportedCalendarFormats = JDNConvertibleCalendar.supportedCalendars;
+  supportedCalendars = JDNConvertibleCalendar.supportedCalendars;
 
   ngOnInit() {
 
