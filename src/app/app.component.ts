@@ -1,7 +1,7 @@
 import {Component, Directive, Host, Inject, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {DateAdapter, MAT_DATE_LOCALE, MatCalendar, MatDatepickerContent} from '@angular/material';
-import {CalendarDate, JDNConvertibleCalendar, JulianCalendarDate} from 'jdnconvertiblecalendar';
+import {CalendarDate, GregorianCalendarDate, JDNConvertibleCalendar, JulianCalendarDate} from 'jdnconvertiblecalendar';
 import {JDNConvertibleCalendarDateAdapter} from 'jdnconvertible-calendar-date-adapter';
 import {JDNConvertibleCalendarModule} from "jdnconvertiblecalendar/dist/src/JDNConvertibleCalendar";
 import CalendarPeriod = JDNConvertibleCalendarModule.CalendarPeriod;
@@ -14,12 +14,17 @@ import CalendarPeriod = JDNConvertibleCalendarModule.CalendarPeriod;
 export class AppComponent {
 
   form: FormGroup;
+  form2: FormGroup;
 
   headerComponent = HeaderComponent;
 
   // October 13 1729 (Julian calendar)
   startCalDate = new CalendarDate(1729, 10, 13);
   startDate = new JulianCalendarDate(new CalendarPeriod(this.startCalDate, this.startCalDate));
+
+  // October 24 1729 (Julian calendar)
+  startCalDate2 = new CalendarDate(1729, 10, 24);
+  startDate2 = new GregorianCalendarDate(new CalendarPeriod(this.startCalDate2, this.startCalDate2));
 
   constructor(@Inject(FormBuilder) private fb: FormBuilder) {
 
@@ -29,6 +34,14 @@ export class AppComponent {
 
     this.form.valueChanges.subscribe((data) => {
       console.log(data.dateValue);
+    });
+
+    this.form2 = this.fb.group({
+      dateValue2: [this.startDate2, Validators.compose([Validators.required])]
+    });
+
+    this.form2.valueChanges.subscribe((data) => {
+      console.log(data.dateValue2);
     });
 
   }
