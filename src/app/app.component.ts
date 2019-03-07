@@ -55,25 +55,23 @@ export class HeaderComponent<D> implements OnInit {
   ngOnInit() {
 
     // get the active date's calendar format
-    const activeCalendarFormat: 'Gregorian' | 'Julian' = this._calendar.activeDate.calendarName === 'Gregorian' ? 'Gregorian' : 'Julian';
+    const activeCalendar: 'Gregorian' | 'Julian' = this._calendar.activeDate.calendarName === 'Gregorian' ? 'Gregorian' : 'Julian';
 
     if (this._dateAdapter instanceof JDNConvertibleCalendarDateAdapter) {
-      // set the active date's calendar format if not set correctly
-      // TODO: this is necessary if the start date is not Gregorian
-      // TODO: the format should not be set from the outside, only the data adapter should control
-      if (this._dateAdapter.activeCalendarFormat !== activeCalendarFormat) {
-        this._dateAdapter.activeCalendarFormat = activeCalendarFormat;
+      // set the calendar the active date uses (Gregorian or Julian)
+      if (this._dateAdapter.activeCalendarFormat !== activeCalendar) {
+        this._dateAdapter.activeCalendarFormat = activeCalendar;
       }
     }
 
     // build a form for the calendar format selection
     this.form = this.fb.group({
-      calendar: [activeCalendarFormat, Validators.required]
+      calendar: [activeCalendar, Validators.required]
     });
 
-    // update the selected calendar format
+    // update the selected calendar
     this.form.valueChanges.subscribe((data) => {
-      this.convertCalendar(data.calendar);
+      this.convertCalendarDate(data.calendar);
     });
 
   }
@@ -83,7 +81,7 @@ export class HeaderComponent<D> implements OnInit {
    *
    * @param {"Gregorian" | "Julian"} calendar the target calendar format.
    */
-  convertCalendar(calendar: 'Gregorian' | 'Julian') {
+  convertCalendarDate(calendar: 'Gregorian' | 'Julian') {
 
     if (this._dateAdapter instanceof JDNConvertibleCalendarDateAdapter) {
 
