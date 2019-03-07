@@ -55,7 +55,7 @@ export class HeaderComponent<D> implements OnInit {
   ngOnInit() {
 
     // get the active date's calendar format
-    const activeCalendarFormat: 'Gregorian' | 'Julian' = this._calendar.activeDate.calendarFormat === 'Gregorian' ? 'Gregorian' : 'Julian';
+    const activeCalendarFormat: 'Gregorian' | 'Julian' = this._calendar.activeDate.calendarName === 'Gregorian' ? 'Gregorian' : 'Julian';
 
     if (this._dateAdapter instanceof JDNConvertibleCalendarDateAdapter) {
       // set the active date's calendar format if not set correctly

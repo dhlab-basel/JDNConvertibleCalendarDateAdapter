@@ -51,11 +51,6 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
     'DD-MM-YYYY': new RegExp('^(\\d?\\d)-(\\d?\\d)-(\\d{4})')
   };
 
-  constructor() {
-    super();
-    console.log('constructing date adapter');
-  }
-
   // the currently active calendar format, assume Gregorian
   private _activeCalendarFormat: 'Gregorian' | 'Julian' = 'Gregorian';
 
@@ -218,8 +213,6 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
   }
 
   createDate(year: number, month: number, date: number): JDNConvertibleCalendar {
-
-    console.log('create date in ' + this._activeCalendarFormat);
 
     // create a date in the active calendar format
     return this.createCalendarDate(year, month, date, this._activeCalendarFormat);
