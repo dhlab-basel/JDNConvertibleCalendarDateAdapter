@@ -49,7 +49,7 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
     'DD-MM-YYYY': new RegExp('^(\\d?\\d)-(\\d?\\d)-(\\d{4})')
   };
 
-  // the currently active calendar format, assume Gregorian
+  // the currently active calendar, assume Gregorian
   private _activeCalendar: 'Gregorian' | 'Julian' = 'Gregorian';
 
   set activeCalendar(calendarFormat: 'Gregorian' | 'Julian') {
@@ -94,9 +94,12 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
    */
   convertCalendarFormat(date: JDNConvertibleCalendar, format: string): JDNConvertibleCalendar {
 
+    // TODO: rename this method to `convertCalendar` -> this is a breaking change in the public API
+    // TODO: rename param `format` to `calendar`
+
     // another instance has to be returned, otherwise "activeDate" set method is not triggered for MatYearView
 
-    const dateMod = this.clone(date);
+    const dateMod: JDNConvertibleCalendar = this.clone(date);
 
     switch (format) {
       case 'Gregorian':
