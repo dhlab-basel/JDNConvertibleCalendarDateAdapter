@@ -25,10 +25,10 @@ import {
   CalendarPeriod,
   GregorianCalendarDate,
   JDNConvertibleCalendar,
-  JDNConvertibleConversionModule,
-  JDNPeriod,
   JulianCalendarDate
 } from 'jdnconvertiblecalendar';
+import {JDNConvertibleCalendarModule} from "jdnconvertiblecalendar/dist/src/JDNConvertibleCalendar";
+import IslamicCalendarDate = JDNConvertibleCalendarModule.IslamicCalendarDate;
 
 
 @Injectable()
@@ -104,6 +104,10 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
       case 'Julian':
         this._activeCalendarFormat = 'Julian';
         return dateMod.convertCalendar('Julian');
+
+      case 'Islamic':
+        this._activeCalendarFormat = 'Islamic';
+        return dateMod.convertCalendar('Islamic');
 
       default:
         // invalid format
@@ -182,6 +186,9 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
 
       case 'Julian':
         return new JulianCalendarDate(jdnPeriod);
+
+      case 'Islamic':
+        return new IslamicCalendarDate(jdnPeriod);
     }
 
   }
@@ -205,6 +212,9 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
 
       case 'Julian':
         return new JulianCalendarDate(new CalendarPeriod(calDate, calDate));
+
+      case 'Islamic':
+        return new IslamicCalendarDate(new CalendarPeriod(calDate, calDate));
     }
   }
 
