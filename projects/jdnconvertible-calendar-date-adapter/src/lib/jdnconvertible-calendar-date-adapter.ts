@@ -142,8 +142,11 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
   }
 
   getMonthNames(style: 'long' | 'short' | 'narrow'): string[] {
-    // TODO: implement this properly, taking calendar format and locale into account
-    return ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+    if (this._activeCalendarFormat === 'Julian' || this._activeCalendarFormat === 'Gregorian') {
+      return ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+    } else if (this._activeCalendarFormat === 'Islamic') {
+      return ['Muḥarram', 'Ṣafar', 'Rabīʿ al-Awwal','Rabīʿ ath-Thānī', 'Jumādá al-Ūlá', 'Jumādá al-Ākhirah', 'Rajab','Sha‘bān', 'Ramaḍān','Shawwāl','Dhū al-Qa‘dah', 'Dhū al-Ḥijjah'];
+    }
   }
 
   getDateNames(): string[] {
@@ -157,8 +160,11 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
   }
 
   getDayOfWeekNames(style: 'long' | 'short' | 'narrow') {
-    // TODO: implement this properly, taking calendar format and locale into account
-    return ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
+    if (this._activeCalendarFormat === 'Julian' || this._activeCalendarFormat === 'Gregorian') {
+      return ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
+    } else if  (this._activeCalendarFormat === 'Islamic') {
+      return ['al-Aḥad', 'al-Ithnayn', 'ath-Thulāthā’', ' al-Arba‘ā’', 'al-Khamīs', 'al-Jumu\'ah', 'as-Sabt'];
+    }
   }
 
   getYearName(date: JDNConvertibleCalendar): string {
@@ -365,8 +371,6 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
     const gregorianCal = date.convertCalendar('Gregorian');
 
     const gregorianCalPeriod = gregorianCal.toCalendarPeriod();
-
-    console.log('to iso');
 
     return `${JDNConvertibleCalendarDateAdapter.addLeadingZeroToNumber(gregorianCalPeriod.periodStart.year, 4)}-${JDNConvertibleCalendarDateAdapter.addLeadingZeroToNumber(gregorianCalPeriod.periodStart.month, 2)}-${JDNConvertibleCalendarDateAdapter.addLeadingZeroToNumber(gregorianCalPeriod.periodStart.day, 2)}`;
 
