@@ -145,7 +145,7 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
     if (this._activeCalendarFormat === 'Julian' || this._activeCalendarFormat === 'Gregorian') {
       return ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
     } else if (this._activeCalendarFormat === 'Islamic') {
-      return ['Muḥarram', 'Ṣafar', 'Rabīʿ al-Awwal','Rabīʿ ath-Thānī', 'Jumādá al-Ūlá', 'Jumādá al-Ākhirah', 'Rajab','Sha‘bān', 'Ramaḍān','Shawwāl','Dhū al-Qa‘dah', 'Dhū al-Ḥijjah'];
+      return ['Muharram', 'Safar', 'Rabīʿ al Awwal','Rabīʿ al Ththānī', 'Jumādá al Ūlá', 'Jumādá al Ākhirah', 'Rajab','Sha‘bān', 'Ramadān','Shawwāl','Dhū al Qa‘dah', 'Dhū al Hijjah'];
     }
   }
 
