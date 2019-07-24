@@ -76,7 +76,7 @@ export class HeaderComponent<D> implements OnInit {
    *
    * @param {"Gregorian" | "Julian"} calendar the target calendar format.
    */
-  convertCalendar(calendar: 'Gregorian' | 'Julian') {
+  convertCalendar(calendar: 'Gregorian' | 'Julian' | 'Islamic') {
 
     if (this._dateAdapter instanceof JDNConvertibleCalendarDateAdapter) {
 
