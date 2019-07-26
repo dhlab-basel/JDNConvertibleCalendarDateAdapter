@@ -1,6 +1,6 @@
 import {Component, Host, Inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {DateAdapter, MatCalendar, MatDatepickerContent} from '@angular/material';
+import {DateAdapter, MatCalendar, MatDatepickerContent, MatDatepickerIntl} from '@angular/material';
 import {JDNConvertibleCalendar} from 'jdnconvertiblecalendar';
 import {JDNConvertibleCalendarDateAdapter} from 'jdnconvertible-calendar-date-adapter';
 
@@ -42,6 +42,7 @@ export class HeaderComponent<D> implements OnInit {
   constructor(@Host() private _calendar: MatCalendar<JDNConvertibleCalendar>,
               private _dateAdapter: DateAdapter<JDNConvertibleCalendar>,
               private _datepickerContent: MatDatepickerContent<JDNConvertibleCalendar>,
+              private _datepickerIntl: MatDatepickerIntl,
               @Inject(FormBuilder) private fb: FormBuilder) {
   }
 
@@ -87,6 +88,9 @@ export class HeaderComponent<D> implements OnInit {
       this._datepickerContent.datepicker.select(convertedDate);
 
       this._calendar.updateTodaysDate();
+
+      this._datepickerIntl.changes.next();
+
     }
   }
 }
