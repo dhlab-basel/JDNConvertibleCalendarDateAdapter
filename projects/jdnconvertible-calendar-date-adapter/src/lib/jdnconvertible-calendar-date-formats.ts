@@ -1,4 +1,4 @@
-import {MatDateFormats} from '@angular/material';
+import { MatDateFormats } from '@angular/material/core';
 
 
 export const MAT_JDN_DATE_FORMATS: MatDateFormats = {
