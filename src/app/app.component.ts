@@ -1,6 +1,7 @@
 import {Component, Host, Inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {DateAdapter, MatCalendar, MatDatepickerContent} from '@angular/material';
+import { DateAdapter } from '@angular/material/core';
+import { MatCalendar, MatDatepickerContent } from '@angular/material/datepicker';
 import {JDNConvertibleCalendar} from 'jdnconvertiblecalendar';
 import {JDNConvertibleCalendarDateAdapter} from 'jdnconvertible-calendar-date-adapter';
 
@@ -76,7 +77,7 @@ export class HeaderComponent<D> implements OnInit {
    *
    * @param {"Gregorian" | "Julian"} calendar the target calendar format.
    */
-  convertCalendar(calendar: 'Gregorian' | 'Julian') {
+  convertCalendar(calendar: 'Gregorian' | 'Julian' | 'Islamic') {
 
     if (this._dateAdapter instanceof JDNConvertibleCalendarDateAdapter) {
 
@@ -87,6 +88,7 @@ export class HeaderComponent<D> implements OnInit {
       this._datepickerContent.datepicker.select(convertedDate);
 
       this._calendar.updateTodaysDate();
+
     }
   }
 }
