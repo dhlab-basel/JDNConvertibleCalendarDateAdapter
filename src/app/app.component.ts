@@ -1,6 +1,7 @@
 import {Component, Host, Inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {DateAdapter, MatCalendar, MatDatepickerContent, MatDatepickerIntl} from '@angular/material';
+import { DateAdapter } from '@angular/material/core';
+import { MatCalendar, MatDatepickerContent } from '@angular/material/datepicker';
 import {JDNConvertibleCalendar} from 'jdnconvertiblecalendar';
 import {JDNConvertibleCalendarDateAdapter} from 'jdnconvertible-calendar-date-adapter';
 
