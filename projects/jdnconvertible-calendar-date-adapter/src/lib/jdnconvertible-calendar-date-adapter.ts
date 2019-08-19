@@ -25,10 +25,9 @@ import {
   CalendarPeriod,
   GregorianCalendarDate,
   JDNConvertibleCalendar,
-  JulianCalendarDate
+  JulianCalendarDate,
+  IslamicCalendarDate
 } from 'jdnconvertiblecalendar';
-import {JDNConvertibleCalendarModule} from "jdnconvertiblecalendar/dist/src/JDNConvertibleCalendar";
-import IslamicCalendarDate = JDNConvertibleCalendarModule.IslamicCalendarDate;
 
 
 @Injectable()

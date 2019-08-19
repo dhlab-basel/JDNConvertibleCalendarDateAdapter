@@ -42,7 +42,6 @@ export class HeaderComponent<D> implements OnInit {
   constructor(@Host() private _calendar: MatCalendar<JDNConvertibleCalendar>,
               private _dateAdapter: DateAdapter<JDNConvertibleCalendar>,
               private _datepickerContent: MatDatepickerContent<JDNConvertibleCalendar>,
-              private _datepickerIntl: MatDatepickerIntl,
               @Inject(FormBuilder) private fb: FormBuilder) {
   }
 
@@ -88,8 +87,6 @@ export class HeaderComponent<D> implements OnInit {
       this._datepickerContent.datepicker.select(convertedDate);
 
       this._calendar.updateTodaysDate();
-
-      this._datepickerIntl.changes.next();
 
     }
   }
