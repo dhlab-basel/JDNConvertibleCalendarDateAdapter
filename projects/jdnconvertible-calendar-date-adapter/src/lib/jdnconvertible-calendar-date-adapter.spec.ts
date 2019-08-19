@@ -274,7 +274,7 @@ describe('JDNConvertibleCalendarDateAdapter', () => {
 
     const gregorianDate = new GregorianCalendarDate(new JDNPeriod(jdn, jdn));
 
-    const julianDate = adapter.convertCalendarFormat(gregorianDate, 'Julian');
+    const julianDate = adapter.convertCalendar(gregorianDate, 'Julian');
 
     const julianJDNPeriod = julianDate.toJDNPeriod();
 

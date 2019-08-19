@@ -93,13 +93,13 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
   }
 
   /**
-   * Converts the given date to the indicated calendar format.
+   * Converts the given date to the indicated calendar.
    *
    * @param date the date to be converted.
    * @param format the calendar format to convert to.
    * @returns converted date.
    */
-  convertCalendarFormat(date: JDNConvertibleCalendar, format: string): JDNConvertibleCalendar {
+  convertCalendar(date: JDNConvertibleCalendar, format: string): JDNConvertibleCalendar {
 
     // another instance has to be returned, otherwise "activeDate" set method is not triggered for MatYearView
 
@@ -260,7 +260,7 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
     const dateGregorian = new GregorianCalendarDate(new CalendarPeriod(calDate, calDate));
 
     // convert the date to the active calendar format
-    const date: JDNConvertibleCalendar = this.convertCalendarFormat(dateGregorian, this._activeCalendar);
+    const date: JDNConvertibleCalendar = this.convertCalendar(dateGregorian, this._activeCalendar);
 
     return date;
 

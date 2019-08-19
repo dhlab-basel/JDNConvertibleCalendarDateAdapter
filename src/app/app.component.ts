@@ -81,7 +81,7 @@ export class HeaderComponent<D> implements OnInit {
 
     if (this._dateAdapter instanceof JDNConvertibleCalendarDateAdapter) {
 
-      const convertedDate = this._dateAdapter.convertCalendarFormat(this._calendar.activeDate, calendar);
+      const convertedDate = this._dateAdapter.convertCalendar(this._calendar.activeDate, calendar);
 
       this._calendar.activeDate = convertedDate;
 
