@@ -7,7 +7,7 @@ import {
 } from 'jdnconvertiblecalendar';
 import {JDNConvertibleCalendarDateAdapter, JDNConvertibleCalendarDateAdapterModule} from '../public_api';
 import {async, inject, TestBed} from '@angular/core/testing';
-import {DateAdapter} from '@angular/material';
+import { DateAdapter } from '@angular/material/core';
 import {JDNConvertibleCalendarModule} from "jdnconvertiblecalendar/dist/src/JDNConvertibleCalendar";
 import CalendarPeriod = JDNConvertibleCalendarModule.CalendarPeriod;
 
