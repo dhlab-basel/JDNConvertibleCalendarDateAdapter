@@ -25,9 +25,8 @@ import {
   CalendarPeriod,
   GregorianCalendarDate,
   JDNConvertibleCalendar,
-  JDNConvertibleConversionModule,
-  JDNPeriod,
-  JulianCalendarDate
+  JulianCalendarDate,
+  IslamicCalendarDate
 } from 'jdnconvertiblecalendar';
 
 
@@ -105,6 +104,10 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
         this._activeCalendarFormat = 'Julian';
         return dateMod.convertCalendar('Julian');
 
+      case 'Islamic':
+        this._activeCalendarFormat = 'Islamic';
+        return dateMod.convertCalendar('Islamic');
+
       default:
         // invalid format
         return dateMod;
@@ -138,8 +141,11 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
   }
 
   getMonthNames(style: 'long' | 'short' | 'narrow'): string[] {
-    // TODO: implement this properly, taking calendar format and locale into account
-    return ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+    if (this._activeCalendarFormat === 'Julian' || this._activeCalendarFormat === 'Gregorian') {
+      return ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+    } else if (this._activeCalendarFormat === 'Islamic') {
+      return ['Muharram', 'Safar', 'Rabīʿ al Awwal','Rabīʿ al Ththānī', 'Jumādá al Ūlá', 'Jumādá al Ākhirah', 'Rajab','Sha‘bān', 'Ramadān','Shawwāl','Dhū al Qa‘dah', 'Dhū al Hijjah'];
+    }
   }
 
   getDateNames(): string[] {
@@ -153,8 +159,11 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
   }
 
   getDayOfWeekNames(style: 'long' | 'short' | 'narrow') {
-    // TODO: implement this properly, taking calendar format and locale into account
-    return ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
+    if (this._activeCalendarFormat === 'Julian' || this._activeCalendarFormat === 'Gregorian') {
+      return ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
+    } else if  (this._activeCalendarFormat === 'Islamic') {
+      return ['al-Aḥad', 'al-Ithnayn', 'ath-Thulāthā’', ' al-Arba‘ā’', 'al-Khamīs', 'al-Jumu\'ah', 'as-Sabt'];
+    }
   }
 
   getYearName(date: JDNConvertibleCalendar): string {
@@ -182,6 +191,9 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
 
       case 'Julian':
         return new JulianCalendarDate(jdnPeriod);
+
+      case 'Islamic':
+        return new IslamicCalendarDate(jdnPeriod);
     }
 
   }
@@ -205,6 +217,9 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
 
       case 'Julian':
         return new JulianCalendarDate(new CalendarPeriod(calDate, calDate));
+
+      case 'Islamic':
+        return new IslamicCalendarDate(new CalendarPeriod(calDate, calDate));
     }
   }
 
@@ -355,8 +370,6 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
     const gregorianCal = date.convertCalendar('Gregorian');
 
     const gregorianCalPeriod = gregorianCal.toCalendarPeriod();
-
-    console.log('to iso');
 
     return `${JDNConvertibleCalendarDateAdapter.addLeadingZeroToNumber(gregorianCalPeriod.periodStart.year, 4)}-${JDNConvertibleCalendarDateAdapter.addLeadingZeroToNumber(gregorianCalPeriod.periodStart.month, 2)}-${JDNConvertibleCalendarDateAdapter.addLeadingZeroToNumber(gregorianCalPeriod.periodStart.day, 2)}`;
 
