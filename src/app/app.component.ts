@@ -56,7 +56,7 @@ export class HeaderComponent<D> implements OnInit {
     this.activeFormat = 'Gregorian';
 
     if (this._dateAdapter instanceof JDNConvertibleCalendarDateAdapter) {
-      this.activeFormat = this._dateAdapter.activeCalendarFormat;
+      this.activeFormat = this._dateAdapter.activeCalendar;
     }
 
     // build a form for the calendar format selection
