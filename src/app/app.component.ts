@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 import {DateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
 import { MatCalendar, MatDatepickerContent } from '@angular/material/datepicker';
-import {CalendarDate, CalendarPeriod, GregorianCalendarDate, JDNConvertibleCalendar, JulianCalendarDate} from 'jdnconvertiblecalendar';
+import {CalendarDate, CalendarPeriod, GregorianCalendarDate, JDNConvertibleCalendar, JulianCalendarDate, IslamicCalendarDate} from 'jdnconvertiblecalendar';
 import {JDNConvertibleCalendarDateAdapter} from 'jdnconvertible-calendar-date-adapter';
 
 
@@ -16,6 +16,7 @@ export class AppComponent {
 
   form: FormGroup;
   form2: FormGroup;
+  form3: FormGroup;
 
   headerComponent = HeaderComponent;
 
@@ -26,6 +27,10 @@ export class AppComponent {
   // October 24 1729 (Julian calendar)
   startCalDate2 = new CalendarDate(1729, 10, 24);
   startDate2 = new GregorianCalendarDate(new CalendarPeriod(this.startCalDate2, this.startCalDate2));
+
+  // October 24 1729 (Islamic calendar)
+  startCalDate3 = new CalendarDate(1142, 4, 1);
+  startDate3 = new IslamicCalendarDate(new CalendarPeriod(this.startCalDate3, this.startCalDate3));
 
   constructor(@Inject(FormBuilder) private fb: FormBuilder) {
 
@@ -43,6 +48,14 @@ export class AppComponent {
 
     this.form2.valueChanges.subscribe((data) => {
       console.log(data.dateValue2);
+    });
+
+    this.form3 = this.fb.group({
+      dateValue3: [this.startDate3, Validators.compose([Validators.required])]
+    });
+
+    this.form3.valueChanges.subscribe((data) => {
+      console.log(data.dateValue3);
     });
 
   }
@@ -72,7 +85,26 @@ export class HeaderComponent<D> implements OnInit {
   ngOnInit() {
 
     // get the active date's calendar format
-    const activeCalendar: 'Gregorian' | 'Julian' = this._calendar.activeDate.calendarName === 'Gregorian' ? 'Gregorian' : 'Julian';
+    let activeCalendar: 'Gregorian' | 'Julian' | 'Islamic';
+
+    switch (this._calendar.activeDate.calendarName) {
+
+      case 'Gregorian': {
+        activeCalendar = 'Gregorian';
+        break;
+      }
+
+      case 'Julian': {
+        activeCalendar = 'Julian';
+        break;
+      }
+
+      case 'Islamic': {
+        activeCalendar = 'Islamic';
+        break;
+      }
+
+    }
 
     if (this._dateAdapter instanceof JDNConvertibleCalendarDateAdapter) {
 
