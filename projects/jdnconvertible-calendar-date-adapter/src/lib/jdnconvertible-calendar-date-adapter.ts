@@ -28,6 +28,7 @@ import {
   JulianCalendarDate,
   IslamicCalendarDate
 } from 'jdnconvertiblecalendar';
+import {JDNConvertibleCalendarNames} from 'jdnconvertiblecalendar';
 
 
 @Injectable()
@@ -50,7 +51,7 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
     'DD-MM-YYYY': new RegExp('^(\\d?\\d)-(\\d?\\d)-(\\d{4})')
   };
 
-  static defaultLocale = 'en-US';
+  static defaultLocale = 'en';
 
   // the currently active calendar format
   private _activeCalendar = 'Gregorian';
@@ -89,7 +90,19 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
     } else {
       return String(num);
     }
+  }
 
+  setLocale(locale: string) {
+    // make locale a two character string
+    let shortLocale;
+
+    if (locale.length > 2) {
+      shortLocale = locale.substring(0, 2);
+    } else {
+      shortLocale = locale;
+    }
+
+    super.setLocale(shortLocale);
   }
 
   /**
@@ -151,10 +164,11 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
   }
 
   getMonthNames(style: 'long' | 'short' | 'narrow'): string[] {
+
     if (this._activeCalendar === 'Julian' || this._activeCalendar === 'Gregorian') {
-      return ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+      return JDNConvertibleCalendarNames.getMonthNames('Gregorian', this.locale, style);
     } else if (this._activeCalendar === 'Islamic') {
-      return ['Muharram', 'Safar', 'Rabīʿ al Awwal','Rabīʿ al Ththānī', 'Jumādá al Ūlá', 'Jumādá al Ākhirah', 'Rajab','Sha‘bān', 'Ramadān','Shawwāl','Dhū al Qa‘dah', 'Dhū al Hijjah'];
+      return JDNConvertibleCalendarNames.getMonthNames('Islamic', this.locale, style);
     }
   }
 
@@ -169,10 +183,11 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
   }
 
   getDayOfWeekNames(style: 'long' | 'short' | 'narrow') {
+
     if (this._activeCalendar === 'Julian' || this._activeCalendar === 'Gregorian') {
-      return ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
+      return JDNConvertibleCalendarNames.getWeekdayNames('Gregorian', this.locale, style);
     } else if  (this._activeCalendar === 'Islamic') {
-      return ['al-Aḥad', 'al-Ithnayn', 'ath-Thulāthā’', ' al-Arba‘ā’', 'al-Khamīs', 'al-Jumu\'ah', 'as-Sabt'];
+      return JDNConvertibleCalendarNames.getWeekdayNames('Islamic', this.locale, style);
     }
   }
 

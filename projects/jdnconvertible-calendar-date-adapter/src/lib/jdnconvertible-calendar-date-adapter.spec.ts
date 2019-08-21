@@ -67,7 +67,7 @@ describe('JDNConvertibleCalendarDateAdapter', () => {
   });
 
   it('should get long month names', () => {
-    expect(adapter.getMonthNames('long')).toEqual(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']);
+    expect(adapter.getMonthNames('long')).toEqual(["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]);
   });
 
   it('should get date names', () => {
@@ -78,7 +78,7 @@ describe('JDNConvertibleCalendarDateAdapter', () => {
   });
 
   it('should get long day of week names', () => {
-    expect(adapter.getDayOfWeekNames('long')).toEqual(['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat']);
+    expect(adapter.getDayOfWeekNames('long')).toEqual(["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]);
   });
 
   it('should get year name', () => {

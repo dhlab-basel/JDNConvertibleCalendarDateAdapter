@@ -4282,10 +4282,10 @@ jasminewd2@^2.1.0:
   resolved "https://registry.yarnpkg.com/jasminewd2/-/jasminewd2-2.2.0.tgz#e37cf0b17f199cce23bea71b2039395246b4ec4e"
   integrity sha1-43zwsX8ZnM4jvqcbIDk5Uka07E4=
 
-jdnconvertiblecalendar@0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/jdnconvertiblecalendar/-/jdnconvertiblecalendar-0.0.4.tgz#83b9bfe0a3d589211ad13f6ac8524691817b7703"
-  integrity sha512-GmUZOcvD3ER3YaTnxkEnMToFH6Q8DpnbSM+7f+RZzDvKa/YLeiuU0gd+RWbyCxwA4mtWA/eJ9H+7HANjkjoqcA==
+jdnconvertiblecalendar@0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/jdnconvertiblecalendar/-/jdnconvertiblecalendar-0.0.5.tgz#84179c03922ff730fbae2b07b89b2aa9b84e5bf6"
+  integrity sha512-/yBqMepJNHxy+yS4Llt0KQPsHGkMi1FVwcE77cpiJZh2RwoNyGBXOwFz4Am5FNZYBF3oiL39FMzHRwwf6yl6xg==
 
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
