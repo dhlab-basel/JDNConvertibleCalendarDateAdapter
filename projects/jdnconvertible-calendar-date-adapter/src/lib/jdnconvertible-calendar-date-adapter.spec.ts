@@ -67,7 +67,7 @@ describe('JDNConvertibleCalendarDateAdapter', () => {
   });
 
   it('should get long month names', () => {
-    expect(adapter.getMonthNames('long')).toEqual(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']);
+    expect(adapter.getMonthNames('long')).toEqual(["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]);
   });
 
   it('should get date names', () => {
@@ -78,7 +78,7 @@ describe('JDNConvertibleCalendarDateAdapter', () => {
   });
 
   it('should get long day of week names', () => {
-    expect(adapter.getDayOfWeekNames('long')).toEqual(['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat']);
+    expect(adapter.getDayOfWeekNames('long')).toEqual(["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]);
   });
 
   it('should get year name', () => {
@@ -274,7 +274,7 @@ describe('JDNConvertibleCalendarDateAdapter', () => {
 
     const gregorianDate = new GregorianCalendarDate(new JDNPeriod(jdn, jdn));
 
-    const julianDate = adapter.convertCalendarFormat(gregorianDate, 'Julian');
+    const julianDate = adapter.convertCalendar(gregorianDate, 'Julian');
 
     const julianJDNPeriod = julianDate.toJDNPeriod();
 
@@ -290,7 +290,7 @@ describe('JDNConvertibleCalendarDateAdapter', () => {
 
     expect(julianCalendarPeriod.periodStart.dayOfWeek).toEqual(1);
 
-    expect(adapter.activeCalendarFormat).toEqual('Julian');
+    expect(adapter.activeCalendar).toEqual('Julian');
 
   });
 
@@ -318,7 +318,7 @@ describe('JDNConvertibleCalendarDateAdapter', () => {
 
     const todayCalDate: GregorianCalendarDate = new GregorianCalendarDate(new CalendarPeriod(expectedCalDate, expectedCalDate));
 
-    expect(adapter.activeCalendarFormat).toEqual('Gregorian'); // Gregorian is the standard if no conversions have been done
+    expect(adapter.activeCalendar).toEqual('Gregorian'); // Gregorian is the standard if no conversions have been done
     expect(today).toEqual(todayCalDate);
   });
 
