@@ -7,7 +7,7 @@ import {
 } from 'jdnconvertiblecalendar';
 import {JDNConvertibleCalendarDateAdapter, JDNConvertibleCalendarDateAdapterModule} from '../public_api';
 import {async, inject, TestBed} from '@angular/core/testing';
-import {DateAdapter} from '@angular/material';
+import { DateAdapter } from '@angular/material/core';
 import {JDNConvertibleCalendarModule} from "jdnconvertiblecalendar/dist/src/JDNConvertibleCalendar";
 import CalendarPeriod = JDNConvertibleCalendarModule.CalendarPeriod;
 
@@ -67,7 +67,7 @@ describe('JDNConvertibleCalendarDateAdapter', () => {
   });
 
   it('should get long month names', () => {
-    expect(adapter.getMonthNames('long')).toEqual(['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']);
+    expect(adapter.getMonthNames('long')).toEqual(["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]);
   });
 
   it('should get date names', () => {
@@ -78,7 +78,7 @@ describe('JDNConvertibleCalendarDateAdapter', () => {
   });
 
   it('should get long day of week names', () => {
-    expect(adapter.getDayOfWeekNames('long')).toEqual(['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat']);
+    expect(adapter.getDayOfWeekNames('long')).toEqual(["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]);
   });
 
   it('should get year name', () => {
@@ -274,7 +274,7 @@ describe('JDNConvertibleCalendarDateAdapter', () => {
 
     const gregorianDate = new GregorianCalendarDate(new JDNPeriod(jdn, jdn));
 
-    const julianDate = adapter.convertCalendarFormat(gregorianDate, 'Julian');
+    const julianDate = adapter.convertCalendar(gregorianDate, 'Julian');
 
     const julianJDNPeriod = julianDate.toJDNPeriod();
 

@@ -1,10 +1,11 @@
 import {Component, Directive, Host, Inject, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {DateAdapter, MAT_DATE_LOCALE, MatCalendar, MatDatepickerContent} from '@angular/material';
-import {CalendarDate, GregorianCalendarDate, JDNConvertibleCalendar, JulianCalendarDate} from 'jdnconvertiblecalendar';
+
+import {DateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
+import { MatCalendar, MatDatepickerContent } from '@angular/material/datepicker';
+import {CalendarDate, CalendarPeriod, GregorianCalendarDate, JDNConvertibleCalendar, JulianCalendarDate} from 'jdnconvertiblecalendar';
 import {JDNConvertibleCalendarDateAdapter} from 'jdnconvertible-calendar-date-adapter';
-import {JDNConvertibleCalendarModule} from "jdnconvertiblecalendar/dist/src/JDNConvertibleCalendar";
-import CalendarPeriod = JDNConvertibleCalendarModule.CalendarPeriod;
+
 
 @Component({
   selector: 'app-root',
@@ -74,10 +75,12 @@ export class HeaderComponent<D> implements OnInit {
     const activeCalendar: 'Gregorian' | 'Julian' = this._calendar.activeDate.calendarName === 'Gregorian' ? 'Gregorian' : 'Julian';
 
     if (this._dateAdapter instanceof JDNConvertibleCalendarDateAdapter) {
+
       // set the calendar the active date uses (Gregorian or Julian)
       if (this._dateAdapter.activeCalendar !== activeCalendar) {
         this._dateAdapter.activeCalendar = activeCalendar;
       }
+
     }
 
     // build a form for the calendar selection
@@ -87,7 +90,7 @@ export class HeaderComponent<D> implements OnInit {
 
     // update the selected calendar
     this.form.valueChanges.subscribe((data) => {
-      this.convertCalendarDate(data.calendar);
+      this.convertCalendar(data.calendar);
     });
 
   }
@@ -97,17 +100,18 @@ export class HeaderComponent<D> implements OnInit {
    *
    * @param {"Gregorian" | "Julian"} calendar the target calendar format.
    */
-  convertCalendarDate(calendar: 'Gregorian' | 'Julian') {
+  convertCalendar(calendar: 'Gregorian' | 'Julian' | 'Islamic') {
 
     if (this._dateAdapter instanceof JDNConvertibleCalendarDateAdapter) {
 
-      const convertedDate = this._dateAdapter.convertCalendarFormat(this._calendar.activeDate, calendar);
+      const convertedDate = this._dateAdapter.convertCalendar(this._calendar.activeDate, calendar);
 
       this._calendar.activeDate = convertedDate;
 
       this._datepickerContent.datepicker.select(convertedDate);
 
       this._calendar.updateTodaysDate();
+
     }
   }
 }

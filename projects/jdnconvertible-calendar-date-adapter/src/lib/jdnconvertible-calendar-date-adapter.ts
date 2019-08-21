@@ -18,15 +18,17 @@
  * License along with JDNConvertibleCalendarDateAdapter.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {Injectable} from '@angular/core';
-import {DateAdapter} from '@angular/material';
+import {Inject, Injectable, Optional} from '@angular/core';
+import {DateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
 import {
   CalendarDate,
   CalendarPeriod,
   GregorianCalendarDate,
   JDNConvertibleCalendar,
-  JulianCalendarDate
+  JulianCalendarDate,
+  IslamicCalendarDate
 } from 'jdnconvertiblecalendar';
+import {JDNConvertibleCalendarNames} from 'jdnconvertiblecalendar';
 
 
 @Injectable()
@@ -49,15 +51,25 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
     'DD-MM-YYYY': new RegExp('^(\\d?\\d)-(\\d?\\d)-(\\d{4})')
   };
 
-  // the currently active calendar, assume Gregorian
-  private _activeCalendar: 'Gregorian' | 'Julian' = 'Gregorian';
+  static defaultLocale = 'en';
 
-  set activeCalendar(calendarFormat: 'Gregorian' | 'Julian') {
-    this._activeCalendar = calendarFormat;
+  // the currently active calendar, assume Gregorian
+  private _activeCalendar: 'Gregorian' | 'Julian' | 'Islamic' = 'Gregorian';
+
+  set activeCalendar(calendar: 'Gregorian' | 'Julian' | 'Islamic') {
+    this._activeCalendar = calendar;
   }
 
-  get activeCalendar(): 'Gregorian' | 'Julian' {
+  get activeCalendar(): 'Gregorian' | 'Julian' | 'Islamic' {
     return this._activeCalendar;
+  }
+
+  constructor(@Optional() @Inject(MAT_DATE_LOCALE) dateLocale: string) {
+
+    super();
+
+    this.setLocale(dateLocale || JDNConvertibleCalendarDateAdapter.defaultLocale);
+
   }
 
   /**
@@ -82,17 +94,29 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
     } else {
       return String(num);
     }
+  }
 
+  setLocale(locale: string) {
+    // make locale a two character string
+    let shortLocale;
+
+    if (locale.length > 2) {
+      shortLocale = locale.substring(0, 2);
+    } else {
+      shortLocale = locale;
+    }
+
+    super.setLocale(shortLocale);
   }
 
   /**
-   * Converts the given date to the indicated calendar format.
+   * Converts the given date to the indicated calendar.
    *
    * @param date the date to be converted.
    * @param format the calendar format to convert to.
    * @returns converted date.
    */
-  convertCalendarFormat(date: JDNConvertibleCalendar, format: string): JDNConvertibleCalendar {
+  convertCalendar(date: JDNConvertibleCalendar, format: string): JDNConvertibleCalendar {
 
     // TODO: rename this method to `convertCalendar` -> this is a breaking change in the public API
     // TODO: rename param `format` to `calendar`
@@ -109,6 +133,10 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
       case 'Julian':
         this._activeCalendar = 'Julian';
         return dateMod.convertCalendar('Julian');
+
+      case 'Islamic':
+        this._activeCalendar = 'Islamic';
+        return dateMod.convertCalendar('Islamic');
 
       default:
         // invalid format
@@ -143,8 +171,12 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
   }
 
   getMonthNames(style: 'long' | 'short' | 'narrow'): string[] {
-    // TODO: implement this properly, taking calendar format and locale into account
-    return ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+
+    if (this._activeCalendar === 'Julian' || this._activeCalendar === 'Gregorian') {
+      return JDNConvertibleCalendarNames.getMonthNames('Gregorian', this.locale, style);
+    } else if (this._activeCalendar === 'Islamic') {
+      return JDNConvertibleCalendarNames.getMonthNames('Islamic', this.locale, style);
+    }
   }
 
   getDateNames(): string[] {
@@ -158,8 +190,12 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
   }
 
   getDayOfWeekNames(style: 'long' | 'short' | 'narrow') {
-    // TODO: implement this properly, taking calendar format and locale into account
-    return ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'];
+
+    if (this._activeCalendar === 'Julian' || this._activeCalendar === 'Gregorian') {
+      return JDNConvertibleCalendarNames.getWeekdayNames('Gregorian', this.locale, style);
+    } else if  (this._activeCalendar === 'Islamic') {
+      return JDNConvertibleCalendarNames.getWeekdayNames('Islamic', this.locale, style);
+    }
   }
 
   getYearName(date: JDNConvertibleCalendar): string {
@@ -187,6 +223,9 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
 
       case 'Julian':
         return new JulianCalendarDate(jdnPeriod);
+
+      case 'Islamic':
+        return new IslamicCalendarDate(jdnPeriod);
     }
 
   }
@@ -210,6 +249,9 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
 
       case 'Julian':
         return new JulianCalendarDate(new CalendarPeriod(calDate, calDate));
+
+      case 'Islamic':
+        return new IslamicCalendarDate(new CalendarPeriod(calDate, calDate));
     }
   }
 
@@ -240,7 +282,7 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
     const dateGregorian = new GregorianCalendarDate(new CalendarPeriod(calDate, calDate));
 
     // convert the date to the active calendar format
-    const date: JDNConvertibleCalendar = this.convertCalendarFormat(dateGregorian, this._activeCalendar);
+    const date: JDNConvertibleCalendar = this.convertCalendar(dateGregorian, this._activeCalendar);
 
     return date;
 
@@ -364,8 +406,6 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
     const gregorianCal = date.convertCalendar('Gregorian');
 
     const gregorianCalPeriod = gregorianCal.toCalendarPeriod();
-
-    console.log('to iso');
 
     return `${JDNConvertibleCalendarDateAdapter.addLeadingZeroToNumber(gregorianCalPeriod.periodStart.year, 4)}-${JDNConvertibleCalendarDateAdapter.addLeadingZeroToNumber(gregorianCalPeriod.periodStart.month, 2)}-${JDNConvertibleCalendarDateAdapter.addLeadingZeroToNumber(gregorianCalPeriod.periodStart.day, 2)}`;
 
