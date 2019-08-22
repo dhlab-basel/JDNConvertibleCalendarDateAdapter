@@ -68,6 +68,10 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
 
     this.setLocale(dateLocale || JDNConvertibleCalendarDateAdapter.defaultLocale);
 
+    if (JDNConvertibleCalendar.supportedCalendars.indexOf(activeCalendar) === -1) {
+      throw Error('Invalid value for token ACTIVE_CALENDAR: ' + activeCalendar);
+    }
+
     this._activeCalendar = activeCalendar;
 
   }
