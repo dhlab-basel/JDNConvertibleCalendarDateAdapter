@@ -1,3 +1,3 @@
 import {InjectionToken} from '@angular/core';
 
-export const ACTIVE_CALENDAR = new InjectionToken<string>('Active Calendar');
+export const ACTIVE_CALENDAR = new InjectionToken<'Gregorian' | 'Julian' | 'Islamic'>('Active Calendar');

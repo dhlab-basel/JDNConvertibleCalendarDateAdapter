@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
-import {AppComponent, HeaderComponent, JdnDatepicker} from './app.component';
+import {AppComponent, HeaderComponent, JdnDatepickerGregorian, JdnDatepickerIslamic, JdnDatepickerJulian} from './app.component';
 import {MatJDNConvertibleCalendarDateAdapterModule} from 'jdnconvertible-calendar-date-adapter';
 import { MatOptionModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -15,7 +15,9 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
   declarations: [
     AppComponent,
     HeaderComponent,
-    JdnDatepicker
+    JdnDatepickerGregorian,
+    JdnDatepickerJulian,
+    JdnDatepickerIslamic
   ],
   imports: [
     BrowserModule,

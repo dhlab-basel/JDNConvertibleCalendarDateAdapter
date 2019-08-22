@@ -17,6 +17,7 @@ export class AppComponent {
   form: FormGroup;
   form2: FormGroup;
   form3: FormGroup;
+  form4: FormGroup;
 
   headerComponent = HeaderComponent;
 
@@ -58,6 +59,15 @@ export class AppComponent {
       console.log(data.dateValue3);
     });
 
+    this.form4 = this.fb.group({
+      dateValue4: [null, Validators.compose([Validators.required])]
+    });
+
+    this.form4.valueChanges.subscribe((data) => {
+      console.log(data.dateValue4);
+    });
+
+
   }
 }
 
@@ -84,47 +94,19 @@ export class HeaderComponent<D> implements OnInit {
 
   ngOnInit() {
 
-    // get the active date's calendar format
-    let activeCalendar: 'Gregorian' | 'Julian' | 'Islamic';
-
-    switch (this._calendar.activeDate.calendarName) {
-
-      case 'Gregorian': {
-        activeCalendar = 'Gregorian';
-        break;
-      }
-
-      case 'Julian': {
-        activeCalendar = 'Julian';
-        break;
-      }
-
-      case 'Islamic': {
-        activeCalendar = 'Islamic';
-        break;
-      }
-
-    }
-
     if (this._dateAdapter instanceof JDNConvertibleCalendarDateAdapter) {
 
-      // set the calendar the active date uses (Gregorian or Julian)
-      if (this._dateAdapter.activeCalendar !== activeCalendar) {
-        this._dateAdapter.activeCalendar = activeCalendar;
-      }
+      // build a form for the calendar selection
+      this.form = this.fb.group({
+        calendar: [this._dateAdapter.activeCalendar, Validators.required]
+      });
+
+      // update the selected calendar
+      this.form.valueChanges.subscribe((data) => {
+        this.convertCalendar(data.calendar);
+      });
 
     }
-
-    // build a form for the calendar selection
-    this.form = this.fb.group({
-      calendar: [activeCalendar, Validators.required]
-    });
-
-    // update the selected calendar
-    this.form.valueChanges.subscribe((data) => {
-      this.convertCalendar(data.calendar);
-    });
-
   }
 
   /**
@@ -149,13 +131,37 @@ export class HeaderComponent<D> implements OnInit {
 }
 
 @Directive({
-  selector: 'jdn-datepicker',
+  selector: 'jdn-datepicker-gregorian',
   providers: [
     { provide: ACTIVE_CALENDAR, useValue: 'Gregorian' },
     { provide: DateAdapter, useClass: JDNConvertibleCalendarDateAdapter, deps: [MAT_DATE_LOCALE, ACTIVE_CALENDAR] },
   ]
 })
-export class JdnDatepicker {
+export class JdnDatepickerGregorian {
+  constructor(private adapter: DateAdapter<JDNConvertibleCalendar>) {
+  }
+}
+
+@Directive({
+  selector: 'jdn-datepicker-julian',
+  providers: [
+    { provide: ACTIVE_CALENDAR, useValue: 'Julian' },
+    { provide: DateAdapter, useClass: JDNConvertibleCalendarDateAdapter, deps: [MAT_DATE_LOCALE, ACTIVE_CALENDAR] },
+  ]
+})
+export class JdnDatepickerJulian {
+  constructor(private adapter: DateAdapter<JDNConvertibleCalendar>) {
+  }
+}
+
+@Directive({
+  selector: 'jdn-datepicker-islamic',
+  providers: [
+    { provide: ACTIVE_CALENDAR, useValue: 'Islamic' },
+    { provide: DateAdapter, useClass: JDNConvertibleCalendarDateAdapter, deps: [MAT_DATE_LOCALE, ACTIVE_CALENDAR] },
+  ]
+})
+export class JdnDatepickerIslamic {
   constructor(private adapter: DateAdapter<JDNConvertibleCalendar>) {
   }
 }

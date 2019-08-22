@@ -55,24 +55,20 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
   static defaultLocale = 'en';
 
   // the currently active calendar, assume Gregorian
-  private _activeCalendar: 'Gregorian' | 'Julian' | 'Islamic' = 'Gregorian';
-
-  set activeCalendar(calendar: 'Gregorian' | 'Julian' | 'Islamic') {
-    this._activeCalendar = calendar;
-  }
+  private _activeCalendar: 'Gregorian' | 'Julian' | 'Islamic';
 
   get activeCalendar(): 'Gregorian' | 'Julian' | 'Islamic' {
     return this._activeCalendar;
   }
 
   constructor(@Optional() @Inject(MAT_DATE_LOCALE) dateLocale: string,
-              @Inject(ACTIVE_CALENDAR) activeCalendar: string) {
+              @Inject(ACTIVE_CALENDAR) activeCalendar) {
 
     super();
 
     this.setLocale(dateLocale || JDNConvertibleCalendarDateAdapter.defaultLocale);
 
-    console.log(activeCalendar);
+    this._activeCalendar = activeCalendar;
 
   }
 
@@ -117,19 +113,16 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
    * Converts the given date to the indicated calendar.
    *
    * @param date the date to be converted.
-   * @param format the calendar format to convert to.
+   * @param calendar the calendar format to convert to.
    * @returns converted date.
    */
-  convertCalendar(date: JDNConvertibleCalendar, format: string): JDNConvertibleCalendar {
-
-    // TODO: rename this method to `convertCalendar` -> this is a breaking change in the public API
-    // TODO: rename param `format` to `calendar`
+  convertCalendar(date: JDNConvertibleCalendar, calendar: string): JDNConvertibleCalendar {
 
     // another instance has to be returned, otherwise "activeDate" set method is not triggered for MatYearView
 
     const dateMod: JDNConvertibleCalendar = this.clone(date);
 
-    switch (format) {
+    switch (calendar) {
       case 'Gregorian':
         this._activeCalendar = 'Gregorian';
         return dateMod.convertCalendar('Gregorian');
