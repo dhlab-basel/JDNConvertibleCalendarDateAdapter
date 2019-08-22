@@ -3,3 +3,4 @@
  */
 
 export * from './lib/jdnconvertible-calendar-date-adapter.module';
+export * from './lib/active_calendar_token';

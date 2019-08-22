@@ -18,7 +18,7 @@
  * License along with JDNConvertibleCalendarDateAdapter.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {Inject, Injectable, Optional} from '@angular/core';
+import {Inject, Injectable, InjectionToken, Optional} from '@angular/core';
 import {DateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
 import {
   CalendarDate,
@@ -29,6 +29,7 @@ import {
   IslamicCalendarDate
 } from 'jdnconvertiblecalendar';
 import {JDNConvertibleCalendarNames} from 'jdnconvertiblecalendar';
+import {ACTIVE_CALENDAR} from './active_calendar_token';
 
 
 @Injectable()
@@ -64,11 +65,14 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
     return this._activeCalendar;
   }
 
-  constructor(@Optional() @Inject(MAT_DATE_LOCALE) dateLocale: string) {
+  constructor(@Optional() @Inject(MAT_DATE_LOCALE) dateLocale: string,
+              @Inject(ACTIVE_CALENDAR) activeCalendar: string) {
 
     super();
 
     this.setLocale(dateLocale || JDNConvertibleCalendarDateAdapter.defaultLocale);
+
+    console.log(activeCalendar);
 
   }
 

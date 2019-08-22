@@ -4,7 +4,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {DateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
 import { MatCalendar, MatDatepickerContent } from '@angular/material/datepicker';
 import {CalendarDate, CalendarPeriod, GregorianCalendarDate, JDNConvertibleCalendar, JulianCalendarDate, IslamicCalendarDate} from 'jdnconvertiblecalendar';
-import {JDNConvertibleCalendarDateAdapter} from 'jdnconvertible-calendar-date-adapter';
+import {ACTIVE_CALENDAR, JDNConvertibleCalendarDateAdapter} from 'jdnconvertible-calendar-date-adapter';
 
 
 @Component({
@@ -151,7 +151,8 @@ export class HeaderComponent<D> implements OnInit {
 @Directive({
   selector: 'jdn-datepicker',
   providers: [
-    { provide: DateAdapter, useClass: JDNConvertibleCalendarDateAdapter, deps: [MAT_DATE_LOCALE] }
+    { provide: ACTIVE_CALENDAR, useValue: 'Gregorian' },
+    { provide: DateAdapter, useClass: JDNConvertibleCalendarDateAdapter, deps: [MAT_DATE_LOCALE, ACTIVE_CALENDAR] },
   ]
 })
 export class JdnDatepicker {

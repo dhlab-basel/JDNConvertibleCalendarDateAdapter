@@ -2,14 +2,13 @@ import {
   CalendarDate,
   GregorianCalendarDate,
   JDNConvertibleCalendar,
-  JDNConvertibleConversionModule,
-  JDNPeriod
+  JDNPeriod,
+  CalendarPeriod
 } from 'jdnconvertiblecalendar';
 import {JDNConvertibleCalendarDateAdapter, JDNConvertibleCalendarDateAdapterModule} from '../public_api';
 import {async, inject, TestBed} from '@angular/core/testing';
 import { DateAdapter } from '@angular/material/core';
-import {JDNConvertibleCalendarModule} from "jdnconvertiblecalendar/dist/src/JDNConvertibleCalendar";
-import CalendarPeriod = JDNConvertibleCalendarModule.CalendarPeriod;
+import {ACTIVE_CALENDAR} from './active_calendar_token';
 
 describe('JDNConvertibleCalendarDateAdapter', () => {
   let adapter: JDNConvertibleCalendarDateAdapter;
@@ -17,7 +16,8 @@ describe('JDNConvertibleCalendarDateAdapter', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [JDNConvertibleCalendarDateAdapterModule]
+      imports: [JDNConvertibleCalendarDateAdapterModule],
+      providers: [{provide: ACTIVE_CALENDAR, useValue: 'Gregorian' }]
     }).compileComponents();
   }));
 
