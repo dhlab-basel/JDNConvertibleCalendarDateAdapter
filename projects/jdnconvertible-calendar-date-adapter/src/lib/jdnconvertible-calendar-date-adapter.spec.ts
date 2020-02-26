@@ -32,9 +32,15 @@ describe('JDNConvertibleCalendarDateAdapter', () => {
     };
   }));
 
-  it('check class of date adapter', () => {
+  it('should check class of date adapter', () => {
 
     expect(adapter instanceof JDNConvertibleCalendarDateAdapter).toBeTruthy();
+
+  });
+
+  it ('should check the active calendar set by the ACTIVE_CALENDAR token', () => {
+
+    expect(adapter.activeCalendar).toEqual('Gregorian');
 
   });
 
