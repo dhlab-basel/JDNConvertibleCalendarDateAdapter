@@ -13,7 +13,6 @@ cache:
 addons:
   chrome: stable
 
-before_script:
-- yarn global add @angular/cli
-
-script: ng t JDNConvertibleCalendarDateAdapter --watch=false --browsers=ChromeHeadless
+script:
+  - npm run ng t --project jdnconvertiblecalendardateadapter --watch=false --browsers=ChromeHeadless
+  - npm run ng b --project jdnconvertiblecalendardateadapter
