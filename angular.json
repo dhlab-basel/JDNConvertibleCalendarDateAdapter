@@ -122,7 +122,7 @@
         }
       }
     },
-    "JDNConvertibleCalendarDateAdapter": {
+    "jdnconvertiblecalendardateadapter": {
       "root": "projects/jdnconvertible-calendar-date-adapter",
       "sourceRoot": "projects/jdnconvertible-calendar-date-adapter/src",
       "projectType": "library",
