@@ -55,25 +55,30 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
   static defaultLocale = 'en';
 
   // the currently active calendar, assume Gregorian
-  private _activeCalendar: 'Gregorian' | 'Julian' | 'Islamic';
+  private _activeCalendar: 'Gregorian' | 'Julian' | 'Islamic' = 'Gregorian';
 
   get activeCalendar(): 'Gregorian' | 'Julian' | 'Islamic' {
     return this._activeCalendar;
   }
 
   constructor(@Optional() @Inject(MAT_DATE_LOCALE) dateLocale: string,
-              @Inject(ACTIVE_CALENDAR) activeCalendar) {
+              @Inject(ACTIVE_CALENDAR) private activeCalendarToken) {
 
     super();
 
     this.setLocale(dateLocale || JDNConvertibleCalendarDateAdapter.defaultLocale);
 
-    if (JDNConvertibleCalendar.supportedCalendars.indexOf(activeCalendar) === -1) {
-      throw Error('Invalid value for token ACTIVE_CALENDAR: ' + activeCalendar);
-    }
+    // get active calendar from token
+    this.activeCalendarToken.subscribe(
+      (activeCal) => {
 
-    this._activeCalendar = activeCalendar;
+        if (JDNConvertibleCalendar.supportedCalendars.indexOf(activeCal) === -1) {
+          throw Error('Invalid value for token ACTIVE_CALENDAR: ' + activeCal);
+        }
 
+        this._activeCalendar = activeCal;
+      }
+  );
   }
 
   /**

@@ -9,6 +9,7 @@ import {JDNConvertibleCalendarDateAdapter, JDNConvertibleCalendarDateAdapterModu
 import {async, inject, TestBed} from '@angular/core/testing';
 import { DateAdapter } from '@angular/material/core';
 import {ACTIVE_CALENDAR} from './active_calendar_token';
+import {BehaviorSubject} from 'rxjs';
 
 describe('JDNConvertibleCalendarDateAdapter', () => {
   let adapter: JDNConvertibleCalendarDateAdapter;
@@ -17,7 +18,7 @@ describe('JDNConvertibleCalendarDateAdapter', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [JDNConvertibleCalendarDateAdapterModule],
-      providers: [{provide: ACTIVE_CALENDAR, useValue: 'Gregorian' }]
+      providers: [{provide: ACTIVE_CALENDAR, useValue: new BehaviorSubject('Gregorian') }]
     }).compileComponents();
   }));
 

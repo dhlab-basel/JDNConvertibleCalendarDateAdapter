@@ -1,10 +1,11 @@
-import {Component, Directive, Host, Inject, Input, OnInit} from '@angular/core';
+import {Component, Directive, Host, Inject, Input, OnChanges, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 import {DateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
 import { MatCalendar, MatDatepickerContent } from '@angular/material/datepicker';
 import {CalendarDate, CalendarPeriod, GregorianCalendarDate, JDNConvertibleCalendar, JulianCalendarDate, IslamicCalendarDate} from 'jdnconvertiblecalendar';
 import {ACTIVE_CALENDAR, JDNConvertibleCalendarDateAdapter} from 'jdnconvertible-calendar-date-adapter';
+import {BehaviorSubject, of} from 'rxjs';
 
 
 @Component({
@@ -130,39 +131,29 @@ export class HeaderComponent<D> implements OnInit {
   }
 }
 
-@Directive({
-  selector: 'jdn-datepicker-gregorian',
-  providers: [
-    { provide: ACTIVE_CALENDAR, useValue: 'Gregorian' },
-    { provide: DateAdapter, useClass: JDNConvertibleCalendarDateAdapter, deps: [MAT_DATE_LOCALE, ACTIVE_CALENDAR] },
-  ]
-})
-export class JdnDatepickerGregorian {
-  constructor(private adapter: DateAdapter<JDNConvertibleCalendar>) {
-  }
-}
+const makeCalToken = () => {
+  console.log('making cal');
+  return new BehaviorSubject('Gregorian');
+};
 
 @Directive({
-  selector: 'jdn-datepicker-julian',
+  selector: 'jdn-datepicker',
   providers: [
-    { provide: ACTIVE_CALENDAR, useValue: 'Julian' },
+    { provide: ACTIVE_CALENDAR, useFactory: makeCalToken },
     { provide: DateAdapter, useClass: JDNConvertibleCalendarDateAdapter, deps: [MAT_DATE_LOCALE, ACTIVE_CALENDAR] },
   ]
 })
-export class JdnDatepickerJulian {
-  constructor(private adapter: DateAdapter<JDNConvertibleCalendar>) {
-  }
-}
+export class JdnDatepicker implements OnChanges {
 
-@Directive({
-  selector: 'jdn-datepicker-islamic',
-  providers: [
-    { provide: ACTIVE_CALENDAR, useValue: 'Islamic' },
-    { provide: DateAdapter, useClass: JDNConvertibleCalendarDateAdapter, deps: [MAT_DATE_LOCALE, ACTIVE_CALENDAR] },
-  ]
-})
-export class JdnDatepickerIslamic {
-  constructor(private adapter: DateAdapter<JDNConvertibleCalendar>) {
+  @Input() activeCalendar: 'Gregorian' | 'Julian' | 'Islamic';
+
+  constructor(private adapter: DateAdapter<JDNConvertibleCalendar>, @Inject(ACTIVE_CALENDAR) private activeCalendarToken: BehaviorSubject<'Gregorian' | 'Julian' | 'Islamic'>) {
   }
+
+  ngOnChanges(): void {
+    console.log(this.activeCalendarToken);
+    this.activeCalendarToken.next(this.activeCalendar);
+  }
+
 }
 
