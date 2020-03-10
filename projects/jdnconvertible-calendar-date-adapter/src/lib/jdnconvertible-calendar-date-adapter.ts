@@ -61,6 +61,10 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
     return this._activeCalendar;
   }
 
+  set activeCalendar(cal: 'Gregorian' | 'Julian' | 'Islamic') {
+    this._activeCalendar = cal;
+  }
+
   constructor(@Optional() @Inject(MAT_DATE_LOCALE) dateLocale: string,
               @Inject(ACTIVE_CALENDAR) private activeCalendarToken) {
 
@@ -76,9 +80,9 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
           throw Error('Invalid value for token ACTIVE_CALENDAR: ' + activeCal);
         }
 
-        this._activeCalendar = activeCal;
+        this.activeCalendar = activeCal;
       }
-  );
+    );
   }
 
   /**
@@ -133,15 +137,15 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
 
     switch (calendar) {
       case 'Gregorian':
-        this._activeCalendar = 'Gregorian';
+        this.activeCalendar = 'Gregorian';
         return dateMod.convertCalendar('Gregorian');
 
       case 'Julian':
-        this._activeCalendar = 'Julian';
+        this.activeCalendar = 'Julian';
         return dateMod.convertCalendar('Julian');
 
       case 'Islamic':
-        this._activeCalendar = 'Islamic';
+        this.activeCalendar = 'Islamic';
         return dateMod.convertCalendar('Islamic');
 
       default:
@@ -178,9 +182,9 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
 
   getMonthNames(style: 'long' | 'short' | 'narrow'): string[] {
 
-    if (this._activeCalendar === 'Julian' || this._activeCalendar === 'Gregorian') {
+    if (this.activeCalendar === 'Julian' || this.activeCalendar === 'Gregorian') {
       return JDNConvertibleCalendarNames.getMonthNames('Gregorian', this.locale, style);
-    } else if (this._activeCalendar === 'Islamic') {
+    } else if (this.activeCalendar === 'Islamic') {
       return JDNConvertibleCalendarNames.getMonthNames('Islamic', this.locale, style);
     }
   }
@@ -197,9 +201,9 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
 
   getDayOfWeekNames(style: 'long' | 'short' | 'narrow') {
 
-    if (this._activeCalendar === 'Julian' || this._activeCalendar === 'Gregorian') {
+    if (this.activeCalendar === 'Julian' || this.activeCalendar === 'Gregorian') {
       return JDNConvertibleCalendarNames.getWeekdayNames('Gregorian', this.locale, style);
-    } else if  (this._activeCalendar === 'Islamic') {
+    } else if (this.activeCalendar === 'Islamic') {
       return JDNConvertibleCalendarNames.getWeekdayNames('Islamic', this.locale, style);
     }
   }
@@ -223,7 +227,7 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
 
     const jdnPeriod = date.toJDNPeriod();
 
-    switch (this._activeCalendar) {
+    switch (this.activeCalendar) {
       case 'Gregorian':
         return new GregorianCalendarDate(jdnPeriod);
 
@@ -264,7 +268,7 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
   createDate(year: number, month: number, date: number): JDNConvertibleCalendar {
 
     // create a date in the active calendar format
-    return this.createCalendarDate(year, month, date, this._activeCalendar);
+    return this.createCalendarDate(year, month, date, this.activeCalendar);
 
   }
 
@@ -288,7 +292,7 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
     const dateGregorian = new GregorianCalendarDate(new CalendarPeriod(calDate, calDate));
 
     // convert the date to the active calendar format
-    const date: JDNConvertibleCalendar = this.convertCalendar(dateGregorian, this._activeCalendar);
+    const date: JDNConvertibleCalendar = this.convertCalendar(dateGregorian, this.activeCalendar);
 
     return date;
 
