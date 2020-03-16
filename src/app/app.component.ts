@@ -1,9 +1,12 @@
-import {Component, Host, Inject, OnInit} from '@angular/core';
+import {Component, Directive, Host, Inject, Input, OnChanges, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { DateAdapter } from '@angular/material/core';
+
+import {DateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
 import { MatCalendar, MatDatepickerContent } from '@angular/material/datepicker';
-import {JDNConvertibleCalendar} from 'jdnconvertiblecalendar';
-import {JDNConvertibleCalendarDateAdapter} from 'jdnconvertible-calendar-date-adapter';
+import {CalendarDate, CalendarPeriod, GregorianCalendarDate, JDNConvertibleCalendar, JulianCalendarDate, IslamicCalendarDate} from 'jdnconvertiblecalendar';
+import {ACTIVE_CALENDAR, JDNConvertibleCalendarDateAdapter} from 'jdnconvertible-calendar-date-adapter';
+import {BehaviorSubject, of} from 'rxjs';
+
 
 @Component({
   selector: 'app-root',
@@ -13,18 +16,58 @@ import {JDNConvertibleCalendarDateAdapter} from 'jdnconvertible-calendar-date-ad
 export class AppComponent {
 
   form: FormGroup;
+  form2: FormGroup;
+  form3: FormGroup;
+  form4: FormGroup;
 
   headerComponent = HeaderComponent;
+
+  // October 13 1729 (Julian calendar)
+  startCalDate = new CalendarDate(1729, 10, 13);
+  startDate = new JulianCalendarDate(new CalendarPeriod(this.startCalDate, this.startCalDate));
+
+  // October 24 1729 (Julian calendar)
+  startCalDate2 = new CalendarDate(1729, 10, 24);
+  startDate2 = new GregorianCalendarDate(new CalendarPeriod(this.startCalDate2, this.startCalDate2));
+
+  // October 24 1729 (Islamic calendar)
+  startCalDate3 = new CalendarDate(1142, 4, 1);
+  startDate3 = new IslamicCalendarDate(new CalendarPeriod(this.startCalDate3, this.startCalDate3));
 
   constructor(@Inject(FormBuilder) private fb: FormBuilder) {
 
     this.form = this.fb.group({
-      dateValue: [null, Validators.compose([Validators.required])]
+      dateValue: [this.startDate, Validators.compose([Validators.required])]
     });
 
     this.form.valueChanges.subscribe((data) => {
       console.log(data.dateValue);
     });
+
+    this.form2 = this.fb.group({
+      dateValue2: [this.startDate2, Validators.compose([Validators.required])]
+    });
+
+    this.form2.valueChanges.subscribe((data) => {
+      console.log(data.dateValue2);
+    });
+
+    this.form3 = this.fb.group({
+      dateValue3: [this.startDate3, Validators.compose([Validators.required])]
+    });
+
+    this.form3.valueChanges.subscribe((data) => {
+      console.log(data.dateValue3);
+    });
+
+    this.form4 = this.fb.group({
+      dateValue4: [null, Validators.compose([Validators.required])]
+    });
+
+    this.form4.valueChanges.subscribe((data) => {
+      console.log(data.dateValue4);
+    });
+
 
   }
 }
@@ -33,7 +76,7 @@ export class AppComponent {
   selector: 'app-calendar-header',
   template: `
     <mat-select placeholder="Calendar Format" [formControl]="form.controls['calendar']">
-      <mat-option *ngFor="let cal of supportedCalendarFormats" [value]="cal">{{cal}}</mat-option>
+      <mat-option *ngFor="let cal of supportedCalendars" [value]="cal">{{cal}}</mat-option>
     </mat-select>
     <mat-calendar-header></mat-calendar-header>
   `,
@@ -48,28 +91,23 @@ export class HeaderComponent<D> implements OnInit {
 
   form: FormGroup;
 
-  supportedCalendarFormats = JDNConvertibleCalendar.supportedCalendars;
-
-  activeFormat;
+  supportedCalendars = JDNConvertibleCalendar.supportedCalendars;
 
   ngOnInit() {
 
-    this.activeFormat = 'Gregorian';
-
     if (this._dateAdapter instanceof JDNConvertibleCalendarDateAdapter) {
-      this.activeFormat = this._dateAdapter.activeCalendar;
+
+      // build a form for the calendar selection
+      this.form = this.fb.group({
+        calendar: [this._dateAdapter.activeCalendar, Validators.required]
+      });
+
+      // update the selected calendar
+      this.form.valueChanges.subscribe((data) => {
+        this.convertCalendar(data.calendar);
+      });
+
     }
-
-    // build a form for the calendar format selection
-    this.form = this.fb.group({
-      calendar: [this.activeFormat, Validators.required]
-    });
-
-    // update the selected calendar format
-    this.form.valueChanges.subscribe((data) => {
-      this.convertCalendar(data.calendar);
-    });
-
   }
 
   /**
@@ -91,5 +129,31 @@ export class HeaderComponent<D> implements OnInit {
 
     }
   }
+}
+
+const makeCalToken = () => {
+  console.log('making cal');
+  return new BehaviorSubject('Gregorian');
+};
+
+@Directive({
+  selector: 'jdn-datepicker',
+  providers: [
+    { provide: ACTIVE_CALENDAR, useFactory: makeCalToken },
+    { provide: DateAdapter, useClass: JDNConvertibleCalendarDateAdapter, deps: [MAT_DATE_LOCALE, ACTIVE_CALENDAR] },
+  ]
+})
+export class JdnDatepicker implements OnChanges {
+
+  @Input() activeCalendar: 'Gregorian' | 'Julian' | 'Islamic';
+
+  constructor(private adapter: DateAdapter<JDNConvertibleCalendar>, @Inject(ACTIVE_CALENDAR) private activeCalendarToken: BehaviorSubject<'Gregorian' | 'Julian' | 'Islamic'>) {
+  }
+
+  ngOnChanges(): void {
+    console.log(this.activeCalendarToken);
+    this.activeCalendarToken.next(this.activeCalendar);
+  }
+
 }
 

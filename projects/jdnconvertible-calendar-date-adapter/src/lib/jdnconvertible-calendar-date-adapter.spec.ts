@@ -2,14 +2,14 @@ import {
   CalendarDate,
   GregorianCalendarDate,
   JDNConvertibleCalendar,
-  JDNConvertibleConversionModule,
-  JDNPeriod
+  JDNPeriod,
+  CalendarPeriod
 } from 'jdnconvertiblecalendar';
 import {JDNConvertibleCalendarDateAdapter, JDNConvertibleCalendarDateAdapterModule} from '../public_api';
 import {async, inject, TestBed} from '@angular/core/testing';
 import { DateAdapter } from '@angular/material/core';
-import {JDNConvertibleCalendarModule} from "jdnconvertiblecalendar/dist/src/JDNConvertibleCalendar";
-import CalendarPeriod = JDNConvertibleCalendarModule.CalendarPeriod;
+import {ACTIVE_CALENDAR} from './active_calendar_token';
+import {BehaviorSubject} from 'rxjs';
 
 describe('JDNConvertibleCalendarDateAdapter', () => {
   let adapter: JDNConvertibleCalendarDateAdapter;
@@ -17,7 +17,8 @@ describe('JDNConvertibleCalendarDateAdapter', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [JDNConvertibleCalendarDateAdapterModule]
+      imports: [JDNConvertibleCalendarDateAdapterModule],
+      providers: [{provide: ACTIVE_CALENDAR, useValue: new BehaviorSubject('Gregorian') }]
     }).compileComponents();
   }));
 
@@ -32,9 +33,15 @@ describe('JDNConvertibleCalendarDateAdapter', () => {
     };
   }));
 
-  it('check class of date adapter', () => {
+  it('should check class of date adapter', () => {
 
     expect(adapter instanceof JDNConvertibleCalendarDateAdapter).toBeTruthy();
+
+  });
+
+  it ('should check the active calendar set by the ACTIVE_CALENDAR token', () => {
+
+    expect(adapter.activeCalendar).toEqual('Gregorian');
 
   });
 

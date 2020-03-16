@@ -18,7 +18,7 @@
  * License along with JDNConvertibleCalendarDateAdapter.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import {Inject, Injectable, Optional} from '@angular/core';
+import {Inject, Injectable, InjectionToken, Optional} from '@angular/core';
 import {DateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
 import {
   CalendarDate,
@@ -29,6 +29,7 @@ import {
   IslamicCalendarDate
 } from 'jdnconvertiblecalendar';
 import {JDNConvertibleCalendarNames} from 'jdnconvertiblecalendar';
+import {ACTIVE_CALENDAR} from './active_calendar_token';
 
 
 @Injectable()
@@ -53,19 +54,35 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
 
   static defaultLocale = 'en';
 
-  // the currently active calendar format
-  private _activeCalendar = 'Gregorian';
+  // the currently active calendar, assume Gregorian
+  private _activeCalendar: 'Gregorian' | 'Julian' | 'Islamic' = 'Gregorian';
 
-  get activeCalendar() {
+  get activeCalendar(): 'Gregorian' | 'Julian' | 'Islamic' {
     return this._activeCalendar;
   }
 
-  constructor(@Optional() @Inject(MAT_DATE_LOCALE) dateLocale: string) {
+  set activeCalendar(cal: 'Gregorian' | 'Julian' | 'Islamic') {
+    this._activeCalendar = cal;
+  }
+
+  constructor(@Optional() @Inject(MAT_DATE_LOCALE) dateLocale: string,
+              @Inject(ACTIVE_CALENDAR) private activeCalendarToken) {
 
     super();
 
     this.setLocale(dateLocale || JDNConvertibleCalendarDateAdapter.defaultLocale);
 
+    // get active calendar from token
+    this.activeCalendarToken.subscribe(
+      (activeCal) => {
+
+        if (JDNConvertibleCalendar.supportedCalendars.indexOf(activeCal) === -1) {
+          throw Error('Invalid value for token ACTIVE_CALENDAR: ' + activeCal);
+        }
+
+        this.activeCalendar = activeCal;
+      }
+    );
   }
 
   /**
@@ -109,26 +126,26 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
    * Converts the given date to the indicated calendar.
    *
    * @param date the date to be converted.
-   * @param format the calendar format to convert to.
+   * @param calendar the calendar format to convert to.
    * @returns converted date.
    */
-  convertCalendar(date: JDNConvertibleCalendar, format: string): JDNConvertibleCalendar {
+  convertCalendar(date: JDNConvertibleCalendar, calendar: string): JDNConvertibleCalendar {
 
     // another instance has to be returned, otherwise "activeDate" set method is not triggered for MatYearView
 
-    const dateMod = this.clone(date);
+    const dateMod: JDNConvertibleCalendar = this.clone(date);
 
-    switch (format) {
+    switch (calendar) {
       case 'Gregorian':
-        this._activeCalendar = 'Gregorian';
+        this.activeCalendar = 'Gregorian';
         return dateMod.convertCalendar('Gregorian');
 
       case 'Julian':
-        this._activeCalendar = 'Julian';
+        this.activeCalendar = 'Julian';
         return dateMod.convertCalendar('Julian');
 
       case 'Islamic':
-        this._activeCalendar = 'Islamic';
+        this.activeCalendar = 'Islamic';
         return dateMod.convertCalendar('Islamic');
 
       default:
@@ -165,9 +182,9 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
 
   getMonthNames(style: 'long' | 'short' | 'narrow'): string[] {
 
-    if (this._activeCalendar === 'Julian' || this._activeCalendar === 'Gregorian') {
+    if (this.activeCalendar === 'Julian' || this.activeCalendar === 'Gregorian') {
       return JDNConvertibleCalendarNames.getMonthNames('Gregorian', this.locale, style);
-    } else if (this._activeCalendar === 'Islamic') {
+    } else if (this.activeCalendar === 'Islamic') {
       return JDNConvertibleCalendarNames.getMonthNames('Islamic', this.locale, style);
     }
   }
@@ -184,9 +201,9 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
 
   getDayOfWeekNames(style: 'long' | 'short' | 'narrow') {
 
-    if (this._activeCalendar === 'Julian' || this._activeCalendar === 'Gregorian') {
+    if (this.activeCalendar === 'Julian' || this.activeCalendar === 'Gregorian') {
       return JDNConvertibleCalendarNames.getWeekdayNames('Gregorian', this.locale, style);
-    } else if  (this._activeCalendar === 'Islamic') {
+    } else if (this.activeCalendar === 'Islamic') {
       return JDNConvertibleCalendarNames.getWeekdayNames('Islamic', this.locale, style);
     }
   }
@@ -210,7 +227,7 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
 
     const jdnPeriod = date.toJDNPeriod();
 
-    switch (this._activeCalendar) {
+    switch (this.activeCalendar) {
       case 'Gregorian':
         return new GregorianCalendarDate(jdnPeriod);
 
@@ -251,7 +268,7 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
   createDate(year: number, month: number, date: number): JDNConvertibleCalendar {
 
     // create a date in the active calendar format
-    return this.createCalendarDate(year, month, date, this._activeCalendar);
+    return this.createCalendarDate(year, month, date, this.activeCalendar);
 
   }
 
@@ -275,7 +292,7 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
     const dateGregorian = new GregorianCalendarDate(new CalendarPeriod(calDate, calDate));
 
     // convert the date to the active calendar format
-    const date: JDNConvertibleCalendar = this.convertCalendar(dateGregorian, this._activeCalendar);
+    const date: JDNConvertibleCalendar = this.convertCalendar(dateGregorian, this.activeCalendar);
 
     return date;
 
@@ -284,7 +301,9 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
   parse(value: any, parseFormat: any): JDNConvertibleCalendar | null {
 
     let date;
-    if (parseFormat !== undefined && typeof parseFormat === 'string' && JDNConvertibleCalendarDateAdapter.parsableDateFormats.indexOf(parseFormat) !== -1) {
+    if (parseFormat !== undefined
+      && typeof parseFormat === 'string'
+      && JDNConvertibleCalendarDateAdapter.parsableDateFormats.indexOf(parseFormat) !== -1) {
 
       switch (parseFormat) {
         case JDNConvertibleCalendarDateAdapter.DD_MM_YYYY: {
@@ -323,7 +342,9 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
 
   format(date: JDNConvertibleCalendar, displayFormat: any): string {
     let dateString = '';
-    if (displayFormat !== undefined && typeof displayFormat === 'string' && JDNConvertibleCalendarDateAdapter.displayDateFormats.lastIndexOf(displayFormat) !== -1) {
+    if (displayFormat !== undefined
+      && typeof displayFormat === 'string'
+      && JDNConvertibleCalendarDateAdapter.displayDateFormats.lastIndexOf(displayFormat) !== -1) {
 
       const calendarPeriod = date.toCalendarPeriod();
 
