@@ -82,11 +82,9 @@ export class AppComponent {
 @Component({
   selector: 'app-calendar-header',
   template: `
-    <mat-form-field>
         <mat-select placeholder="Calendar" [formControl]="calendar">
           <mat-option *ngFor="let cal of supportedCalendars" [value]="cal">{{cal}}</mat-option>
         </mat-select>
-    </mat-form-field>
     <mat-calendar-header></mat-calendar-header>
   `,
   styleUrls: []
