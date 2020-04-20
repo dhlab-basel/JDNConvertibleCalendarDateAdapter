@@ -20,5 +20,6 @@ jobs:
       - run: npm install
       - run: npm run test-lib
       - run: npm run build-lib
+      - run: npm run build-app  
         env:
           CI: true
