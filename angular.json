@@ -143,9 +143,9 @@
           },
           "configurations": {
             "production": {
-              "project": "projects/jdnconvertible-calendar-date-adapter/ng-package.prod.json"
-            ,              "tsConfig": "projects/jdnconvertible-calendar-date-adapter/tsconfig.lib.prod.json"
-}
+              "project": "projects/jdnconvertible-calendar-date-adapter/ng-package.prod.json",
+              "tsConfig": "projects/jdnconvertible-calendar-date-adapter/tsconfig.lib.prod.json"
+            }
           }
         },
         "test": {
