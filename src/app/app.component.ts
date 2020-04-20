@@ -1,4 +1,4 @@
-import {Component, Directive, Inject, Input, OnChanges, OnInit} from '@angular/core';
+import {Component, Directive, Inject, Input, OnChanges, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
 import {DateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
@@ -83,7 +83,7 @@ export class AppComponent {
   selector: 'app-calendar-header',
   template: `
     <mat-form-field>
-        <mat-select placeholder="Calendar Format" [formControl]="calendar">
+        <mat-select placeholder="Calendar" [formControl]="calendar">
           <mat-option *ngFor="let cal of supportedCalendars" [value]="cal">{{cal}}</mat-option>
         </mat-select>
     </mat-form-field>
@@ -123,9 +123,9 @@ export class HeaderComponent<D> implements OnInit {
   }
 
   /**
-   * Converts the date in the current format into the target format.
+   * Converts the date in the current calender into the target calendar.
    *
-   * @param {"Gregorian" | "Julian"} calendar the target calendar format.
+   * @param {"Gregorian" | "Julian"} calendar the target calendar.
    */
   convertCalendar(calendar: 'Gregorian' | 'Julian' | 'Islamic') {
 
@@ -154,15 +154,20 @@ const makeCalToken = () => {
     {provide: DateAdapter, useClass: JDNConvertibleCalendarDateAdapter, deps: [MAT_DATE_LOCALE, ACTIVE_CALENDAR]},
   ]
 })
-export class JdnDatepicker implements OnChanges {
+export class JdnDatepicker implements OnChanges, OnDestroy {
 
   @Input() activeCalendar: 'Gregorian' | 'Julian' | 'Islamic';
 
-  constructor(private adapter: DateAdapter<JDNConvertibleCalendar>, @Inject(ACTIVE_CALENDAR) private activeCalendarToken: BehaviorSubject<'Gregorian' | 'Julian' | 'Islamic'>) {
+  constructor(
+    private adapter: DateAdapter<JDNConvertibleCalendar>, @Inject(ACTIVE_CALENDAR) private activeCalendarToken: BehaviorSubject<'Gregorian' | 'Julian' | 'Islamic'>) {
   }
 
   ngOnChanges(): void {
     this.activeCalendarToken.next(this.activeCalendar);
+  }
+
+  ngOnDestroy(): void {
+    this.activeCalendarToken.complete();
   }
 
 }

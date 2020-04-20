@@ -190,7 +190,7 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
   }
 
   getDateNames(): string[] {
-    // TODO: implement this properly, taking calendar format and locale into account
+    // TODO: implement this properly, taking calendar and locale into account
     const dateNames: string[] = [];
     for (let i = 1; i <= 31; i++) {
       dateNames.push(String(i));
@@ -213,7 +213,7 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
   }
 
   getFirstDayOfWeek(): number {
-    // TODO: implement this properly, taking calendar format into account
+    // TODO: implement this properly, taking calendar into account
     return 0;
   }
 
@@ -241,13 +241,13 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
   }
 
   /**
-   * Creates a date in the specified calendar format.
+   * Creates a date in the specified calendar.
    *
    * @param year the date's year.
    * @param month the date's month (0-based index).
    * @param date the date's day.
-   * @param calendar the calendar format to be used.
-   * @returns a date in the specified calendar format.
+   * @param calendar the calendar to be used.
+   * @returns a date in the specified calendar.
    */
   private createCalendarDate(year: number, month: number, date: number, calendar: string): JDNConvertibleCalendar {
     // month param is 0 indexed, but we use 1 based index for months
@@ -267,7 +267,7 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
 
   createDate(year: number, month: number, date: number): JDNConvertibleCalendar {
 
-    // create a date in the active calendar format
+    // create a date in the active calendar
     return this.createCalendarDate(year, month, date, this.activeCalendar);
 
   }
@@ -291,7 +291,7 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
 
     const dateGregorian = new GregorianCalendarDate(new CalendarPeriod(calDate, calDate));
 
-    // convert the date to the active calendar format
+    // convert the date to the active calendar
     const date: JDNConvertibleCalendar = this.convertCalendar(dateGregorian, this.activeCalendar);
 
     return date;
