@@ -1,11 +1,18 @@
-import {Component, Directive, Host, Inject, Input, OnChanges, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Component, Directive, Inject, Input, OnChanges, OnInit} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 
 import {DateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
-import { MatCalendar, MatDatepickerContent } from '@angular/material/datepicker';
-import {CalendarDate, CalendarPeriod, GregorianCalendarDate, JDNConvertibleCalendar, JulianCalendarDate, IslamicCalendarDate} from 'jdnconvertiblecalendar';
+import {MatCalendar, MatDatepickerContent} from '@angular/material/datepicker';
+import {
+  CalendarDate,
+  CalendarPeriod,
+  GregorianCalendarDate,
+  IslamicCalendarDate,
+  JDNConvertibleCalendar,
+  JulianCalendarDate
+} from 'jdnconvertiblecalendar';
 import {ACTIVE_CALENDAR, JDNConvertibleCalendarDateAdapter} from 'jdnconvertible-calendar-date-adapter';
-import {BehaviorSubject, of} from 'rxjs';
+import {BehaviorSubject} from 'rxjs';
 
 
 @Component({
@@ -75,21 +82,24 @@ export class AppComponent {
 @Component({
   selector: 'app-calendar-header',
   template: `
-    <mat-select placeholder="Calendar Format" [formControl]="form.controls['calendar']">
-      <mat-option *ngFor="let cal of supportedCalendars" [value]="cal">{{cal}}</mat-option>
-    </mat-select>
+    <mat-form-field>
+        <mat-select placeholder="Calendar Format" [formControl]="calendar">
+          <mat-option *ngFor="let cal of supportedCalendars" [value]="cal">{{cal}}</mat-option>
+        </mat-select>
+    </mat-form-field>
     <mat-calendar-header></mat-calendar-header>
   `,
   styleUrls: []
 })
 export class HeaderComponent<D> implements OnInit {
-  constructor(@Host() private _calendar: MatCalendar<JDNConvertibleCalendar>,
+  constructor(private _calendar: MatCalendar<JDNConvertibleCalendar>,
               private _dateAdapter: DateAdapter<JDNConvertibleCalendar>,
               private _datepickerContent: MatDatepickerContent<JDNConvertibleCalendar>,
               @Inject(FormBuilder) private fb: FormBuilder) {
   }
 
   form: FormGroup;
+  calendar: FormControl;
 
   supportedCalendars = JDNConvertibleCalendar.supportedCalendars;
 
@@ -97,9 +107,11 @@ export class HeaderComponent<D> implements OnInit {
 
     if (this._dateAdapter instanceof JDNConvertibleCalendarDateAdapter) {
 
+      this.calendar = new FormControl(this._dateAdapter.activeCalendar, Validators.required);
+
       // build a form for the calendar selection
       this.form = this.fb.group({
-        calendar: [this._dateAdapter.activeCalendar, Validators.required]
+        calendar: this.calendar
       });
 
       // update the selected calendar
@@ -132,15 +144,14 @@ export class HeaderComponent<D> implements OnInit {
 }
 
 const makeCalToken = () => {
-  console.log('making cal');
   return new BehaviorSubject('Gregorian');
 };
 
 @Directive({
   selector: 'jdn-datepicker',
   providers: [
-    { provide: ACTIVE_CALENDAR, useFactory: makeCalToken },
-    { provide: DateAdapter, useClass: JDNConvertibleCalendarDateAdapter, deps: [MAT_DATE_LOCALE, ACTIVE_CALENDAR] },
+    {provide: ACTIVE_CALENDAR, useFactory: makeCalToken},
+    {provide: DateAdapter, useClass: JDNConvertibleCalendarDateAdapter, deps: [MAT_DATE_LOCALE, ACTIVE_CALENDAR]},
   ]
 })
 export class JdnDatepicker implements OnChanges {
@@ -151,7 +162,6 @@ export class JdnDatepicker implements OnChanges {
   }
 
   ngOnChanges(): void {
-    console.log(this.activeCalendarToken);
     this.activeCalendarToken.next(this.activeCalendar);
   }
 
