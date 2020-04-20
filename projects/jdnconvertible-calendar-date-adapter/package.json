@@ -19,11 +19,11 @@
   },
   "homepage": "https://github.com/dhlab-basel/JDNConvertibleCalendarDateAdapter#readme",
   "peerDependencies": {
-    "@angular/common": "^8.2.14",
-    "@angular/core": "^8.2.14",
-    "@angular/animations": "^8.2.14",
-    "@angular/cdk": "^8.1.3",
-    "@angular/material": "^8.1.3",
+    "@angular/common": "^9.1.2",
+    "@angular/core": "^9.1.2",
+    "@angular/animations": "^9.1.2",
+    "@angular/cdk": "^9.2.1",
+    "@angular/material": "^9.2.1",
     "jdnconvertiblecalendar": "0.0.5"
   }
 }
