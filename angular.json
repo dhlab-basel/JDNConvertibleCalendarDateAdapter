@@ -13,6 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "aot": true,
             "outputPath": "dist/dateAdapter",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -29,6 +30,12 @@
           },
           "configurations": {
             "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -136,7 +143,8 @@
           },
           "configurations": {
             "production": {
-              "project": "projects/jdnconvertible-calendar-date-adapter/ng-package.prod.json"
+              "project": "projects/jdnconvertible-calendar-date-adapter/ng-package.prod.json",
+              "tsConfig": "projects/jdnconvertible-calendar-date-adapter/tsconfig.lib.prod.json"
             }
           }
         },

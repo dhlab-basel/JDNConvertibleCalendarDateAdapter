@@ -7,7 +7,10 @@ import {ACTIVE_CALENDAR} from './active_calendar_token';
 
 @NgModule({
   providers: [
-    {provide: DateAdapter, useClass: JDNConvertibleCalendarDateAdapter, deps: [MAT_DATE_LOCALE, ACTIVE_CALENDAR]}
+    {
+      provide: DateAdapter,
+      useClass: JDNConvertibleCalendarDateAdapter,
+      deps: [MAT_DATE_LOCALE, ACTIVE_CALENDAR]}
   ]
 })
 export class JDNConvertibleCalendarDateAdapterModule {

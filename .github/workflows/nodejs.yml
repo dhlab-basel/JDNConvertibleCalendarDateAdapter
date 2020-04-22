@@ -9,7 +9,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [11.x]
+        node-version: [12.x]
 
     steps:
       - uses: actions/checkout@v2
@@ -20,5 +20,6 @@ jobs:
       - run: npm install
       - run: npm run test-lib
       - run: npm run build-lib
+      - run: npm run build-app  
         env:
           CI: true
