@@ -1,9 +1,5 @@
 # JDNConvertibleCalendarDateAdapter
 
-## General Remarks
-
-**This software is still in an early state of development and the tests are still incomplete**.
-
 ## Introduction
 
 `JDNConvertibleCalendarDateAdapter` provides an implementation of the Angular Material `DateAdapter` 
@@ -23,4 +19,4 @@ See also <https://material.angular.io/components/datepicker/overview#choosing-a-
 
 ## Angular Version
 
-This module works with Angular 7 and Angular Material 7 (see `projects/jdnconvertible-calendar-date-adapter/package.json`). 
+This module works with Angular 10 and Angular Material 10 (see `projects/jdnconvertible-calendar-date-adapter/package.json`). 

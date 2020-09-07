@@ -22,11 +22,11 @@
     "tslib": "^2.0.0"
   },
   "peerDependencies": {
-    "@angular/common": "^9.1.2",
-    "@angular/core": "^9.1.2",
-    "@angular/animations": "^9.1.2",
-    "@angular/cdk": "^9.2.1",
-    "@angular/material": "^9.2.1",
+    "@angular/common": "^10.1.0",
+    "@angular/core": "^10.1.0",
+    "@angular/animations": "^10.1.0",
+    "@angular/cdk": "^10.2.0",
+    "@angular/material": "^10.2.0",
     "jdnconvertiblecalendar": "0.0.5"
   }
 }
