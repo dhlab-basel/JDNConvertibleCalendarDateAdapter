@@ -18,6 +18,9 @@
     "url": "https://github.com/dhlab-basel/JDNConvertibleCalendarDateAdapter/issues"
   },
   "homepage": "https://github.com/dhlab-basel/JDNConvertibleCalendarDateAdapter#readme",
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
   "peerDependencies": {
     "@angular/common": "^9.1.2",
     "@angular/core": "^9.1.2",
