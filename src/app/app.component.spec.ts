@@ -9,6 +9,8 @@ import { MatSelectModule } from '@angular/material/select';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
+import {ACTIVE_CALENDAR} from 'jdnconvertible-calendar-date-adapter';
+import {BehaviorSubject} from 'rxjs';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -29,8 +31,10 @@ describe('AppComponent', () => {
         ReactiveFormsModule,
         BrowserAnimationsModule
       ],
+      providers: [{provide: ACTIVE_CALENDAR, useValue: new BehaviorSubject('Gregorian') }]
     }).compileComponents();
   }));
+
   it('should create the app', async(() => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
