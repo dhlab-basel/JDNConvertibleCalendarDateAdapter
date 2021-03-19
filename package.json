@@ -8,6 +8,7 @@
     "test": "ng test",
     "test-lib": "ng t --watch=false --browsers=ChromeHeadless --project jdnconvertiblecalendardateadapter",
     "build-lib": "ng b --prod --project jdnconvertiblecalendardateadapter",
+    "build-lib-dev": "ng b --project jdnconvertiblecalendardateadapter",
     "build-app": "ng b --prod --buildOptimizer=true",
     "yalc-publish": "npm run build-lib && yalc publish dist/jdnconvertible-calendar-date-adapter --push",
     "lint": "ng lint",
