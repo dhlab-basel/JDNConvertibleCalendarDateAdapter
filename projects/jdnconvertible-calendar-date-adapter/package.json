@@ -1,6 +1,6 @@
 {
   "name": "jdnconvertiblecalendardateadapter",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "description": "Implementation of Angular Material DateAdapter for JDNConvertibleCalendar",
   "keywords": [
     "Angular Material Datepicker",
