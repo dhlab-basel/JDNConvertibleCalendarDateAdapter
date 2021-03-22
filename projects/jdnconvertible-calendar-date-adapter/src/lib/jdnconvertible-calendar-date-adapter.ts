@@ -256,7 +256,7 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
     }
 
     if (date < 1) {
-      throw Error(`Invalid date "${date}". Date has to be greater than 0.`);
+      throw Error(`Invalid date "${date}". Date has to be at least 1.`);
     }
 
     // month param is 0 indexed, but we use 1 based index for months
