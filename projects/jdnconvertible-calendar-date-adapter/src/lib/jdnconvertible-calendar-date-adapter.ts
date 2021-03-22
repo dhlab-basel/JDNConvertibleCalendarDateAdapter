@@ -32,12 +32,12 @@ import {JDNConvertibleCalendarNames} from 'jdnconvertiblecalendar';
 import {ACTIVE_CALENDAR} from './active_calendar_token';
 
 
-@Injectable()
 /**
  * Implements `DateAdapter` for `JDNConvertibleCalendar`.
  *
  * `JDNConvertibleCalendar` supports periods (dates with different precisions), but here only exact days are supported for now.
  */
+@Injectable()
 export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibleCalendar> {
 
   private static readonly DD_MM_YYYY = 'DD-MM-YYYY';
@@ -250,6 +250,15 @@ export class JDNConvertibleCalendarDateAdapter extends DateAdapter<JDNConvertibl
    * @returns a date in the specified calendar.
    */
   private createCalendarDate(year: number, month: number, date: number, calendar: string): JDNConvertibleCalendar {
+
+    if (month < 0 || month > 11) {
+      throw Error(`Invalid month index "${month}". Month index has to be between 0 and 11.`);
+    }
+
+    if (date < 1) {
+      throw Error(`Invalid date "${date}". Date has to be greater than 0.`);
+    }
+
     // month param is 0 indexed, but we use 1 based index for months
     const calDate = new CalendarDate(year, month + 1, date);
 
