@@ -101,6 +101,11 @@ describe('JDNConvertibleCalendarDateAdapter', () => {
 
   it('should create a GregorianCalendarDate', () => {
     expect(adapter.createDate(2017, 0, 1).toCalendarPeriod().periodStart).toEqual(new CalendarDate(2017, 1, 1, 0));
+
+    expect(() => adapter.createDate(2017, 0, 0)).toThrow(new Error('Invalid date "0". Date has to be at least 1.'));
+
+    expect(() => adapter.createDate(2017, -1, 1)).toThrow(new Error('Invalid month index "-1". Month index has to be between 0 and 11.'));
+
   });
 
   it('should parse string according to given format', () => {
