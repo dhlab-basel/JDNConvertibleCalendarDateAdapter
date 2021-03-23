@@ -18,4 +18,4 @@ See also [Angular Material docs](https://material.angular.io/components/datepick
 
 ## Angular Version
 
-This module works with Angular 10 and Angular Material 10 (see [package.json](package.json)). 
+This module works with Angular 11 and Angular Material 11 (see [package.json](package.json)). 
