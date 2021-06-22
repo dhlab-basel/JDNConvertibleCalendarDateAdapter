@@ -27,7 +27,7 @@
     "@angular/platform-browser-dynamic": "^11.2.6",
     "@angular/router": "^11.2.6",
     "core-js": "^2.5.4",
-    "jdnconvertiblecalendar": "0.0.6",
+    "jdnconvertiblecalendar": "0.0.7",
     "rxjs": "^6.5.5",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
