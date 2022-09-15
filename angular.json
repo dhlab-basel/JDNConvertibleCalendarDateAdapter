@@ -91,18 +91,6 @@
               "src/assets"
             ]
           }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "src/tsconfig.app.json",
-              "src/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
         }
       }
     },
@@ -120,15 +108,6 @@
             "production": {
               "devServerTarget": "dateAdapter:serve:production"
             }
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": "e2e/tsconfig.e2e.json",
-            "exclude": [
-              "**/node_modules/**"
-            ]
           }
         }
       }
@@ -158,18 +137,6 @@
             "main": "projects/jdnconvertible-calendar-date-adapter/src/test.ts",
             "tsConfig": "projects/jdnconvertible-calendar-date-adapter/tsconfig.spec.json",
             "karmaConfig": "projects/jdnconvertible-calendar-date-adapter/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/jdnconvertible-calendar-date-adapter/tsconfig.lib.json",
-              "projects/jdnconvertible-calendar-date-adapter/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
           }
         }
       }
