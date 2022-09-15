@@ -1,5 +1,5 @@
 import {Component, Directive, Inject, Input, OnChanges, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 
 import {DateAdapter, MAT_DATE_LOCALE} from '@angular/material/core';
 import {MatCalendar, MatDatepickerContent} from '@angular/material/datepicker';
@@ -22,10 +22,10 @@ import {BehaviorSubject} from 'rxjs';
 })
 export class AppComponent {
 
-  form: FormGroup;
-  form2: FormGroup;
-  form3: FormGroup;
-  form4: FormGroup;
+  form: UntypedFormGroup;
+  form2: UntypedFormGroup;
+  form3: UntypedFormGroup;
+  form4: UntypedFormGroup;
 
   headerComponent = HeaderComponent;
 
@@ -41,7 +41,7 @@ export class AppComponent {
   startCalDate3 = new CalendarDate(1142, 4, 1);
   startDate3 = new IslamicCalendarDate(new CalendarPeriod(this.startCalDate3, this.startCalDate3));
 
-  constructor(@Inject(FormBuilder) private fb: FormBuilder) {
+  constructor(@Inject(UntypedFormBuilder) private fb: UntypedFormBuilder) {
 
     this.form = this.fb.group({
       dateValue: [this.startDate, Validators.compose([Validators.required])]
@@ -93,11 +93,11 @@ export class HeaderComponent<D> implements OnInit {
   constructor(private _calendar: MatCalendar<JDNConvertibleCalendar>,
               private _dateAdapter: DateAdapter<JDNConvertibleCalendar>,
               private _datepickerContent: MatDatepickerContent<JDNConvertibleCalendar>,
-              @Inject(FormBuilder) private fb: FormBuilder) {
+              @Inject(UntypedFormBuilder) private fb: UntypedFormBuilder) {
   }
 
-  form: FormGroup;
-  calendar: FormControl;
+  form: UntypedFormGroup;
+  calendar: UntypedFormControl;
 
   supportedCalendars = JDNConvertibleCalendar.supportedCalendars;
 
@@ -105,7 +105,7 @@ export class HeaderComponent<D> implements OnInit {
 
     if (this._dateAdapter instanceof JDNConvertibleCalendarDateAdapter) {
 
-      this.calendar = new FormControl(this._dateAdapter.activeCalendar, Validators.required);
+      this.calendar = new UntypedFormControl(this._dateAdapter.activeCalendar, Validators.required);
 
       // build a form for the calendar selection
       this.form = this.fb.group({
