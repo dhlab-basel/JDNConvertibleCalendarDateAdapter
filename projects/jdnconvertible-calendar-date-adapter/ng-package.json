@@ -3,9 +3,6 @@
   "dest": "../../dist/jdnconvertible-calendar-date-adapter",
   "deleteDestPath": false,
   "lib": {
-    "entryFile": "src/public_api.ts",
-    "umdModuleIds": {
-      "jdnconvertiblecalendar": "jdnconvertiblecalendar"
-    }
+    "entryFile": "src/public_api.ts"
   }
 }
