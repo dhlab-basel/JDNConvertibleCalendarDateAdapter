@@ -30,12 +30,8 @@ describe('JDNConvertibleCalendarDateAdapter', () => {
           `Expected ${d} to be ${valid ? 'valid' : 'invalid'},` +
           ` but was ${valid ? 'invalid' : 'valid'}`);
       };
-
     })
   });
-
-  // beforeEach(
-  // }));
 
   it('should check class of date adapter', () => {
 
