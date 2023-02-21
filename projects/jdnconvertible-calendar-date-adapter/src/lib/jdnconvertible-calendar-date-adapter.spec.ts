@@ -5,33 +5,37 @@ import {
   JDNPeriod,
   CalendarPeriod
 } from 'jdnconvertiblecalendar';
-import {JDNConvertibleCalendarDateAdapter, JDNConvertibleCalendarDateAdapterModule} from '../public_api';
-import {async, inject, TestBed} from '@angular/core/testing';
+import { JDNConvertibleCalendarDateAdapter, JDNConvertibleCalendarDateAdapterModule } from '../public_api';
+import { inject, TestBed } from '@angular/core/testing';
 import { DateAdapter } from '@angular/material/core';
-import {ACTIVE_CALENDAR} from './active_calendar_token';
-import {BehaviorSubject} from 'rxjs';
+import { ACTIVE_CALENDAR } from './active_calendar_token';
+import { BehaviorSubject } from 'rxjs';
 
 describe('JDNConvertibleCalendarDateAdapter', () => {
   let adapter: JDNConvertibleCalendarDateAdapter;
   let assertValidDate: (d: JDNConvertibleCalendar | null, valid: boolean) => void;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [JDNConvertibleCalendarDateAdapterModule],
-      providers: [{provide: ACTIVE_CALENDAR, useValue: new BehaviorSubject('Gregorian') }]
+      providers: [{ provide: ACTIVE_CALENDAR, useValue: new BehaviorSubject('Gregorian') }]
     }).compileComponents();
-  }));
 
-  beforeEach(inject([DateAdapter], (dateAdapter: JDNConvertibleCalendarDateAdapter) => {
-    adapter = dateAdapter;
+    inject([DateAdapter], (dateAdapter: JDNConvertibleCalendarDateAdapter) => {
+      adapter = dateAdapter;
 
-    assertValidDate = (d: JDNConvertibleCalendar | null, valid: boolean) => {
-      expect(adapter.isDateInstance(d)).not.toBeNull(`Expected ${d} to be a date instance`);
-      expect(adapter.isValid(d!)).toBe(valid,
-        `Expected ${d} to be ${valid ? 'valid' : 'invalid'},` +
-        ` but was ${valid ? 'invalid' : 'valid'}`);
-    };
-  }));
+      assertValidDate = (d: JDNConvertibleCalendar | null, valid: boolean) => {
+        expect(adapter.isDateInstance(d)).not.toBeNull(`Expected ${d} to be a date instance`);
+        expect(adapter.isValid(d!)).toBe(valid,
+          `Expected ${d} to be ${valid ? 'valid' : 'invalid'},` +
+          ` but was ${valid ? 'invalid' : 'valid'}`);
+      };
+
+    })
+  });
+
+  // beforeEach(
+  // }));
 
   it('should check class of date adapter', () => {
 
@@ -39,7 +43,7 @@ describe('JDNConvertibleCalendarDateAdapter', () => {
 
   });
 
-  it ('should check the active calendar set by the ACTIVE_CALENDAR token', () => {
+  it('should check the active calendar set by the ACTIVE_CALENDAR token', () => {
 
     expect(adapter.activeCalendar).toEqual('Gregorian');
 
