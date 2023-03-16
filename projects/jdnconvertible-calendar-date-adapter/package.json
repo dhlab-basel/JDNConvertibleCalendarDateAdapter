@@ -1,6 +1,6 @@
 {
   "name": "jdnconvertiblecalendardateadapter",
-  "version": "0.0.19",
+  "version": "1.0.0",
   "description": "Implementation of Angular Material DateAdapter for JDNConvertibleCalendar",
   "keywords": [
     "Angular Material Datepicker",
@@ -22,11 +22,11 @@
     "tslib": "^2.0.0"
   },
   "peerDependencies": {
-    "@angular/common": "^14.2.2",
-    "@angular/core": "^14.2.2",
-    "@angular/animations": "^14.2.2",
-    "@angular/cdk": "^14.2.2",
-    "@angular/material": "^14.2.2",
+    "@angular/common": "^15.2.2",
+    "@angular/core": "^15.2.2",
+    "@angular/animations": "^15.2.2",
+    "@angular/cdk": "^15.2.3",
+    "@angular/material": "^15.2.3",
     "jdnconvertiblecalendar": "0.0.7"
   }
 }
