@@ -1,3 +1,4 @@
+export * from './lib/iseven';
 export * from './lib/example';
 export { CalendarDate } from './lib/CalendarDate';
 export { CalendarPeriod } from './lib/CalendarPeriod';

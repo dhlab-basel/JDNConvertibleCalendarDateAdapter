@@ -18,15 +18,11 @@
     "url": "https://github.com/dasch-swiss/dsp-app/issues"
   },
   "homepage": "https://github.com/dasch-swiss/dsp-app#readme",
-  "dependencies": {
-    "tslib": "^2.0.0"
-  },
   "peerDependencies": {
     "@angular/common": "^15.2.2",
     "@angular/core": "^15.2.2",
     "@angular/animations": "^15.2.2",
     "@angular/cdk": "^15.2.3",
-    "@angular/material": "^15.2.3",
-    "jdnconvertiblecalendar": "0.0.7"
+    "@angular/material": "^15.2.3"
   }
 }

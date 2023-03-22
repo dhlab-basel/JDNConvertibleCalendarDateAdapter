@@ -13,6 +13,7 @@
     "typeRoots": ["node_modules/@types"],
     "lib": ["es2017", "dom"],
     "paths": {
+      "@dasch-swiss/iseven": ["libs/iseven/src/index.ts"],
       "JDNConvertibleCalendarDateAdapter": [
         "dist/jdnconvertible-calendar-date-adapter"
       ],
