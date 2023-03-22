@@ -18,7 +18,8 @@
       ],
       "JDNConvertibleCalendarDateAdapter/*": [
         "dist/jdnconvertible-calendar-date-adapter/*"
-      ]
+      ],
+      "jdnconvertiblecalendar": ["libs/jdnconvertiblecalendar/src/index.ts"]
     },
     "useDefineForClassFields": false,
     "rootDir": "."
