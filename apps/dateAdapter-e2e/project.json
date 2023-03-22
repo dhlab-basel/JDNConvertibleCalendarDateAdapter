@@ -1,0 +1,22 @@
+{
+  "name": "dateAdapter-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/dateAdapter-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@angular-devkit/build-angular:protractor",
+      "options": {
+        "protractorConfig": "apps/dateAdapter-e2e/protractor.conf.js",
+        "devServerTarget": "dateAdapter:serve"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "dateAdapter:serve:production"
+        }
+      }
+    }
+  },
+  "implicitDependencies": ["dateAdapter"],
+  "tags": []
+}

@@ -1,5 +1,5 @@
 # General Remarks
- 
+
 The following information is about the development environment. Please see `projects/jdnconvertible-calendar-date-adapter/README.md` for more information about `JDNConvertibleCalendarDateAdapter`.
 
 # DateAdapter
