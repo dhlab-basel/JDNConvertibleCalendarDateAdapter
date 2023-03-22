@@ -9,17 +9,14 @@
     "declaration": false,
     "moduleResolution": "node",
     "experimentalDecorators": true,
-    "target": "ES2022",
+    "target": "ES2021",
     "typeRoots": ["node_modules/@types"],
     "lib": ["es2017", "dom"],
     "paths": {
       "@dasch-swiss/jdnconvertiblecalendar": ["libs/jdnconvertiblecalendar/src/index.ts"],
-      "JDNConvertibleCalendarDateAdapter": [
-        "dist/jdnconvertible-calendar-date-adapter"
+      "@dasch-swiss/jdnconvertible-calendar-date-adapter/*": [
+        "libs/jdnconvertiblecalendardateadapter/*"
       ],
-      "JDNConvertibleCalendarDateAdapter/*": [
-        "dist/jdnconvertible-calendar-date-adapter/*"
-      ]
     },
     "useDefineForClassFields": false,
     "rootDir": "."
