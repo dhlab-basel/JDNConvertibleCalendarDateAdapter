@@ -13,14 +13,13 @@
     "typeRoots": ["node_modules/@types"],
     "lib": ["es2017", "dom"],
     "paths": {
-      "@dasch-swiss/iseven": ["libs/iseven/src/index.ts"],
+      "@dasch-swiss/jdnconvertiblecalendar": ["libs/jdnconvertiblecalendar/src/index.ts"],
       "JDNConvertibleCalendarDateAdapter": [
         "dist/jdnconvertible-calendar-date-adapter"
       ],
       "JDNConvertibleCalendarDateAdapter/*": [
         "dist/jdnconvertible-calendar-date-adapter/*"
-      ],
-      "jdnconvertiblecalendar": ["libs/jdnconvertiblecalendar/src/index.ts"]
+      ]
     },
     "useDefineForClassFields": false,
     "rootDir": "."

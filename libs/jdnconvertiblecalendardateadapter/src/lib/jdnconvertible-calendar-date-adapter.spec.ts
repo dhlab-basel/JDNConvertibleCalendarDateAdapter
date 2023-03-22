@@ -4,7 +4,7 @@ import {
   JDNConvertibleCalendar,
   JDNPeriod,
   CalendarPeriod,
-} from 'jdnconvertiblecalendar';
+} from '@dasch-swiss/jdnconvertiblecalendar';
 import {
   JDNConvertibleCalendarDateAdapter,
   JDNConvertibleCalendarDateAdapterModule,

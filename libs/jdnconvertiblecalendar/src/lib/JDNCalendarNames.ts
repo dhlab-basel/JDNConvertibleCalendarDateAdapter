@@ -18,7 +18,7 @@
  * License along with JDNConvertibleCalendar.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import names from './names.json';
+import namesJson from './names.json';
 
 // Names of weekdays
 interface Weekdays {
@@ -78,7 +78,7 @@ export module JDNConvertibleCalendarNames {
 
     const defaultFormat = 'long';
 
-    const labels: Calendars = names;
+    const labels: Calendars = namesJson;
 
     /**
      * Get names of weekdays for the given calendar and the given locale in the given format.
@@ -143,6 +143,6 @@ export module JDNConvertibleCalendarNames {
         }
 
         return monthsNames;
-    }
+    };
 
 }
